@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Gramatica
 {
@@ -30,8 +31,51 @@ namespace Gramatica
 
         private void Aumentada()
         {
+            bool aviso = false;
+            List<string> Producciones2=new List<string>();
+            string cad = "";
             Producciones = textBox1.Text.Split(new[] { "\r\n" },//Buscar las Producciones que se escribieron
                  StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            //Produccion Aumentada
+            if (!Producciones[0].Contains("'"))
+            {
+                string[] partes = Producciones[0].Split('➳');
+                cad = Producciones[0][0] + "'➳" + partes[0];
+                Producciones2 = new List<string>(Producciones);
+                Producciones.Clear();
+                Producciones.Add(cad);
+                for(int j = 0; j < Producciones2.Count; j++)
+                {
+                    Producciones.Add(Producciones2[j]);
+                }
+            }
+            //Ors
+            Producciones2.Clear();
+            for(int k = 0; k < Producciones.Count; k++)
+            {
+                if (Producciones[k].Contains("|"))
+                {
+                    string[] partes = Producciones[k].Split('➳');
+                    string[] ors = partes[1].Split('|');
+                    for(int p = 0; p < ors.Length; p++)
+                    {
+                        Producciones2.Add(partes[0] + "➳" + ors[p]);
+                    }
+                    aviso = true;
+                }
+                else
+                {
+                    Producciones2.Add(Producciones[k]);
+                }
+            }
+            if (aviso == true)
+            {
+                Producciones.Clear();
+                for (int i = 0; i < Producciones2.Count; i++)
+                    Producciones.Add(Producciones2[i]);
+            }
+
             for (int i = 0; i < Producciones.Count; i++)
                 Producciones[i] = Producciones[i].Replace("➳", "➳°");
             String[] subMatriz;
@@ -489,6 +533,53 @@ namespace Gramatica
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void LR_Canonico_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Flecha_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "➳";
+            textBox1.Select(textBox1.Text.Length, 0);
+            textBox1.Focus();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "£";
+            textBox1.Select(textBox1.Text.Length, 0);
+            textBox1.Focus();
+        }
+
+        private void Abrir_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+            textBox2.Text = "";
+           
+            OpenFileDialog Open;
+            Open = new OpenFileDialog();
+            Open.ShowDialog();
+            Open.Filter = "File text|*.txt";
+            String s = File.ReadAllText(Open.FileName);
+            textBox1.Text += s + "\r\n";
+        }
+
+        private void Guardar_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            String s = null;
+            saveDialog.Filter = "File text |*.txt";
+            if (saveDialog.ShowDialog() != DialogResult.OK) return;
+            List<string> Lineas = textBox1.Text.Split(new[] { "\r\n" },//Buscar las Producciones que se escribieron
+                 StringSplitOptions.RemoveEmptyEntries).ToList();
+            foreach (string l in Lineas)
+            {
+                s = s + l + "\r\n";
+            }
+            File.WriteAllText(saveDialog.FileName, s);
         }
     }
 }
