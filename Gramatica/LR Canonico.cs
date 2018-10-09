@@ -29,8 +29,12 @@ namespace Gramatica
             InitializeComponent();
         }
 
+        //correigida
+
         private void Aumentada()
         {
+
+           
             bool aviso = false;
             List<string> Producciones2=new List<string>();
             string cad = "";
@@ -40,8 +44,9 @@ namespace Gramatica
             //Produccion Aumentada
             if (!Producciones[0].Contains("'"))
             {
-                string[] partes = Producciones[0].Split('➳');
-                cad = Producciones[0][0] + "'➳" + partes[0];
+             // string[] partes = Producciones[0].Split('➳');
+               string[] partes = SplitFlecha(Producciones[0]);
+               cad = Producciones[0][0] + "'->" + partes[0];
                 Producciones2 = new List<string>(Producciones);
                 Producciones.Clear();
                 Producciones.Add(cad);
@@ -56,11 +61,12 @@ namespace Gramatica
             {
                 if (Producciones[k].Contains("|"))
                 {
-                    string[] partes = Producciones[k].Split('➳');
+                    //string[] partes = Producciones[k].Split('➳');
+                    string[] partes = SplitFlecha(Producciones[k]);
                     string[] ors = partes[1].Split('|');
                     for(int p = 0; p < ors.Length; p++)
                     {
-                        Producciones2.Add(partes[0] + "➳" + ors[p]);
+                        Producciones2.Add(partes[0] + "->" + ors[p]);
                     }
                     aviso = true;
                 }
@@ -75,18 +81,22 @@ namespace Gramatica
                 for (int i = 0; i < Producciones2.Count; i++)
                     Producciones.Add(Producciones2[i]);
             }
-
+            //aqui 
             for (int i = 0; i < Producciones.Count; i++)
-                Producciones[i] = Producciones[i].Replace("➳", "➳°");
+               Producciones[i]= Producciones[i].Replace("->", "->°");
+            //Producciones[i]=Producciones[i].Insert(Producciones[i].IndexOf('>')+1, "°");
+
             String[] subMatriz;
             foreach (string Produccion in Producciones)
             {
-                subMatriz = Produccion.Split('➳');//Dividir la produccion en izquierda y derecha
-                Izq.Add(subMatriz[0]);
+                subMatriz =SplitFlecha(Produccion);//Dividir la produccion en izquierda y derecha
+               // subMatriz = Produccion.Split('➳');
+               Izq.Add(subMatriz[0]);
                 Der.Add(subMatriz[1]);
             }
 
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -194,6 +204,7 @@ namespace Gramatica
             }
         }
 
+
         private bool Repeticion(List<Gramatica> A, List<Gramatica> B)
         {
             bool repetir = false;
@@ -215,10 +226,13 @@ namespace Gramatica
 
             return repetir;
         }
+
+
         private List<Gramatica> CerraduraS(Gramatica C)
         {
             int ApProd = 0;
             char B;
+
             List<Gramatica> E = new List<Gramatica>();
             ApProd = Producciones.IndexOf(C.Produc);
             for (int j = 0; j < Der[ApProd].Count(); j++)
@@ -239,6 +253,8 @@ namespace Gramatica
                 }
             return E;
         }
+
+
         private List<Gramatica> Cerradura(List<Gramatica> E)
         {
             int ApB;
@@ -265,6 +281,7 @@ namespace Gramatica
             }
             return E;
         }
+
         private List<Gramatica> AgregaProdS(List<Gramatica> E, char B, char Primero)
         {
             bool repeat = false;
@@ -286,6 +303,7 @@ namespace Gramatica
                 }
             return E;
         }
+
         private List<Gramatica> AgregaProd(List<Gramatica> E, char B, char Primero)
         {
             bool repeat = false;
@@ -304,6 +322,7 @@ namespace Gramatica
                 }
             return E;
         }
+
         private Gramatica Ir_a(Gramatica E, char X)
         {
             Gramatica Aux;
@@ -387,7 +406,9 @@ namespace Gramatica
                 for (int j = 0; j < Conjuntos[i].Count; j++)
                     for (int k = 0; k < Conjuntos[i][j].Produc.Count(); k++)
                     {
-                        div = Conjuntos[i][j].Produc.Split('➳');
+                        //aqui
+                        //div = Conjuntos[i][j].Produc.Split('➳');
+                        div = SplitFlecha(Conjuntos[i][j].Produc);
                         if (div[0].Length == 1)
                         {
                             if (Conjuntos[i][j].Produc[k] == '°' && k == Conjuntos[i][j].Produc.Count() - 1)
@@ -408,6 +429,7 @@ namespace Gramatica
             orPri.Add('$');
 
         }
+
 
         private void Analiza()
         {
@@ -463,8 +485,9 @@ namespace Gramatica
                             Pila = Pila.Replace(Pila[Pila.Count() - 1].ToString(), Vacio);
                             num = Int32.Parse(Acciones[i][1].ToString());
                             //remove = Pila.IndexOf(ProSP[num][2]);
+                            //aqui el error 
                             for (int l = Pila.Length - 1; l > 0; l--)
-                                if (Pila[l] == ProSP[num][2])
+                                if (Pila[l] == ProSP[num][3])
                                 {
                                     remove = l;
                                     break;
@@ -519,6 +542,7 @@ namespace Gramatica
                 
         }
 
+
         private void button2_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
@@ -540,16 +564,17 @@ namespace Gramatica
 
         }
 
+        //aqui
         private void Flecha_Click(object sender, EventArgs e)
         {
-            textBox1.Text += "➳";
+            textBox1.Text += "->";
             textBox1.Select(textBox1.Text.Length, 0);
             textBox1.Focus();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            textBox1.Text += "£";
+            textBox1.Text += "~";
             textBox1.Select(textBox1.Text.Length, 0);
             textBox1.Focus();
         }
@@ -580,6 +605,18 @@ namespace Gramatica
                 s = s + l + "\r\n";
             }
             File.WriteAllText(saveDialog.FileName, s);
+        }
+
+        
+        private string [] SplitFlecha(string f)
+        {
+            string[] P = new string[2];
+            string[] Parte = f.Split('-', '>');
+
+            P[0] = Parte[0];
+            P[1] = Parte[2];
+
+            return P;
         }
     }
 }

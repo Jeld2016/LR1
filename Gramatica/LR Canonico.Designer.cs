@@ -149,7 +149,7 @@
             this.Flecha.Name = "Flecha";
             this.Flecha.Size = new System.Drawing.Size(42, 39);
             this.Flecha.TabIndex = 8;
-            this.Flecha.Text = "➳";
+            this.Flecha.Text = "->";
             this.Flecha.UseVisualStyleBackColor = true;
             this.Flecha.Click += new System.EventHandler(this.Flecha_Click);
             // 
@@ -159,7 +159,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(42, 41);
             this.button3.TabIndex = 9;
-            this.button3.Text = "Є";
+            this.button3.Text = "~";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -185,14 +185,14 @@
             // Abrir
             // 
             this.Abrir.Name = "Abrir";
-            this.Abrir.Size = new System.Drawing.Size(180, 22);
+            this.Abrir.Size = new System.Drawing.Size(116, 22);
             this.Abrir.Text = "Abrir";
             this.Abrir.Click += new System.EventHandler(this.Abrir_Click);
             // 
             // Guardar
             // 
             this.Guardar.Name = "Guardar";
-            this.Guardar.Size = new System.Drawing.Size(180, 22);
+            this.Guardar.Size = new System.Drawing.Size(116, 22);
             this.Guardar.Text = "Guardar";
             this.Guardar.Click += new System.EventHandler(this.Guardar_Click);
             // 
