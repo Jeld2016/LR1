@@ -14,11 +14,22 @@ namespace WpfApp1.LR1_Stuffs
         /// </summary>
         private C_First_Set first_set;
 
+        /// <summary>
+        /// Cola de IR_A, cada vez que se genera un nuevo elemento en cerradura se encola.
+        /// </summary>
+        Queue<C_Go_to> go_tos;
+        /// <summary>
+        /// Lista de elementos LR1 que contiene todos los estados del automata.
+        /// </summary>
+        List<C_LR1_Element> list_states;
+        
+
         public C_LR1()
         {
             this.first_set = new C_First_Set();
-        }
-
+            this.go_tos = new Queue<C_Go_to>();
+            this.list_states = new List<C_LR1_Element>();
+        }        
 
         /// <summary>
         /// Obtiene o Establece el conjunto Primero relativo a la gramatica que se esta analizando.

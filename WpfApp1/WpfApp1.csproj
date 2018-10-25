@@ -72,7 +72,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LR1_Stuffs\C_Closure_Element.cs" />
     <Compile Include="LR1_Stuffs\C_LR1.cs" />
+    <Compile Include="LR1_Stuffs\C_LR1_Element.cs" />
+    <Compile Include="LR1_Stuffs\C_Go_to.cs" />
     <Compile Include="Tokenizer_Stuffs\C_Checker.cs" />
     <Compile Include="Grammar_Stuffs\C_Grammar.cs" />
     <Compile Include="Grammar_Stuffs\C_Production.cs" />
