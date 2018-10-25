@@ -40,7 +40,7 @@ namespace WpfApp1.Grammar_Stuffs
         /// <summary>
         /// Crea un nuevo simbolo
         /// </summary>
-        /// <param name="value">Cadena perteneciente al simbolo</param>
+        /// <param name="value">Cadena que representa al simbolo</param>
         /// <param name="types">Tipo del simbolo 0 = Terminal, 1 = No Termnal, 3 = Epsilon, -1 = ALV</param>
         public C_Symbol(string value, int types)
         {

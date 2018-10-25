@@ -24,6 +24,10 @@ namespace WpfApp1.Grammar_Stuffs
         }
 
 
+        /// <summary>
+        /// Crea una nueva instancia de C_Produccion, es decir crea una nueva produccion.
+        /// </summary>
+        /// <param name="name">Parte izquierda de la  produccion</param>
         public C_Production(String name) {
             producer = name;
             this.Right = new List<C_Symbol>();

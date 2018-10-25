@@ -168,5 +168,20 @@ namespace WpfApp1.Grammar_Stuffs
             }
             return list_productions;
         }
+
+
+        /// <summary>
+        /// Extiende la gramatica para tener un punto comun de inicio.
+        /// Hace <S' -> S
+        /// </summary>
+        public void extend_grammar() {
+            string start_symbol; 
+            C_Production nw_production;
+
+            start_symbol = this.grammar[0].Producer;//Obtenemos el simbolo de inicio
+            nw_production = new C_Production(start_symbol + "'");
+            nw_production.Right.Add(new C_Symbol(start_symbol, 1));
+            this.grammar.Insert(0, nw_production);
+        }
     }
 }
