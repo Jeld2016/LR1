@@ -123,5 +123,32 @@ namespace WpfApp1.LR1_Stuffs
                 }
             }
         }
+
+        /// <summary>
+        /// Empieza la creacion del automata del LR1
+        /// </summary>
+        /// <param name="gram">Gramatica con la que se genera el automata.</param>
+        public void generates_LR1_Automate(C_Grammar gram) {
+            string start_symbols;
+
+            start_symbols = gram.extend_grammar(); //Se hace la gramatica extendida.}
+            //Inicia el analisis del estado 0.
+            C_Closure_Element a_closure_element = new C_Closure_Element(start_symbols);
+            //this.generates_closure(a_closure_element);            
+        }
+
+
+
+        /// <summary>
+        /// Le llegan chingaderas como esta:
+        /// {[S' -> .S, $]}
+        /// {[S -> C.C, $]}
+        /// {[F -> (.E ), $/+/-/*]}
+        /// Que basicamente es un elemento de Cerradura.
+        /// </summary>
+        /// <param name="initial_closure">Cerradura de donde se podrian derivar mas estados </param>
+        private void generates_closure(C_Closure_Element initial_closure) {
+
+        }
     }
 }
