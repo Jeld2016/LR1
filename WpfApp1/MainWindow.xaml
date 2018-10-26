@@ -18,10 +18,8 @@
                 <MenuItem Header="Exit" x:Name="menu_item_exit"/>
             </MenuItem>
         </Menu>
-    
     <Border Padding="20">
         <StackPanel>
-            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
@@ -40,16 +38,51 @@
                         />
                 </StackPanel>
             </Grid>
+            <!--<Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="button_Build_Parser" Content="Build Parser" Grid.Column="1" Margin="0 50" 
+                    Click="button_Build_Parser_Click"/>
+            </Grid>-->
+            <TextBlock Text="Table de Primero" FontFamily="Consolas" FontSize="18"/>
+            
+            <!--TABLA DE PRIMERO-->
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid x:Name="dgrid_first_table" Grid.Column="0">
+                    <!--Color de fuente y otros estilos-->
+                    <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="Cyan"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                                <Setter Property="BorderBrush" Value="Black"/>
+                            </Style>        
+                    </DataGrid.Resources>
+                    <!--Definicion de columnas y encabezados-->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Non Terminal" Width="*"/>
+                        <DataGridTextColumn Header="FIRST" Width="2*"/>
+                    </DataGrid.Columns>            
+                </DataGrid>
+            </Grid>
+            <!--Boton que inicia toda la fiesta-->
+            <Grid> 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="button_Build_Parser" Content="Build Parser" Grid.Column="1" Margin="0 50" 
+                <Button x:Name="button_Build_Parser" Content="Build Parser" Grid.Column="1" Margin="0 50"  
                         Click="button_Build_Parser_Click"/>
             </Grid>
-        </StackPanel>
+            </StackPanel>
     </Border>
     </Grid>
 </Controls:MetroWindow>

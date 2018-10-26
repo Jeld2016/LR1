@@ -123,5 +123,13 @@ namespace WpfApp1.LR1_Stuffs
                 }
             }
         }
+
+
+        /// <summary>
+        /// Generacion de LR1
+        /// </summary>
+        public void generates_LR1_automate() {
+
+        }
     }
 }
