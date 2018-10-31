@@ -59,6 +59,7 @@ namespace WpfApp1
                     this.grammar.add_prodution_from_source(line[0], line[1]);//Agregar produccion(desde texto plano) a la gramatica, desde el fuente.
                 }
                 this.lr1.generates_first(this.grammar);//Generacion del Conjunto de Primero.
+                this.fill_first_table();
             }
         }
 
@@ -168,6 +169,28 @@ namespace WpfApp1
                 System.IO.Directory.CreateDirectory(info_path.FullName);
             }
         }
+
+        private void fill_first_table() {
+            this.dgrid_first_table.Items.Clear();
+            foreach (C_First_Element first_element in this.lr1.First_set.First_set) {
+                var data = new Dgrid_First_Set_Content { non_terminal = first_element.No_terminal, first_set = string.Empty};
+                foreach (string terminal in first_element.First) { 
+                    if(string.Compare(data.first_set, string.Empty) != 0)
+                        data.first_set = data.first_set +", "+ terminal;
+                    else
+                        data.first_set = "{ " + terminal;
+                }
+                data.first_set = data.first_set + " }";
+
+                this.dgrid_first_table.Items.Add(data);
+            }
+        }
+    }
+
+    class Dgrid_First_Set_Content
+    {
+        public string non_terminal { get; set; }
+        public string first_set { get; set; }
     }
 }
 

@@ -47,7 +47,7 @@
                     <Button x:Name="button_Build_Parser" Content="Build Parser" Grid.Column="1" Margin="0 50" 
                     Click="button_Build_Parser_Click"/>
             </Grid>-->
-            <TextBlock Text="Table de Primero" FontFamily="Consolas" FontSize="18"/>
+            <TextBlock Text="First Table" FontFamily="Consolas" FontSize="18"/>
             
             <!--TABLA DE PRIMERO-->
             <Grid>
@@ -61,19 +61,25 @@
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="Cyan"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter Property="BorderThickness" Value="0,0,1,2"/>
+                                <Setter Property="FontFamily" Value="Consolas"/>
+                                <Setter Property="BorderThickness" Value="1,2,1,2"/>
                                 <Setter Property="BorderBrush" Value="Black"/>
-                            </Style>        
+                            </Style>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="FontFamily" Value="Consolas"/>
+                                <Setter Property="BorderThickness" Value="1,1,1,1"/>
+                                <Setter Property="BorderBrush" Value="Black"/>
+                            </Style>
                     </DataGrid.Resources>
                     <!--Definicion de columnas y encabezados-->
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Non Terminal" Width="*"/>
-                        <DataGridTextColumn Header="FIRST" Width="2*"/>
+                            <DataGridTextColumn Header="Non Terminal" Width="*" IsReadOnly="True" Binding="{Binding non_terminal}"/>
+                            <DataGridTextColumn Header="FIRST" Width="2*" IsReadOnly="True" Binding="{Binding first_set}"/>
                     </DataGrid.Columns>            
                 </DataGrid>
             </Grid>
             <!--Boton que inicia toda la fiesta-->
-            <Grid> 
+            <Grid Margin="-1,0,1,0"> 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

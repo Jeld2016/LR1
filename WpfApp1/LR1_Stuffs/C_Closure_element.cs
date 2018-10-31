@@ -22,6 +22,25 @@ namespace WpfApp1.LR1_Stuffs
         /// </summary>
         List<string> forward_search_symbols;
 
+
+
+        public C_Closure_Element() {
+            this.a_production = new C_Production();
+            this.forward_search_symbols = new List<string>();
+        }
+
+
+        /// <summary>
+        /// Crea una instancia de un elemento de Cerradura
+        /// </summary>
+        /// <param name="left_side_symbol">Parte  izquierda de la produccion que pertence a la produccion del elemento de Cerradura.</param>
+        public C_Closure_Element(string left_side_symbol)
+        {
+            this.a_production = new C_Production();
+            this.forward_search_symbols = new List<string>();
+        }
+
+
         /// <summary>
         /// Obtiene O establece la produccion de este elemento de Cerradura.
         /// </summary>
