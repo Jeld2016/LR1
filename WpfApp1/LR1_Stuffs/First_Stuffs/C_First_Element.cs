@@ -8,7 +8,7 @@ using WpfApp1.Grammar_Stuffs;
 
 namespace WpfApp1.LR1_Stuffs
 {
-    class C_First_Element
+    public class C_First_Element
     {
         /// <summary>
         /// Nombre del conjunto. No Terminal.
