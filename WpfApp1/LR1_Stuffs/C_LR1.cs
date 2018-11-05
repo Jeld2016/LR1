@@ -105,8 +105,6 @@ namespace WpfApp1.LR1_Stuffs
             }
         }
 
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -169,5 +167,16 @@ namespace WpfApp1.LR1_Stuffs
             private void generates_closure(C_Closure_Element initial_closure) {
 
             }
+
+           /* private C_LR1_Element Create_Zero_State(C_Grammar gram)
+            {
+                C_LR1_Element Zero = new C_LR1_Element();
+                Zero.Kernel = null;
+                for (int i = 0; i < gram.Get_Grammar().Count; i++)
+                {
+                C_Closure_Element element = new C_Closure_Element();
+
+                }
+            }*/
     }
 }

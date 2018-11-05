@@ -60,6 +60,7 @@ namespace WpfApp1
                 }
                 //this.lr1.generates_first(this.grammar);//Generacion del Conjunto de Primero.
                 this.lr1.generate_first_set_to_LR(this.grammar);
+                this.lr1.generates_LR1_Automate(this.grammar);
                 this.fill_first_table();
             }
         }
