@@ -58,7 +58,8 @@ namespace WpfApp1
                 foreach (String[] line in f) {//Aqui se inicia la carga de de la gramatica a partir de la lista de cadenas.
                     this.grammar.add_prodution_from_source(line[0], line[1]);//Agregar produccion(desde texto plano) a la gramatica, desde el fuente.
                 }
-                this.lr1.generates_first(this.grammar);//Generacion del Conjunto de Primero.
+                //this.lr1.generates_first(this.grammar);//Generacion del Conjunto de Primero.
+                this.lr1.generate_first_set_to_LR(this.grammar);
                 this.fill_first_table();
             }
         }
