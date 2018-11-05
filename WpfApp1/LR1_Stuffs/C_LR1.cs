@@ -54,15 +54,18 @@ namespace WpfApp1.LR1_Stuffs
         public void generates_LR1_Automate(C_Grammar gram) {
             string start_symbols;
 
-            start_symbols = gram.extend_grammar(); //Se hace la gramatica extendida.}
+            gram.extend_grammar(); //Se hace la gramatica extendida.}
             //Inicia el analisis del estado 0.
-            C_Closure_Element a_closure_element = new C_Closure_Element(start_symbols);
+            C_Closure_Element a_closure_element = new C_Closure_Element();
             //this.generates_closure(a_closure_element);            
         }
 
 
 
-
+        /// <summary>
+        /// Genera el conjunto Primero, a partir de la gramatica con la que se esta trabajando.
+        /// </summary>
+        /// <param name="gram">Gramatica con la que se genera primeros</param>
         public void generate_first_set_to_LR(C_Grammar gram)
         {
             C_First_Element first_set;
