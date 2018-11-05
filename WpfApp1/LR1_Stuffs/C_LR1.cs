@@ -14,6 +14,8 @@ namespace WpfApp1.LR1_Stuffs
         /// </summary>
         private C_First_Set first_set;
 
+        private C_Grammar TmpGram;
+
         /// <summary>
         /// Cola de IR_A, cada vez que se genera un nuevo elemento en cerradura se encola.
         /// </summary>
@@ -24,11 +26,12 @@ namespace WpfApp1.LR1_Stuffs
         List<C_LR1_Element> list_states;
         
 
-        public C_LR1()
+        public C_LR1(C_Grammar g)
         {
             this.first_set = new C_First_Set();
             this.go_tos = new Queue<C_Go_to>();
             this.list_states = new List<C_LR1_Element>();
+            this.TmpGram = g;
         }        
 
         /// <summary>
@@ -167,19 +170,39 @@ namespace WpfApp1.LR1_Stuffs
             /// Que basicamente es un elemento de Cerradura.
             /// </summary>
             /// <param name="initial_closure">Cerradura de donde se podrian derivar mas estados </param>
-            private void generates_closure(C_Closure_Element initial_closure) {
+            private List<C_Closure_Element> generates_closure(C_Closure_Element initial_closure,int current_state) {
 
             }
 
-           /* private C_LR1_Element Create_Zero_State(C_Grammar gram)
+          /// <summary>
+          /// genera el estado de zero apartir de la produccion inicial.
+          /// </summary>
+          /// <param name="p">Produccion incial</param>
+          /// <returns></returns>
+            private C_LR1_Element Create_Zero_State(C_Production p)
             {
+                List<string> simbolos;
                 C_LR1_Element Zero = new C_LR1_Element();
-                Zero.Kernel = null;
-                for (int i = 0; i < gram.Get_Grammar().Count; i++)
-                {
-                C_Closure_Element element = new C_Closure_Element();
+                List<C_Closure_Element> cerradurasKernel= new List<C_Closure_Element>(); ;
 
+
+                for (int i = 0; i < p.Get_Right().Count; i++)
+                {
+                    if (p.Get_Right()[i] ==  new C_Symbol(".", 3))
+                    {
+                        C_Closure_Element n = new C_Closure_Element();
+                        simbolos= new List<string>();
+                        simbolos.Add("$");
+                        n.Forward_search_symbols = simbolos;
+                        cerradurasKernel.Add(n);
+                        Zero.Kernel = cerradurasKernel;
+                        cerradurasKernel=generates_closure(n,0);
+                    }
                 }
-            }*/
+            Zero.Closure = cerradurasKernel;
+            return Zero;
+            }
+
+           
     }
 }
