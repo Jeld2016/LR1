@@ -10,7 +10,7 @@ namespace WpfApp1.Grammar_Stuffs
     {     
 
         /// <summary>
-        /// type  0 = terminal, 1 = no_terminal, 2 = epsilon, 3 = punto, -1 = me vale madres que sea.
+        /// type:  0 = terminal / 1 = no_terminal / 2 = epsilon / 3 = punto / -1 = me vale madres que sea.
         /// </summary>
         int type_symbol;
         /// <summary>

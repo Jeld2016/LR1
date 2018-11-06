@@ -13,8 +13,10 @@ namespace WpfApp1.LR1_Stuffs
         /// Conjunto primero de la gramatica que se esta analizando.
         /// </summary>
         private C_First_Set first_set;
-
-        private C_Grammar TmpGram;
+        /// <summary>
+        /// Gramatica con la que se esta generando el automata.
+        /// </summary+>
+        private C_Grammar grammar;
 
         /// <summary>
         /// Cola de IR_A, cada vez que se genera un nuevo elemento en cerradura se encola.
@@ -24,14 +26,15 @@ namespace WpfApp1.LR1_Stuffs
         /// Lista de elementos LR1 que contiene todos los estados del automata.
         /// </summary>
         List<C_LR1_Element> list_states;
-        
+
+        private List<C_Closure_Element> closure_elements_tmp;
 
         public C_LR1(C_Grammar g)
         {
             this.first_set = new C_First_Set();
             this.go_tos = new Queue<C_Go_to>();
             this.list_states = new List<C_LR1_Element>();
-            this.TmpGram = g;
+            this.grammar = g;
         }        
 
         /// <summary>
@@ -55,8 +58,6 @@ namespace WpfApp1.LR1_Stuffs
         /// </summary>
         /// <param name="gram">Gramatica con la que se genera el automata.</param>
         public void generates_LR1_Automate(C_Grammar gram) {
-            string start_symbols;
-
             gram.extend_grammar(); //Se hace la gramatica extendida.}
             //Inicia el analisis del estado 0.
             C_Closure_Element a_closure_element = new C_Closure_Element();
@@ -111,6 +112,7 @@ namespace WpfApp1.LR1_Stuffs
             }
         }
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -162,24 +164,130 @@ namespace WpfApp1.LR1_Stuffs
         }
 
 
-            /// <summary>
-            /// Le llegan chingaderas como esta:
-            /// {[S' -> .S, $]}
-            /// {[S -> C.C, $]}
-            /// {[F -> (.E ), $/+/-/*]}
-            /// Que basicamente es un elemento de Cerradura.
-            /// </summary>
-            /// <param name="initial_closure">Cerradura de donde se podrian derivar mas estados </param>
-            private List<C_Closure_Element> generates_closure(C_Closure_Element initial_closure,int current_state) {
+        /// <summary>
+        /// Le llegan chingaderas como esta:
+        /// {[S' -> .S, $]}
+        /// {[S -> C.C, $]}
+        /// {[F -> (.E ), $/+/-/*]}
+        /// Que basicamente es un elemento de Cerradura.
+        /// </summary>
+        /// <param name="kernel">Cerradura de donde se podrian derivar mas estados </param>
+        private void generate_Closure(C_Symbol symbol, List<string> forward_search_symbols) {
+            List<C_Production> productions = this.grammar.get_Productions(symbol.Symbol);
+            C_Production tmp_production;
+            C_Closure_Element new_closure_Element;
 
+            for (int i = 0; i < productions.Count; i++) {
+                tmp_production = productions[i]; //Aqui solamente se obtiene la produccion totalmente Virgen, es decir que no tiene punto
+                new_closure_Element = this.creates_NUCLEAR_LR0_element(tmp_production, forward_search_symbols);//Generamos el nuevo elemento de Cerradura LR0 a apartir de la produccion correspondiente.
+
+                C_Symbol tmp_symbol = new_closure_Element.Production.get_symbol_next_to_DOT();
+
+                if (tmp_symbol != null) { //Si se encontro algun simbolo
+                    if (tmp_symbol.Type_symbol == 2)
+                    { //Si el simbolo es NO TERMINAL entonces genera cerradura.
+                        
+                    }
+                }
+            }
+        }
+
+
+        private void generate_new_state(C_Closure_Element kernel, int current_state)
+        {
+
+            switch(this.what_generates(kernel)) {
+                case 1://Generara un estado con cerraduras.
+                    C_Production production_kernel = kernel.Production;
+                    int index_dot;
+
+                    index_dot = production_kernel.index_DOT();
+                    this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols);
+                    break;
+                case 2://Solo genera un nuevo estado con transicion.
+                    break;
+            }
+        }
+
+
+        /// <summary>
+        /// Obtiene el tipo de accion que ejecutara este kernel dependiendo de la posicion del marcador de Analisis.
+        /// </summary>
+        /// <param name="a_kernel">Elemento de cerradura que se esta analizando</param>
+        /// <returns>1 Si este kernel puede generar Cerradura, 2 S si solo es una transicion, 3 si el marcador de analisis se encuentra al final de la produccion</returns>
+        private int what_generates(C_Closure_Element a_kernel) {
+            C_Production production; //Produccion que esta contenida en el KERNEL
+            List<C_Production> productions_to_Analize;
+            int index_dot; //Indice del punto en las producciones;
+
+            /*Se inicia con la evaluacion del KERNEL*/
+            production = a_kernel.Production; //Obtenemos la produccion que se encuentra dentro del Kerlen [S'->.S]
+            index_dot = a_kernel.Production.index_DOT(); //Obtenemos el indice del marcador de analisis(MARCADOR de analisis)
+            if (index_dot < (a_kernel.Production.Right.Count - 1))
+            { //Verificamos si no se encuentra al final de la produccion, es decir no ha analizado ya todo.            
+                C_Symbol tmp_symbol;
+
+                tmp_symbol = a_kernel.Production.Right[index_dot + 1];
+                /*Si el siguiente simbolo es un elemento no Terminal Entonces se genera la cerradura.*/
+                if (tmp_symbol.Type_symbol == 2)
+                    return 1; //Genera Cerradura
+                else
+                    return 2;//Solo genera transicion
+            }
+            return 3;//No hace nada.
+
+        }
+
+
+        /// <summary>
+        /// Empezamos a generar el Primero Kernel el cual no servira para iniciar la creacion del AFD
+        /// </summary>
+        /// <returns></returns>
+        private C_Closure_Element creates_zero_state() {
+            
+            C_Closure_Element kernel_0;
+            List<string> forward_search_search_simbols;
+          
+            forward_search_search_simbols = new List<string>();
+            forward_search_search_simbols.Add("$");
+            kernel_0 = this.creates_NUCLEAR_LR0_element(this.grammar.Get_Grammar()[0], forward_search_search_simbols);
+
+            return null;  
+        }
+
+
+        /// <summary>
+        /// Genera un nuevo elemento de cerrradura LR(0) a partir de una produccion.
+        /// </summary>
+        /// <param name="just_aProdcution">Produccion con la que se esta generand el elemento de cerradura</param>
+        /// <param name="new_forward_search_simbols">Simbolos de busqueda hacia adelante para este elemento de cerradura</param>
+        /// <returns></returns>
+        private C_Closure_Element creates_NUCLEAR_LR0_element(C_Production just_aProdcution, List<string>new_forward_search_simbols) {
+            C_Production nw_production;
+            C_Closure_Element nuclear_element;
+
+            nw_production = new C_Production(just_aProdcution.Producer);
+            nw_production.Right.Add(new C_Symbol(".", 3));
+            foreach (C_Symbol simple_symbol in just_aProdcution.Right) {
+                nw_production.Right.Add(simple_symbol);
+            }
+            nuclear_element = new C_Closure_Element(nw_production);
+            foreach (string just_str in new_forward_search_simbols) {
+                nuclear_element.Forward_search_symbols.Add(just_str);
             }
 
-          /// <summary>
-          /// genera el estado de zero apartir de la produccion inicial.
-          /// </summary>
-          /// <param name="p">Produccion incial</param>
-          /// <returns></returns>
-            private C_LR1_Element Create_Zero_State(C_Production p)
+            return nuclear_element;
+        }
+
+
+
+
+        /// <summary>
+        /// genera el estado de zero apartir de la produccion inicial.
+        /// </summary>
+        /// <param name="p">Produccion incial</param>
+        /// <returns></returns>
+        private C_LR1_Element Create_Zero_State(C_Production p)
             {
                 List<string> simbolos;
                 C_LR1_Element Zero = new C_LR1_Element();
@@ -196,13 +304,55 @@ namespace WpfApp1.LR1_Stuffs
                         n.Forward_search_symbols = simbolos;
                         cerradurasKernel.Add(n);
                         Zero.Kernel = cerradurasKernel;
-                        cerradurasKernel=generates_closure(n,0);
+                        //cerradurasKernel=generates_closure(n,0);
                     }
                 }
             Zero.Closure = cerradurasKernel;
             return Zero;
             }
 
-           
+
+        /// <summary>
+        /// Determina si un elemento de cerradura se puede inserta en la lista temporal de elementos de cerradura, ya que estos deben de ser irrepetibles 
+        /// Supongamos que tenemos {[S' -> .S, {$}]; [S -> .C C, {$}]; [C -> .c C,{c,d}]}
+        /// Y viene a insertarse S -> .C C, {$}, Esto no es posible ya que ya existe en  la lista temporal de elementos de cerradura.
+        /// </summary>
+        /// <param name="initial_kernel">Elemento de Cerradura que se desea insertar</param>
+        /// <returns>True si el elemento de cerradura se puede insertar en la lista temporal de elementos de cerradura.</returns>
+        private bool can_insert_closure_element(C_Closure_Element initial_kernel)
+        {
+            bool can_insert = true;
+
+            if (this.closure_elements_tmp.Count > 0)
+            {
+                C_Production production_in_list;
+                C_Production production_in_kernel;
+
+                production_in_kernel = initial_kernel.Production;
+                for (int index = 0; index < this.closure_elements_tmp.Count; index++)
+                {
+                    production_in_list = this.closure_elements_tmp[index].Production;
+                    if (string.Compare(production_in_kernel.Producer, production_in_list.Producer) == 0)
+                    { // Si ambos tienen la misma parte derecha
+                        if (production_in_kernel.Right.Count == production_in_list.Right.Count)
+                        {         // Si ambos tienen la misma longitud en su parte derecha, de la produccion.
+                            int i;
+
+                            for (i = 0; i < production_in_kernel.Right.Count; i++)
+                            {                 //Inciamos el recorrido para analizar cada simbolo.
+                                if (string.Compare(production_in_kernel.Right[i].Symbol, production_in_list.Right[i].Symbol) != 0)
+                                    break;
+                            }
+                            if (i == (production_in_kernel.Right.Count - 1))
+                            {
+                                can_insert = false; //No se puede insertar.
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return can_insert;
+        }
     }
 }

@@ -19,8 +19,7 @@ namespace WpfApp1
              * \\s : Indica que acepta cualquier espacio en blanco. 
              * ~?  : Puede o no puede haber epsilon. 
              */
-            string X;
-            string a;
+            string X;            
             string start = @"^";
             string end = "$";
             string side_left;

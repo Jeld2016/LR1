@@ -88,5 +88,36 @@ namespace WpfApp1.Grammar_Stuffs
             return false;
         }
 
+
+
+        /// <summary>
+        /// Obtiene el simbolo que esta siguiente al punto.
+        /// </summary>
+        /// <returns>Simbolo que este siguiente al punto, NULL si el punto se encuentra al final de la parte derecha de la produccion </returns>
+        public C_Symbol get_symbol_next_to_DOT() {
+            int index_dot = this.index_DOT();
+            if (index_dot < this.Right.Count - 1)
+                return this.Right[index_dot + 1];
+            else
+                return null;
+
+        }
+
+        /// <summary>
+        /// Obtiene el indice en el que se encuentra el punto dentro de la lista de simbolos que pertence a la parte 
+        /// derecha de la produccion
+        /// </summary>
+        public int index_DOT() {
+            int index; 
+            int num_symbols = this.Right.Count;
+            C_Symbol tmp_symbol; 
+
+            for (index = 0; index < num_symbols; index++) {
+                tmp_symbol = this.right[index];
+                if (tmp_symbol.Type_symbol == 3)
+                    break;
+            }
+            return index;
+        }
     }
 }

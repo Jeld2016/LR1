@@ -38,7 +38,7 @@ namespace WpfApp1
             this.pattern_checker = new C_Checker();
             this.grammar = new C_Grammar();
             this.path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) + "\\Grammars";
-            this.lr1 = new C_LR1();
+            this.lr1 = new C_LR1(this.grammar);
         }
 
         private void textBox_Input_KeyDown(object sender, KeyEventArgs e)
