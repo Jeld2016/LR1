@@ -39,6 +39,17 @@ namespace WpfApp1.LR1_Stuffs
 
 
         /// <summary>
+        /// Genera una nueva instancia de IR_A(GOTO)
+        /// </summary>
+        /// <param name="from_state"></param>
+        /// <param name="symbol_transition"></param>
+        public C_Go_to(int from_state, C_Symbol symbol_transition) {
+            this.state = from_state;
+            this.symbol_state = symbol_transition;
+        }
+
+
+        /// <summary>
         /// Obtiene o establece el estado, de este IR_A
         /// </summary>
         public int State { get => state; set => state = value; }
