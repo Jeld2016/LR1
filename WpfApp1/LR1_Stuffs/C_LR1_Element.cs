@@ -49,9 +49,9 @@ namespace WpfApp1.LR1_Stuffs
             this.my_go_to = new C_Go_to();
             this.kernel = new List<C_Closure_Element>();
             foreach (C_Closure_Element c_el in elements_closure_list) {
-
+                closure.Add(new C_Closure_Element(c_el));
             }
-            this.closure = elements_closure_list;
+            //this.closure = elements_closure_list;
         }
         /// <summary>
         /// Obtiene o establece el numero de estado de este elemento LR1.
