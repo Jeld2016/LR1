@@ -181,19 +181,46 @@ namespace WpfApp1.LR1_Stuffs
             for (int i = 0; i < productions.Count; i++) {
                 tmp_production = productions[i]; //Aqui solamente se obtiene la produccion totalmente Virgen, es decir que no tiene punto
                 new_closure_Element = this.creates_NUCLEAR_LR0_element(tmp_production, forward_search_symbols);//Generamos el nuevo elemento de Cerradura LR0 a apartir de la produccion correspondiente.
-                can_insert = this.can_insert_closure_element(new_closure_Element);
-                if(can_insert) {
-
-                }
-                C_Symbol tmp_symbol = new_closure_Element.Production.get_symbol_next_to_DOT();
+                if (can_insert_closure_element(new_closure_Element))
+                    closure_elements_tmp.Add(new_closure_Element);
+            C_Symbol tmp_symbol = new_closure_Element.Production.get_symbol_next_to_DOT();
 
                 if (tmp_symbol != null) { //Si se encontro algun simbolo
                     if (tmp_symbol.Type_symbol == 2)
-                    { //Si el simbolo es NO TERMINAL entonces genera cerradura.
-                        
+                    { //Si el simbolo es NO TERMINAL entonces genera cerradura.                 
+                        generate_Closure(tmp_symbol, get_first_simple_set(cadenaalfa(new_closure_Element.Production,forward_search_symbols)).First);  
                     }
                 }
             }
+        }
+
+        
+
+        private List<C_Symbol> cadenaalfa(C_Production cerradura, List<string> forward_search_symbols)
+        {
+            List<C_Symbol> aux2 = new List<C_Symbol>();
+            List<C_Symbol> aux = new List<C_Symbol>();
+            int index = cerradura.index_DOT();
+            if (cerradura.Get_Right().Count > index)
+            {
+                for(int i=index;i< cerradura.Get_Right().Count;i++)
+                {
+                    if (i != index + 1 && i!=index)
+                    {
+                        aux.Add(cerradura.Get_Right()[i]);
+                    }
+                }
+            }
+            for(int j = 0; j < forward_search_symbols.Count; j++)
+            {
+                C_Symbol a = new C_Symbol(forward_search_symbols[j], 0);
+                aux2.Add(a);
+            }
+            for(int k = 0; k < aux.Count; k++)
+            {
+                aux2.Add(aux[k]);
+            }
+            return aux2;
         }
 
 
