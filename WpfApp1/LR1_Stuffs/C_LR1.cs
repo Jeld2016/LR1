@@ -26,7 +26,7 @@ namespace WpfApp1.LR1_Stuffs
         /// Lista de elementos LR1 que contiene todos los estados del automata.
         /// </summary>
         List<C_LR1_Element> list_states;
-        
+        int num_state; 
 
         private List<C_Closure_Element> closure_elements_tmp;
 
@@ -36,6 +36,7 @@ namespace WpfApp1.LR1_Stuffs
             this.go_tos = new Queue<C_Go_to>();
             this.list_states = new List<C_LR1_Element>();
             this.grammar = g;
+            this.num_state = 0;
         }        
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace WpfApp1.LR1_Stuffs
             gram.extend_grammar(); //Se hace la gramatica extendida.}
             //Inicia el analisis del estado 0.
             C_Closure_Element kernel_0=creates_zero_state();
-           list_states.Add(this.generate_new_state(kernel_0, 0));
+           //list_states.Add(this.generate_new_state(kernel_0, 0));
             //this.generates_closure(a_closure_element);            
         }
 
@@ -234,50 +235,44 @@ namespace WpfApp1.LR1_Stuffs
         }
 
 
-        private C_LR1_Element generate_new_state(C_Closure_Element kernel, int current_state)
+        private C_LR1_Element generate_new_state(List<C_Closure_Element> list_kernels, int current_state)
         {
-<<<<<<< HEAD
-            closure_elements_tmp.Clear();
-            C_LR1_Element state=new C_LR1_Element();
-            switch(this.what_generates(kernel)) {
-                case 1://Generara un estado con cerraduras.
-                    C_Production production_kernel = kernel.Production;
-                    int index_dot;
+            C_LR1_Element state;           
 
-                    index_dot = production_kernel.index_DOT();
-                    this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols);
-                    state = new C_LR1_Element(closure_elements_tmp);
-                    break;
-                case 2://Solo genera un nuevo estado con transicion.
-                    break;
+            this.closure_elements_tmp.Clear();
+            if (current_state == 0)  //OBVIAMENTE SE HACE LA CERRADURA xD
+            {                
+                this.generate_Closure(list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Forward_search_symbols, current_state);
             }
-            return state;
-=======
-            C_LR1_Element state;
-
-            if (current_state == 0) { //OBVIAMENTE SE HACE LA CERRADURA xD
-
-            }
-            else {
-                //LLAMADA DE FUNCION AVANZA PUNTO 
-                switch (this.what_generates(kernel))
+            else
+            {
+                this.num_state++;
+                foreach (C_Closure_Element kernel in list_kernels)
                 {
-                    case 1://Generara un estado con cerraduras.
-                        C_Production production_kernel = kernel.Production;
-                        int index_dot;
+                    kernel.Production.swap_point();
+                    switch (this.what_generates(kernel))
+                    {
+                        case 1://Generara un estado con cerraduras.
+                            C_Production production_kernel = kernel.Production;
+                            int index_dot;
 
-                        index_dot = production_kernel.index_DOT();
-                        this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols, current_state);
-                        state = new C_LR1_Element(closure_elements_tmp);
+                            index_dot = production_kernel.index_DOT();
+                            this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols, current_state);                           
+                            break;
+                        case 2://Solo genera un nuevo estado con transicion.
+                            if (this.can_insert_closure_element(kernel) == true)
+                            {
+                                C_Go_to new_go_to;
 
-                        break;
-                    case 2://Solo genera un nuevo estado con transicion.
-                        
-                        break;
+                                new_go_to = new C_Go_to(current_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
+                                this.go_tos.Enqueue(new_go_to);
+                                this.closure_elements_tmp.Add(kernel);
+                            }                                
+                            break;
+                    }
                 }
             }
-            closure_elements_tmp.Clear();                        
->>>>>>> 6e2614ed13f9e584615a4bfbc83eee61ff078569
+            return new C_LR1_Element(closure_elements_tmp, this.num_state);            
         }
 
 
@@ -318,11 +313,14 @@ namespace WpfApp1.LR1_Stuffs
             
             C_Closure_Element kernel_0;
             List<string> forward_search_search_simbols;
-          
+            List<C_Closure_Element> dummy_list;
+
+            dummy_list = new List<C_Closure_Element>();
             forward_search_search_simbols = new List<string>();
             forward_search_search_simbols.Add("$");
             kernel_0 = this.creates_NUCLEAR_LR0_element(this.grammar.Get_Grammar()[0], forward_search_search_simbols);
-            this.generate_new_state(kernel_0, 0); //Generacion del Estado CERO del automata.
+            dummy_list.Add(kernel_0);
+            this.generate_new_state(dummy_list, 0); //Generacion del Estado CERO del automata.
 
             return kernel_0;  
         }

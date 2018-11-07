@@ -43,9 +43,9 @@ namespace WpfApp1.LR1_Stuffs
 
 
 
-        public C_LR1_Element(List<C_Closure_Element>elements_closure_list)
+        public C_LR1_Element(List<C_Closure_Element>elements_closure_list, int num_s)
         {
-            this.num_state = -1;
+            this.num_state = num_s;
             this.my_go_to = new C_Go_to();
             this.kernel = new List<C_Closure_Element>();
             foreach (C_Closure_Element c_el in elements_closure_list) {

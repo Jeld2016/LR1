@@ -97,20 +97,20 @@ namespace WpfApp1.Grammar_Stuffs
             Aux.Remove(right[ap]);
             for(int i = 0; i < Aux.Count; i++)
             {
-                if (ap + 1 < Aux.Count)
+                if (ap + 1 < Aux.Count)///comentario por favor 
                 {
-                    if (i == ap + 1)
+                    if (i == ap + 1)///comentario por favor 
                     {
                         Aux2.Add(right[ap]);
                         Aux2.Add(Aux[i]);
                     }
-                    else
+                    else///comentario por favor 
                     {
                         Aux2.Add(Aux[i]);
                     }
                 }
                 else
-                {
+                { //Punto al final
                     Aux2.Add(Aux[i]);
                     if (i==Aux.Count-1)
                         Aux2.Add(right[ap]);
