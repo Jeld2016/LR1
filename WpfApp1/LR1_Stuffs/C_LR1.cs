@@ -176,11 +176,15 @@ namespace WpfApp1.LR1_Stuffs
             List<C_Production> productions = this.grammar.get_Productions(symbol.Symbol);
             C_Production tmp_production;
             C_Closure_Element new_closure_Element;
+            bool can_insert;
 
             for (int i = 0; i < productions.Count; i++) {
                 tmp_production = productions[i]; //Aqui solamente se obtiene la produccion totalmente Virgen, es decir que no tiene punto
                 new_closure_Element = this.creates_NUCLEAR_LR0_element(tmp_production, forward_search_symbols);//Generamos el nuevo elemento de Cerradura LR0 a apartir de la produccion correspondiente.
+                can_insert = this.can_insert_closure_element(new_closure_Element);
+                if(can_insert) {
 
+                }
                 C_Symbol tmp_symbol = new_closure_Element.Production.get_symbol_next_to_DOT();
 
                 if (tmp_symbol != null) { //Si se encontro algun simbolo

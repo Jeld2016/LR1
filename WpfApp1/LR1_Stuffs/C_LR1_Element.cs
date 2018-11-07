@@ -43,6 +43,13 @@ namespace WpfApp1.LR1_Stuffs
 
 
 
+        public C_LR1_Element(List<C_Closure_Element>elements_closure_list)
+        {
+            this.num_state = -1;
+            this.my_go_to = new C_Go_to();
+            this.kernel = new List<C_Closure_Element>();
+            this.closure = elements_closure_list;
+        }
         /// <summary>
         /// Obtiene o establece el numero de estado de este elemento LR1.
         /// </summary>
