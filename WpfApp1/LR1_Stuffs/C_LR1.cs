@@ -181,7 +181,6 @@ namespace WpfApp1.LR1_Stuffs
 
             for (int i = 0; i < productions.Count; i++) {
                 C_Go_to new_go_to;
-                
                 tmp_production = productions[i]; //Aqui solamente se obtiene la produccion totalmente Virgen, es decir que no tiene punto
                 new_closure_Element = this.creates_NUCLEAR_LR0_element(tmp_production, forward_search_symbols);//Generamos el nuevo elemento de Cerradura LR0 a apartir de la produccion correspondiente.                
                 if (can_insert_closure_element(new_closure_Element) == true)
@@ -235,7 +234,8 @@ namespace WpfApp1.LR1_Stuffs
 
         private void generate_new_state(C_Closure_Element kernel, int current_state)
         {
-
+            closure_elements_tmp.Clear();
+            C_LR1_Element state;
             switch(this.what_generates(kernel)) {
                 case 1://Generara un estado con cerraduras.
                     C_Production production_kernel = kernel.Production;
@@ -243,6 +243,8 @@ namespace WpfApp1.LR1_Stuffs
 
                     index_dot = production_kernel.index_DOT();
                     this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols, current_state);
+                    state = new C_LR1_Element(closure_elements_tmp);
+
                     break;
                 case 2://Solo genera un nuevo estado con transicion.
                     break;
