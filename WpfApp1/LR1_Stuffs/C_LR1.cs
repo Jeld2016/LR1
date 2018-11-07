@@ -60,7 +60,8 @@ namespace WpfApp1.LR1_Stuffs
         public void generates_LR1_Automate(C_Grammar gram) {
             gram.extend_grammar(); //Se hace la gramatica extendida.}
             //Inicia el analisis del estado 0.
-            C_Closure_Element a_closure_element = new C_Closure_Element();
+            C_Closure_Element kernel_0=creates_zero_state();
+           list_states.Add(this.generate_new_state(kernel_0, 0));
             //this.generates_closure(a_closure_element);            
         }
 
@@ -224,10 +225,10 @@ namespace WpfApp1.LR1_Stuffs
         }
 
 
-        private void generate_new_state(C_Closure_Element kernel, int current_state)
+        private C_LR1_Element generate_new_state(C_Closure_Element kernel, int current_state)
         {
             closure_elements_tmp.Clear();
-            C_LR1_Element state;
+            C_LR1_Element state=new C_LR1_Element();
             switch(this.what_generates(kernel)) {
                 case 1://Generara un estado con cerraduras.
                     C_Production production_kernel = kernel.Production;
@@ -240,6 +241,7 @@ namespace WpfApp1.LR1_Stuffs
                 case 2://Solo genera un nuevo estado con transicion.
                     break;
             }
+            return state;
         }
 
 
@@ -285,7 +287,7 @@ namespace WpfApp1.LR1_Stuffs
             forward_search_search_simbols.Add("$");
             kernel_0 = this.creates_NUCLEAR_LR0_element(this.grammar.Get_Grammar()[0], forward_search_search_simbols);
 
-            return null;  
+            return kernel_0;  
         }
 
 

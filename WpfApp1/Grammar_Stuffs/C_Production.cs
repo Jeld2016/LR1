@@ -88,6 +88,39 @@ namespace WpfApp1.Grammar_Stuffs
             return false;
         }
 
+        public void swap_point()
+        {
+            
+            int ap= this.index_DOT();
+            List<C_Symbol> Aux = new List<C_Symbol>(right);
+            List<C_Symbol> Aux2 = new List<C_Symbol>();
+            Aux.Remove(right[ap]);
+            for(int i = 0; i < Aux.Count; i++)
+            {
+                if (ap + 1 < Aux.Count)
+                {
+                    if (i == ap + 1)
+                    {
+                        Aux2.Add(right[ap]);
+                        Aux2.Add(Aux[i]);
+                    }
+                    else
+                    {
+                        Aux2.Add(Aux[i]);
+                    }
+                }
+                else
+                {
+                    Aux2.Add(Aux[i]);
+                    if (i==Aux.Count-1)
+                        Aux2.Add(right[ap]);
+                }
+            }
+            right.Clear();
+            right = new  List<C_Symbol>(Aux2);
+            
+        }
+
 
 
         /// <summary>
