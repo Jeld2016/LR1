@@ -62,7 +62,7 @@ namespace WpfApp1.LR1_Stuffs
         public void generates_LR1_Automate(C_Grammar gram) {
             gram.extend_grammar(); //Se hace la gramatica extendida.}
             //Inicia el analisis del estado 0.
-            C_Closure_Element kernel_0=creates_zero_state();
+            creates_zero_state();
 
             while (this.go_tos.Count < 0) {
                 C_Go_to tmp_go_to = this.go_tos.Dequeue();
@@ -316,7 +316,7 @@ namespace WpfApp1.LR1_Stuffs
         /// Empezamos a generar el Primero Kernel el cual no servira para iniciar la creacion del AFD
         /// </summary>
         /// <returns></returns>
-        private C_Closure_Element creates_zero_state() {
+        private void creates_zero_state() {
             
             C_Closure_Element kernel_0;
             List<string> forward_search_search_simbols;
@@ -327,9 +327,7 @@ namespace WpfApp1.LR1_Stuffs
             forward_search_search_simbols.Add("$");
             kernel_0 = this.creates_NUCLEAR_LR0_element(this.grammar.Get_Grammar()[0], forward_search_search_simbols);
             dummy_list.Add(kernel_0);
-            this.generate_new_state(dummy_list, 0); //Generacion del Estado CERO del automata.
-
-            return kernel_0;  
+            this.list_states.Add(this.generate_new_state(dummy_list, 0)); //Generacion del Estado CERO del automata.
         }
         /// <summary>
         /// Busca estado del goto en la lista de estados
