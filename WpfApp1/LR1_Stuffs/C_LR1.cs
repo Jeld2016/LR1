@@ -327,20 +327,19 @@ namespace WpfApp1.LR1_Stuffs
         /// <summary>
         /// Busca estado del goto en la lista de estados
         /// </summary>
-        /// <param name="g">Goto de entrada del cual se extaera el estado</param>
+        /// <param name="g">estado de entrada</param>
         /// <returns>regresa el elemento lr1 correspondiente</returns>
-        private C_LR1_Element search_state(C_Go_to g)
+        private C_LR1_Element search_state(int g)
         {
-            C_LR1_Element aux = new C_LR1_Element();
-
             for(int i = 0; i < list_states.Count; i++)
             {
-                if (list_states[i].Num_state == g.State)
+                if (list_states[i].Num_state == g)
                 {
-                    aux = new C_LR1_Element(list_states[i]);
+                    return (list_states[i]);
+                    
                 }
             }
-            return aux;
+            return null;
         }
 
 
