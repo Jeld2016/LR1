@@ -64,7 +64,7 @@ namespace WpfApp1.LR1_Stuffs
             //Inicia el analisis del estado 0.
             creates_zero_state();
 
-            while (this.go_tos.Count < 0) {
+            while (this.go_tos.Count > 0) {
                 C_Go_to tmp_go_to = this.go_tos.Dequeue();
                 C_LR1_Element a_lr1_element = search_state(tmp_go_to.State);
                 List<C_Closure_Element> list = a_lr1_element.generates_new_Kernel(tmp_go_to.Symbol_state);
@@ -202,7 +202,7 @@ namespace WpfApp1.LR1_Stuffs
                     new_go_to = new C_Go_to(current_state, tmp_symbol); //Generacion de un nuevo IR_A
                     this.go_tos.Enqueue(new_go_to);
                     if (tmp_symbol != null) { //Si se encontro algun simbolo
-                        if (tmp_symbol.Type_symbol == 2) { //Si el simbolo es NO TERMINAL entonces genera cerradura.                 
+                        if (tmp_symbol.Type_symbol == 1) { //Si el simbolo es NO TERMINAL entonces genera cerradura.                 
                             generate_Closure(tmp_symbol, get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols)).First, current_state);
                         }
                     }
@@ -247,11 +247,14 @@ namespace WpfApp1.LR1_Stuffs
 
         private C_LR1_Element generate_new_state(List<C_Closure_Element> list_kernels, int current_state)
         {
-            C_LR1_Element state;           
-
-            this.closure_elements_tmp.Clear();
+            C_Go_to new_go_to;
+            C_LR1_Element state;
+            this.closure_elements_tmp = new List<C_Closure_Element>();
+           // this.closure_elements_tmp.Clear();
             if (current_state == 0)  //OBVIAMENTE SE HACE LA CERRADURA xD
-            {                
+            {
+                new_go_to = new C_Go_to(current_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
+                this.go_tos.Enqueue(new_go_to);
                 this.generate_Closure(list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Forward_search_symbols, current_state);
             }
             else
@@ -272,7 +275,7 @@ namespace WpfApp1.LR1_Stuffs
                         case 2://Solo genera un nuevo estado con transicion.
                             if (this.can_insert_closure_element(kernel) == true)
                             {
-                                C_Go_to new_go_to;
+                                
 
                                 new_go_to = new C_Go_to(current_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
                                 this.go_tos.Enqueue(new_go_to);
@@ -282,7 +285,7 @@ namespace WpfApp1.LR1_Stuffs
                     }
                 }
             }
-            return new C_LR1_Element(closure_elements_tmp, this.num_state);            
+            return new C_LR1_Element(closure_elements_tmp, this.num_state,list_kernels);            
         }
 
 
@@ -362,7 +365,7 @@ namespace WpfApp1.LR1_Stuffs
             C_Closure_Element nuclear_element;
 
             nw_production = new C_Production(just_aProdcution.Producer);
-            nw_production.Right.Add(new C_Symbol(".", 3));
+            nw_production.Right.Add(new C_Symbol(".", 3));//se insertan dos puntos 
             foreach (C_Symbol simple_symbol in just_aProdcution.Right) {
                 nw_production.Right.Add(simple_symbol);
             }

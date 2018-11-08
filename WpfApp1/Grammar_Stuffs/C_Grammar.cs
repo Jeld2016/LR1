@@ -180,7 +180,7 @@ namespace WpfApp1.Grammar_Stuffs
 
             start_symbol = this.grammar[0].Producer;//Obtenemos el simbolo de inicio
             nw_production = new C_Production(start_symbol + "'");
-            nw_production.Right.Add(new C_Symbol(".", 3));
+            //nw_production.Right.Add(new C_Symbol(".", 3));
             nw_production.Right.Add(new C_Symbol(start_symbol, 1));
 
             this.grammar.Insert(0, nw_production);

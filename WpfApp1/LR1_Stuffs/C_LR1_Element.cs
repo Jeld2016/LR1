@@ -29,7 +29,7 @@ namespace WpfApp1.LR1_Stuffs
         /// <summary>
         /// Esta es la cerradura del elemento LR1.
         /// </summary>
-        List<C_Closure_Element> closure;
+        List<C_Closure_Element> closure=new List<C_Closure_Element>();//checar
 
 
 
@@ -57,6 +57,18 @@ namespace WpfApp1.LR1_Stuffs
             this.my_go_to = new C_Go_to();
             this.kernel = new List<C_Closure_Element>();
             foreach (C_Closure_Element c_el in elements_closure_list) {
+                closure.Add(new C_Closure_Element(c_el));
+            }
+            //this.closure = elements_closure_list;
+        }
+
+        public C_LR1_Element(List<C_Closure_Element> elements_closure_list, int num_s,List<C_Closure_Element> ker)
+        {
+            this.num_state = num_s;
+            this.my_go_to = new C_Go_to();
+            this.kernel = ker;
+            foreach (C_Closure_Element c_el in elements_closure_list)
+            {
                 closure.Add(new C_Closure_Element(c_el));
             }
             //this.closure = elements_closure_list;
