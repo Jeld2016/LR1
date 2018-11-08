@@ -51,7 +51,7 @@ namespace WpfApp1.LR1_Stuffs
 
 
 
-        public C_LR1_Element(List<C_Closure_Element>elements_closure_list, int num_s)
+        public C_LR1_Element(List<C_Closure_Element> elements_closure_list, int num_s)
         {
             this.num_state = num_s;
             this.my_go_to = new C_Go_to();
@@ -84,5 +84,25 @@ namespace WpfApp1.LR1_Stuffs
         /// Obtiene o establece la lista de elementos de Cerradura de donde se origino este estado o Elemento de LR1.
         /// </summary>
         internal List<C_Closure_Element> Kernel { get => kernel; set => kernel = value; }
+
+
+        public List<C_Closure_Element> generates_new_Kernel(C_Symbol symbol) {
+            List<C_Closure_Element> nw_list_closure_element;
+            C_Symbol tmp_symbol;
+
+            nw_list_closure_element = new List<C_Closure_Element>();
+            foreach (C_Closure_Element cl_element in this.closure) {
+                tmp_symbol = cl_element.Production.get_symbol_next_to_DOT();
+                if (tmp_symbol != null) {
+                    if (string.Compare(tmp_symbol.Symbol, symbol.Symbol) == 0)
+                        nw_list_closure_element.Add(cl_element);
+                }
+
+
+            }
+
+            nw_list_closure_element = new List<C_Closure_Element>();
+            return nw_list_closure_element;
+        }
     }
 }
