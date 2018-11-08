@@ -63,6 +63,13 @@ namespace WpfApp1.LR1_Stuffs
             gram.extend_grammar(); //Se hace la gramatica extendida.}
             //Inicia el analisis del estado 0.
             C_Closure_Element kernel_0=creates_zero_state();
+
+            while (this.go_tos.Count < 0) {
+                C_Go_to tmp_go_to = this.go_tos.Dequeue();
+                //C_LR1_Element a_lr1_element = metodo_busqueda de elemento lr1
+               // mandar llamar generate_new_kernel
+
+            }
            //list_states.Add(this.generate_new_state(kernel_0, 0));
             //this.generates_closure(a_closure_element);            
         }
