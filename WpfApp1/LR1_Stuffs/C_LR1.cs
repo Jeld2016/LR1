@@ -59,8 +59,8 @@ namespace WpfApp1.LR1_Stuffs
         /// Empieza la creacion del automata del LR1
         /// </summary>
         /// <param name="gram">Gramatica con la que se genera el automata.</param>
-        public void generates_LR1_Automate(C_Grammar gram) {
-            gram.extend_grammar(); //Se hace la gramatica extendida.}
+        public void generates_LR1_Automate() {
+            this.grammar.extend_grammar(); //Se hace la gramatica extendida.}
             //Inicia el analisis del estado 0.
             creates_zero_state();
 
@@ -83,7 +83,7 @@ namespace WpfApp1.LR1_Stuffs
         /// Genera el conjunto Primero, a partir de la gramatica con la que se esta trabajando.
         /// </summary>
         /// <param name="gram">Gramatica con la que se genera primeros</param>
-        public void generate_first_set_to_LR(C_Grammar gram)
+        public void generate_first_set_to_LR()
         {
             C_First_Element first_set;
             bool complete_first_set = false;
@@ -100,10 +100,10 @@ namespace WpfApp1.LR1_Stuffs
                  *  Los simbolos Terminales han sido preseleccionados en una lista contenida en esta clase. 
                  *  Esto porque puede suceder que exista mas de una produccion que contenga el mismo no terminal.
                  */
-                foreach (string antecedent in gram.No_terminals1)
+                foreach (string antecedent in this.grammar.No_terminals1)
                 {
                     /*Se obtiene las producciones que que corresponden al no terminal que estamos analizando*/
-                    productions_to_Analize = gram.get_Productions(antecedent);
+                    productions_to_Analize = this.grammar.get_Productions(antecedent);
                     /*Obtenemos el indice del conjunto PRIMERO del No Terminal al que se le tienen que agregar simbolos.*/
                     index_OF_current_set_of_first = this.first_set.get_index_of_first_element(antecedent);
                     foreach (C_Production production_to_analize in productions_to_Analize) {

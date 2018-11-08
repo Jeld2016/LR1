@@ -59,9 +59,9 @@ namespace WpfApp1
                     this.grammar.add_prodution_from_source(line[0], line[1]);//Agregar produccion(desde texto plano) a la gramatica, desde el fuente.
                 }
                 //this.lr1.generates_first(this.grammar);//Generacion del Conjunto de Primero.
-                this.lr1.generate_first_set_to_LR(this.grammar);
-                this.lr1.generates_LR1_Automate(this.grammar);
+                this.lr1.generate_first_set_to_LR();
                 this.fill_first_table();
+                this.lr1.generates_LR1_Automate();
             }
         }
 
