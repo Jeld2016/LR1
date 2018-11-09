@@ -69,7 +69,12 @@ namespace WpfApp1.LR1_Stuffs
         public List<string> Forward_search_symbols { get => forward_search_symbols; set => forward_search_symbols = value; }
 
 
-
+        /// <summary>
+        /// Checa si este Closure_Element es igual a otro Closure_Element
+        /// </summary>
+        /// <param name="incoming_pr">Produccion del Closure_Element que se esta comparando</param>
+        /// <param name="incoming_srch_symb">Lista de simbolos de busqueda hacia adelante del Closure_Element que se esta comparando</param>
+        /// <returns></returns>
         public bool Closure_Element_is_Equal_to_Another_Closure(C_Production incoming_pr, List<string>incoming_srch_symb) {
             bool equal = false;
 

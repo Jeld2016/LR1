@@ -64,7 +64,7 @@ namespace WpfApp1.Grammar_Stuffs
         /// <summary>
         /// Checa si un simbolo es igual a este
         /// </summary>
-        /// <param name="incoming_symbol"></param>
+        /// <param name="incoming_symbol">Simbolo con el que se esta comparando</param>
         /// <returns></returns>
         public bool simbol_equal(C_Symbol incoming_symbol) {
             if (type_symbol == incoming_symbol.Type_symbol)
