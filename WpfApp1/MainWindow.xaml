@@ -9,7 +9,7 @@
         BorderThickness="5"       
         BorderBrush="{DynamicResource AccentColorBrush}"                     
         WindowStartupLocation="CenterScreen"                       
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1580.252">
     <Grid>
         <Menu IsMainMenu="True">
             <MenuItem Header="File">
@@ -52,12 +52,12 @@
             <!--TABLA DE PRIMERO-->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width=".3*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid x:Name="dgrid_first_table" Grid.Column="0">
-                    <!--Color de fuente y otros estilos-->
-                    <DataGrid.Resources>
+                    <DataGrid x:Name="dgrid_first_table" Grid.Column="0">
+                        <!--Color de fuente y otros estilos-->
+                        <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="Cyan"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
@@ -70,14 +70,14 @@
                                 <Setter Property="BorderThickness" Value="1,1,1,1"/>
                                 <Setter Property="BorderBrush" Value="Black"/>
                             </Style>
-                    </DataGrid.Resources>
-                    <!--Definicion de columnas y encabezados-->
-                    <DataGrid.Columns>
+                        </DataGrid.Resources>
+                        <!--Definicion de columnas y encabezados-->
+                        <DataGrid.Columns>
                             <DataGridTextColumn Header="Non Terminal" Width="*" IsReadOnly="True" Binding="{Binding non_terminal}"/>
                             <DataGridTextColumn Header="FIRST" Width="2*" IsReadOnly="True" Binding="{Binding first_set}"/>
-                    </DataGrid.Columns>            
-                </DataGrid>
-            </Grid>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             <!--Boton que inicia toda la fiesta-->
             <Grid Margin="-1,0,1,0"> 
                 <Grid.ColumnDefinitions>

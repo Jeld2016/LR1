@@ -68,13 +68,12 @@ namespace WpfApp1.LR1_Stuffs
                 C_Go_to tmp_go_to = this.go_tos.Dequeue();
                 C_LR1_Element a_lr1_element = search_state(tmp_go_to.State);
                 List<C_Closure_Element> list = a_lr1_element.generates_new_Kernel(tmp_go_to.Symbol_state);
+
                 for(int i = 0; i < list.Count; i++){
                     list[i].Production.swap_point();
                 }
                 list_states.Add(this.generate_new_state(list, tmp_go_to.State));
-            }
-           //list_states.Add(this.generate_new_state(kernel_0, 0));
-            //this.generates_closure(a_closure_element);            
+            }               
         }
 
 
@@ -185,25 +184,28 @@ namespace WpfApp1.LR1_Stuffs
         /// Que basicamente es un elemento de Cerradura.
         /// </summary>
         /// <param name="kernel">Cerradura de donde se podrian derivar mas estados </param>
-        private void generate_Closure(C_Symbol symbol, List<string> forward_search_symbols, int current_state) {
+        private void generate_Closure(C_Symbol symbol, List<string> forward_search_symbols) {
             List<C_Production> productions = this.grammar.get_Productions(symbol.Symbol);
             C_Production tmp_production;
-            C_Closure_Element new_closure_Element;
-            bool can_insert;
+            C_Closure_Element new_closure_Element;            
 
             for (int i = 0; i < productions.Count; i++) {
+
                 C_Go_to new_go_to;
+
                 tmp_production = productions[i]; //Aqui solamente se obtiene la produccion totalmente Virgen, es decir que no tiene punto
-                new_closure_Element = this.creates_NUCLEAR_LR0_element(tmp_production, forward_search_symbols);//Generamos el nuevo elemento de Cerradura LR0 a apartir de la produccion correspondiente.                
+                new_closure_Element = this.creates_NUCLEAR_LR0_element(tmp_production, forward_search_symbols);//Generamos el nuevo elemento de Cerradura LR0 a apartir de la produccion correspondiente.                              
+
                 C_Symbol tmp_symbol = new_closure_Element.Production.get_symbol_next_to_DOT();
+
                 if (can_insert_closure_element(new_closure_Element) == true)
                 {
                     closure_elements_tmp.Add(new_closure_Element);
-                    new_go_to = new C_Go_to(current_state, tmp_symbol); //Generacion de un nuevo IR_A
+                    new_go_to = new C_Go_to(this.num_state, tmp_symbol); //Generacion de un nuevo IR_A
                     this.go_tos.Enqueue(new_go_to);
                     if (tmp_symbol != null) { //Si se encontro algun simbolo
                         if (tmp_symbol.Type_symbol == 1) { //Si el simbolo es NO TERMINAL entonces genera cerradura.                 
-                            generate_Closure(tmp_symbol, get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols)).First, current_state);
+                            generate_Closure(tmp_symbol, get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols)).First);
                         }
                     }
                 }                                                               
@@ -244,48 +246,58 @@ namespace WpfApp1.LR1_Stuffs
             return aux2;
         }
 
-
+        /// <summary>
+        /// Genera un nuevo estado del AFD
+        /// </summary>
+        /// <param name="list_kernels"></param>
+        /// <param name="current_state"></param>
+        /// <returns></returns>
         private C_LR1_Element generate_new_state(List<C_Closure_Element> list_kernels, int current_state)
         {
             C_Go_to new_go_to;
-            C_LR1_Element state;
+            C_LR1_Element new_state;
+
             this.closure_elements_tmp = new List<C_Closure_Element>();
            // this.closure_elements_tmp.Clear();
-            if (current_state == 0)  //OBVIAMENTE SE HACE LA CERRADURA xD
+            if (this.num_state == 0)  //OBVIAMENTE SE HACE LA CERRADURA xD
             {
+                this.closure_elements_tmp.Insert(0, list_kernels[0]);
                 new_go_to = new C_Go_to(current_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
                 this.go_tos.Enqueue(new_go_to);
-                this.generate_Closure(list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Forward_search_symbols, current_state);
+                this.generate_Closure(list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Forward_search_symbols);
             }
             else
-            {
-                this.num_state++;
+            {                
                 foreach (C_Closure_Element kernel in list_kernels)
                 {
-                    kernel.Production.swap_point();
+                    this.closure_elements_tmp.Add(kernel);
                     switch (this.what_generates(kernel))
                     {
-                        case 1://Generara un estado con cerraduras.
+                        case 0: /// <TERMINAL GENERA GO_TO  y se agrega  a la lista de cerraduras></TERMINAL>
+                            //if (this.can_insert_closure_element(kernel) == true) {
+                            new_go_to = new C_Go_to(current_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
+                            this.go_tos.Enqueue(new_go_to);
+                            //this.closure_elements_tmp.Add(kernel);
+                            //}
+                            break;
+                        case 1:///<NOT_TERMINAL GENERA CERRADURA></NOT_TERMINAL>>
                             C_Production production_kernel = kernel.Production;
                             int index_dot;
 
+                            //this.closure_elements_tmp.Insert(0, kernel);
+                            new_go_to = new C_Go_to(current_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
+                            this.go_tos.Enqueue(new_go_to);
                             index_dot = production_kernel.index_DOT();
-                            this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols, current_state);                           
+                            this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols);
                             break;
-                        case 2://Solo genera un nuevo estado con transicion.
-                            if (this.can_insert_closure_element(kernel) == true)
-                            {
-                                
-
-                                new_go_to = new C_Go_to(current_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
-                                this.go_tos.Enqueue(new_go_to);
-                                this.closure_elements_tmp.Add(kernel);
-                            }                                
+                        case 2:///<EPSILON Solo genera closure_element pero con solo el punto></EPSILON>
                             break;
                     }
                 }
             }
-            return new C_LR1_Element(closure_elements_tmp, this.num_state,list_kernels);            
+            new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels);
+            this.num_state++;
+            return new_state;      
         }
 
 
@@ -308,6 +320,9 @@ namespace WpfApp1.LR1_Stuffs
 
                 tmp_symbol = a_kernel.Production.Right[index_dot + 1];
                 /*Si el siguiente simbolo es un elemento no Terminal Entonces se genera la cerradura.*/
+                ///<TYPE_SYMBOL>0 = TERMINAL; 1 = NO_TERMINAL ; 2 = P </TYPE_SYMBOL>
+                return tmp_symbol.Type_symbol; 
+
                 if (tmp_symbol.Type_symbol == 2)
                     return 1; //Genera Cerradura
                 else
@@ -404,13 +419,11 @@ namespace WpfApp1.LR1_Stuffs
                         {         // Si ambos tienen la misma longitud en su parte derecha, de la produccion.
                             int i;
 
-                            for (i = 0; i < production_in_kernel.Right.Count; i++)
-                            {                 //Inciamos el recorrido para analizar cada simbolo.
+                            for (i = 0; i < production_in_kernel.Right.Count; i++) { //Inciamos el recorrido para analizar cada simbolo.
                                 if (string.Compare(production_in_kernel.Right[i].Symbol, production_in_list.Right[i].Symbol) != 0)
                                     break;
                             }
-                            if (i == (production_in_kernel.Right.Count - 1))
-                            {
+                            if (i == production_in_kernel.Right.Count) {
                                 can_insert = false; //No se puede insertar.
                                 break;
                             }

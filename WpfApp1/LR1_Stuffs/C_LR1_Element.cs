@@ -111,9 +111,7 @@ namespace WpfApp1.LR1_Stuffs
                 }
 
 
-            }
-
-            nw_list_closure_element = new List<C_Closure_Element>();
+            }            
             return nw_list_closure_element;
         }
     }

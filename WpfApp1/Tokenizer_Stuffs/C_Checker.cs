@@ -29,7 +29,7 @@ namespace WpfApp1
             //X = "(<[a-zA-Z]+>)"; //Paso : )
             //a = "(([a-zA-Z0-9]+)|\\*|\\+)"; // Paso  : )           
             //X = "(([a-zA-Z0-9]+)|\\*|\\+)"; //Caracter Alfa numerico ademas acepta '*' '+'.
-            X = "(([a-zA-Z0-9]+)|\\*|\\+|\\(|\\))"; //Caracter Alfa numerico ademas acepta '*' '+'.            
+            X = "(([a-zA-Z0-9]+)|\\*|\\+|\\(|\\)|-)"; //Caracter Alfa numerico ademas acepta '*' '+'.            
             epsilon = "~?\\s*";
             /*Construccion de Expresion Regular para patrones*/
             side_left = start + "[A-Za-z0-9]+" + end;

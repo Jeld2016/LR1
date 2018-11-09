@@ -74,7 +74,8 @@ namespace WpfApp1
         {
             foreach (String[] line in pure_lines)
             {
-                this.grammar.No_terminals1.Add(line[0]); //Agrega el no Terminal a la lista de No terminales pertenecientes a esta Gramatica.
+                if(!this.grammar.No_terminals1.Contains(line[0]))
+                    this.grammar.No_terminals1.Add(line[0]); //Agrega el no Terminal a la lista de No terminales pertenecientes a esta Gramatica.
             }
         }
         /// <summary>
