@@ -197,6 +197,7 @@ namespace WpfApp1.LR1_Stuffs
                 new_closure_Element = this.creates_NUCLEAR_LR0_element(tmp_production, forward_search_symbols);//Generamos el nuevo elemento de Cerradura LR0 a apartir de la produccion correspondiente.                              
 
                 C_Symbol tmp_symbol = new_closure_Element.Production.get_symbol_next_to_DOT();
+                C_First_Element firsttemp; 
 
                 if (can_insert_closure_element(new_closure_Element) == true)
                 {
@@ -204,8 +205,9 @@ namespace WpfApp1.LR1_Stuffs
                     new_go_to = new C_Go_to(this.num_state, tmp_symbol); //Generacion de un nuevo IR_A
                     this.go_tos.Enqueue(new_go_to);
                     if (tmp_symbol != null) { //Si se encontro algun simbolo
-                        if (tmp_symbol.Type_symbol == 1) { //Si el simbolo es NO TERMINAL entonces genera cerradura.                 
-                            generate_Closure(tmp_symbol, get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols)).First);
+                        if (tmp_symbol.Type_symbol == 1) { //Si el simbolo es NO TERMINAL entonces genera cerradura. 
+                            firsttemp = get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols));
+                            generate_Closure(tmp_symbol, firsttemp.First);
                         }
                     }
                 }                                                               
@@ -214,7 +216,7 @@ namespace WpfApp1.LR1_Stuffs
 
         
         /// <summary>
-        /// AGREGA COMENTARIOS A ESTO WEEEEEEE!!!
+        /// Funcion que genera genera la lista de simbolos juntando gama y a!!!
         /// </summary>
         /// <param name="cerradura"></param>
         /// <param name="forward_search_symbols"></param>
@@ -234,15 +236,16 @@ namespace WpfApp1.LR1_Stuffs
                     }
                 }
             }
-            for(int j = 0; j < forward_search_symbols.Count; j++)
+            for (int k = 0; k < aux.Count; k++)
+            {
+                aux2.Add(aux[k]);
+            }
+            for (int j = 0; j < forward_search_symbols.Count; j++)
             {
                 C_Symbol a = new C_Symbol(forward_search_symbols[j], 0);
                 aux2.Add(a);
             }
-            for(int k = 0; k < aux.Count; k++)
-            {
-                aux2.Add(aux[k]);
-            }
+           
             return aux2;
         }
 
@@ -275,7 +278,7 @@ namespace WpfApp1.LR1_Stuffs
                     {
                         case 0: /// <TERMINAL GENERA GO_TO  y se agrega  a la lista de cerraduras></TERMINAL>
                             //if (this.can_insert_closure_element(kernel) == true) {
-                            new_go_to = new C_Go_to(current_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
+                            new_go_to = new C_Go_to(this.num_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
                             this.go_tos.Enqueue(new_go_to);
                             //this.closure_elements_tmp.Add(kernel);
                             //}
