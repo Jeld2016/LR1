@@ -64,6 +64,8 @@ namespace WpfApp1.LR1_Stuffs
             //Inicia el analisis del estado 0.
             creates_zero_state();
 
+            C_LR1_Element new_LR1_Element;
+
             while (this.go_tos.Count > 0) {
                 C_Go_to tmp_go_to = this.go_tos.Dequeue();
                 C_LR1_Element a_lr1_element = search_state(tmp_go_to.State);
@@ -72,8 +74,9 @@ namespace WpfApp1.LR1_Stuffs
                 for(int i = 0; i < list.Count; i++){
                     list[i].Production.swap_point();
                 }
-                list_states.Add(this.generate_new_state(list, tmp_go_to.State));
-            }               
+                new_LR1_Element = this.generate_new_state(list, tmp_go_to.State, tmp_go_to);
+                list_states.Add(new_LR1_Element);
+            }
         }
 
 
@@ -187,7 +190,8 @@ namespace WpfApp1.LR1_Stuffs
         private void generate_Closure(C_Symbol symbol, List<string> forward_search_symbols) {
             List<C_Production> productions = this.grammar.get_Productions(symbol.Symbol);
             C_Production tmp_production;
-            C_Closure_Element new_closure_Element;            
+            C_Closure_Element new_closure_Element;  
+            
 
             for (int i = 0; i < productions.Count; i++) {
 
@@ -215,6 +219,7 @@ namespace WpfApp1.LR1_Stuffs
         }
 
         
+
         /// <summary>
         /// Funcion que genera genera la lista de simbolos juntando gama y a!!!
         /// </summary>
@@ -255,9 +260,9 @@ namespace WpfApp1.LR1_Stuffs
         /// <param name="list_kernels"></param>
         /// <param name="current_state"></param>
         /// <returns></returns>
-        private C_LR1_Element generate_new_state(List<C_Closure_Element> list_kernels, int current_state)
+        private C_LR1_Element generate_new_state(List<C_Closure_Element> list_kernels, int current_state, C_Go_to state_go_to)
         {
-            C_Go_to new_go_to;
+            C_Go_to new_go_to = new C_Go_to();
             C_LR1_Element new_state;
 
             this.closure_elements_tmp = new List<C_Closure_Element>();
@@ -298,7 +303,7 @@ namespace WpfApp1.LR1_Stuffs
                     }
                 }
             }
-            new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels);
+            new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);
             this.num_state++;
             return new_state;      
         }
@@ -311,7 +316,6 @@ namespace WpfApp1.LR1_Stuffs
         /// <returns>1 Si este kernel puede generar Cerradura, 2 S si solo es una transicion, 3 si el marcador de analisis se encuentra al final de la produccion</returns>
         private int what_generates(C_Closure_Element a_kernel) {
             C_Production production; //Produccion que esta contenida en el KERNEL
-            List<C_Production> productions_to_Analize;
             int index_dot; //Indice del punto en las producciones;
 
             /*Se inicia con la evaluacion del KERNEL*/
@@ -351,7 +355,7 @@ namespace WpfApp1.LR1_Stuffs
             forward_search_search_simbols.Add("$");
             kernel_0 = this.creates_NUCLEAR_LR0_element(this.grammar.Get_Grammar()[0], forward_search_search_simbols);
             dummy_list.Add(kernel_0);
-            this.list_states.Add(this.generate_new_state(dummy_list, 0)); //Generacion del Estado CERO del automata.
+            this.list_states.Add(this.generate_new_state(dummy_list, 0, new C_Go_to())); //Generacion del Estado CERO del automata.
         }
         /// <summary>
         /// Busca estado del goto en la lista de estados
