@@ -25,6 +25,14 @@ namespace WpfApp1.Grammar_Stuffs
 
 
         /// <summary>
+        ///Constructor por copia. 
+        /// </summary>
+        /// <param name=""></param>
+        public C_Production(C_Production copy_production) {
+            this.producer = copy_production.Producer;
+            this.right = new List<C_Symbol>(copy_production.Right);
+        }
+        /// <summary>
         /// Crea una nueva instancia de C_Produccion, es decir crea una nueva produccion.
         /// </summary>
         /// <param name="name">Parte izquierda de la  produccion</param>

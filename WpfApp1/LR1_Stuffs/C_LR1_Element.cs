@@ -41,13 +41,19 @@ namespace WpfApp1.LR1_Stuffs
             this.closure = new List<C_Closure_Element>();
         }
 
-        public C_LR1_Element(C_LR1_Element cl1)
+
+        /// <summary>
+        /// Constructor por copia 
+        /// </summary>
+        /// <param name="copy_lr1_element"></param>
+        public C_LR1_Element(C_LR1_Element copy_lr1_element)
         {
-            this.num_state = cl1.Num_state;
-            this.my_go_to = cl1.My_go_to;
-            this.kernel = cl1.Kernel;
-            this.closure = cl1.Closure;
+            this.num_state = copy_lr1_element.Num_state;
+            this.my_go_to = copy_lr1_element.My_go_to;
+            this.kernel = copy_lr1_element.Kernel;
+            this.closure = copy_lr1_element.Closure;
         }
+
 
 
 
@@ -109,10 +115,8 @@ namespace WpfApp1.LR1_Stuffs
                 tmp_symbol = cl_element.Production.get_symbol_next_to_DOT();
                 if (tmp_symbol != null) {
                     if (string.Compare(tmp_symbol.Symbol, symbol.Symbol) == 0)
-                        nw_list_closure_element.Add(cl_element);
+                        nw_list_closure_element.Add(new C_Closure_Element(cl_element));
                 }
-
-
             }            
             return nw_list_closure_element;
         }

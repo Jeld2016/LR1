@@ -27,8 +27,8 @@ namespace WpfApp1.LR1_Stuffs
 
         public C_Closure_Element(C_Closure_Element c)
         {
-            this.production = c.production;
-            this.forward_search_symbols = c.forward_search_symbols;
+            this.production = new C_Production(c.production);
+            this.forward_search_symbols = new List<string>(c.forward_search_symbols);
         }
 
         public C_Closure_Element() {
@@ -46,6 +46,7 @@ namespace WpfApp1.LR1_Stuffs
         }
 
 
+      
         /// <summary>
         /// Crea una instancia de un elemento de Cerradura
         /// </summary>
