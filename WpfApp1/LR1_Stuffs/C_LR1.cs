@@ -265,7 +265,7 @@ namespace WpfApp1.LR1_Stuffs
             if (this.num_state == 0)  //OBVIAMENTE SE HACE LA CERRADURA xD
             {
                 this.closure_elements_tmp.Insert(0, list_kernels[0]);
-                new_go_to = new C_Go_to(current_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
+                new_go_to = new C_Go_to(this.num_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
                 this.go_tos.Enqueue(new_go_to);
                 this.generate_Closure(list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Forward_search_symbols);
             }
@@ -288,7 +288,7 @@ namespace WpfApp1.LR1_Stuffs
                             int index_dot;
 
                             //this.closure_elements_tmp.Insert(0, kernel);
-                            new_go_to = new C_Go_to(current_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
+                            new_go_to = new C_Go_to(this.num_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
                             this.go_tos.Enqueue(new_go_to);
                             index_dot = production_kernel.index_DOT();
                             this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols);
