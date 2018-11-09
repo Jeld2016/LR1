@@ -59,5 +59,18 @@ namespace WpfApp1.Grammar_Stuffs
         /// Obtiene y establece el valor del simbolo que basicamente es una cadena.
         /// </summary>
         public string Symbol { get => symbol; set => symbol = value; }
+
+
+        /// <summary>
+        /// Checa si un simbolo es igual a este
+        /// </summary>
+        /// <param name="incoming_symbol"></param>
+        /// <returns></returns>
+        public bool simbol_equal(C_Symbol incoming_symbol) {
+            if (type_symbol == incoming_symbol.Type_symbol)
+                if (string.Compare(this.symbol, incoming_symbol.Symbol) == 0)
+                    return true;
+            return false;
+        }
     }
 }

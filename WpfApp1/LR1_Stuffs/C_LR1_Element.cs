@@ -116,5 +116,23 @@ namespace WpfApp1.LR1_Stuffs
             }            
             return nw_list_closure_element;
         }
+
+        public bool kernel_Exist(List<C_Closure_Element> a_kernel) {
+            bool exist = false;
+            int length_kernel = this.kernel.Count;
+
+            if (a_kernel.Count == length_kernel) {
+                for (int index_closure_element = 0; index_closure_element < length_kernel; index_closure_element++) {
+                    C_Closure_Element cl_Element0;
+                    C_Closure_Element cl_Element1;
+
+                    cl_Element0 =  this.kernel[index_closure_element];
+                    cl_Element1 = a_kernel[index_closure_element];
+                    if (cl_Element0.Closure_Element_is_Equal_to_Another_Closure(cl_Element1.Production, cl_Element1.Forward_search_symbols) == false)
+                        return false;                    
+                }
+            }
+            return true;
+        }
     }
 }

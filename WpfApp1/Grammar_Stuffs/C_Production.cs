@@ -88,6 +88,8 @@ namespace WpfApp1.Grammar_Stuffs
             return false;
         }
 
+
+
         public void swap_point()
         {
             
@@ -141,7 +143,7 @@ namespace WpfApp1.Grammar_Stuffs
         /// derecha de la produccion
         /// </summary>
         public int index_DOT() {
-            int index; 
+int index;
             int num_symbols = this.Right.Count;
             C_Symbol tmp_symbol; 
 
@@ -151,6 +153,30 @@ namespace WpfApp1.Grammar_Stuffs
                     break;
             }
             return index;
+        }
+
+
+        /// <summary>
+        /// Determina si una produccion es igual a otra
+        /// </summary>
+        /// <param name="incoming_production">Produccion con la que se esta comparando</param>
+        /// <returns>true si la produccion es igual con la que se le esta pasando como argunmento</returns>
+        public bool is_equal_to_Other_C_Production(C_Production incoming_production) {
+            bool equal = false;
+
+            if (string.Compare(incoming_production.Producer, this.producer) == 0) {                
+                if (this.right.Count == incoming_production.Right.Count) {
+                    int i;
+
+                    for ( i = 0; i < this.right.Count; i++) {
+                        if (this.right[i].simbol_equal(incoming_production.Right[i]) == false)
+                            break;
+                    }
+                    if (i == this.right.Count)
+                        equal = true;
+                }
+            }
+            return equal;
         }
     }
 }

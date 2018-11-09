@@ -67,5 +67,27 @@ namespace WpfApp1.LR1_Stuffs
         /// Obtiene o establece la lista de simbolos de busqueda hacia adelante de este elemento  de Cerradura.
         /// </summary>
         public List<string> Forward_search_symbols { get => forward_search_symbols; set => forward_search_symbols = value; }
+
+
+
+        public bool Closure_Element_is_Equal_to_Another_Closure(C_Production incoming_pr, List<string>incoming_srch_symb) {
+            bool equal = false;
+
+            if (this.production.is_equal_to_Other_C_Production(incoming_pr) == true) {
+                int length_list = this.forward_search_symbols.Count;
+                if (length_list == incoming_srch_symb.Count) {
+                    int index;
+
+                    for (index = 0; index < length_list; index++)
+                    {
+                        if (string.Compare(this.Forward_search_symbols[index], incoming_srch_symb[index]) != 0)
+                            break;
+                    }
+                    if (index == length_list)
+                        equal = true;
+                }
+            }
+            return equal;
+        }
     }
 }
