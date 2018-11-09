@@ -440,5 +440,19 @@ namespace WpfApp1.LR1_Stuffs
             }
             return can_insert;
         }
+
+        private int exist_kernel(List<C_Closure_Element> list_kernels)
+        {
+            int index;
+            int lenght_lr1_states = this.list_states.Count;
+
+            for (index = 0; index < lenght_lr1_states; index++) {
+                if (list_states[index].kernel_Exist(list_kernels) == false)
+                    break;
+            }
+            if (index == lenght_lr1_states)
+                return -1;
+            return index;
+        }
     }
 }
