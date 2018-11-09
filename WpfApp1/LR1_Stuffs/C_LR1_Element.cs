@@ -122,7 +122,7 @@ namespace WpfApp1.LR1_Stuffs
         /// Checa si un Kernel ya existe en este estado o Elemento LR1
         /// </summary>
         /// <param name="a_kernel">Kernel con el que se esta comparando</param>
-        /// <returns></returns>
+        /// <returns>True si ya existe</returns>
         public bool kernel_Exist(List<C_Closure_Element> a_kernel) {
             bool exist = false;
             int length_kernel = this.kernel.Count;
