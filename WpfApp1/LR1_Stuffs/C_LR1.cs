@@ -66,7 +66,7 @@ namespace WpfApp1.LR1_Stuffs
 
             C_LR1_Element new_LR1_Element;
 
-            while (this.go_tos.Count > 0) {
+            while (this.go_tos.Count > 0) {//checar 
                 C_Go_to tmp_go_to = this.go_tos.Dequeue();
                 C_LR1_Element a_lr1_element  = search_state(tmp_go_to.State);
                 List<C_Closure_Element> list = a_lr1_element.generates_new_Kernel(tmp_go_to.Symbol_state);
@@ -208,7 +208,11 @@ namespace WpfApp1.LR1_Stuffs
                 {
                     closure_elements_tmp.Add(new_closure_Element);
                     new_go_to = new C_Go_to(this.num_state, tmp_symbol); //Generacion de un nuevo IR_A
-                    this.go_tos.Enqueue(new_go_to);
+                    if (!contains(new_go_to))//condicion agregada para si ese goto ya esta en cola no lo agregue otra vez
+                    {
+                        this.go_tos.Enqueue(new_go_to);
+                    }
+                    //creo que esta condicion deberia ir adrentro del if del contains pero aun no estoy muy seguro
                     if (tmp_symbol != null) { //Si se encontro algun simbolo
                         if (tmp_symbol.Type_symbol == 1) { //Si el simbolo es NO TERMINAL entonces genera cerradura. 
                             firsttemp = get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols));
@@ -217,6 +221,39 @@ namespace WpfApp1.LR1_Stuffs
                     }
                 }                                                               
             }
+        }
+
+        
+        /// <summary>
+        /// Metodo utilizado para saber si un goto se encuentra en la cola de gotos
+        /// </summary>
+        /// <param name="compare">goto a comparar con la cola</param>
+        /// <returns></returns>
+        private bool contains(C_Go_to compare)//metodo de contains que cree jaja por que el de la cola no jalaba xD
+        {
+            bool ban = false;
+            Queue<C_Go_to> aux=new Queue<C_Go_to>();
+
+            while (go_tos.Count != 0 && go_tos != null)
+            {
+                C_Go_to a = go_tos.Dequeue();
+                if (a.State == compare.State && a.Symbol_state.Symbol == compare.Symbol_state.Symbol && a.Symbol_state.Type_symbol == compare.Symbol_state.Type_symbol && ban != true)
+                {
+                    ban = true;
+                }
+                aux.Enqueue(a);
+            }
+
+            
+
+
+
+            go_tos.Clear();
+            while(aux.Count!=0 && aux != null)
+            { 
+                go_tos.Enqueue(aux.Dequeue());
+            }
+            return ban;
         }
 
         
