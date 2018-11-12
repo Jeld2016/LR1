@@ -21,7 +21,7 @@ namespace WpfApp1.LR1_Stuffs
         /// <summary>
         /// Es el IR_A de este elemento LR1(estado).
         /// </summary>
-        List<C_Go_to> my_go_to;
+        C_Go_to my_go_to;
         /// <summary>
         /// Produccion con la cual se crea estem elemento LR1 o estado.
         /// </summary>
@@ -29,14 +29,14 @@ namespace WpfApp1.LR1_Stuffs
         /// <summary>
         /// Esta es la cerradura del elemento LR1.
         /// </summary>
-        List<C_Closure_Element> closure=new List<C_Closure_Element>();//checar
+        List<C_Closure_Element> closure = new List<C_Closure_Element>();//checar
 
 
 
 
         public C_LR1_Element() {
             this.num_state = -1;
-            this.my_go_to = new List< C_Go_to>();
+            this.my_go_to = new C_Go_to();
             this.kernel = new List<C_Closure_Element>();
             this.closure = new List<C_Closure_Element>();
         }
@@ -60,7 +60,7 @@ namespace WpfApp1.LR1_Stuffs
         public C_LR1_Element(List<C_Closure_Element> elements_closure_list, int num_s)
         {
             this.num_state = num_s;
-            this.my_go_to = new List<C_Go_to>();
+            this.my_go_to = new C_Go_to();
             this.kernel = new List<C_Closure_Element>();
             foreach (C_Closure_Element c_el in elements_closure_list) {
                 closure.Add(new C_Closure_Element(c_el));
@@ -71,13 +71,13 @@ namespace WpfApp1.LR1_Stuffs
         public C_LR1_Element(List<C_Closure_Element> elements_closure_list, int num_s,List<C_Closure_Element> ker, C_Go_to a_go_to)
         {
             this.num_state = num_s;
-            this.my_go_to = new List<C_Go_to>();
+            this.my_go_to = new C_Go_to();
             this.kernel = ker;
             foreach (C_Closure_Element c_el in elements_closure_list)
             {
                 closure.Add(new C_Closure_Element(c_el));
             }
-            this.my_go_to.Add(a_go_to);
+            this.my_go_to = a_go_to;
         }
 
 
@@ -91,7 +91,7 @@ namespace WpfApp1.LR1_Stuffs
         /// <summary>
         ///Obtiene o establece el IR_A de este elemento LR1. 
         /// </summary>
-        internal List<C_Go_to> My_go_to { get => my_go_to; set => my_go_to = value; }
+        internal C_Go_to My_go_to { get => my_go_to; set => my_go_to = value; }
 
 
         /// <summary>

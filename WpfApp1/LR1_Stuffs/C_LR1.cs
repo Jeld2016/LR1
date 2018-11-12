@@ -43,6 +43,7 @@ namespace WpfApp1.LR1_Stuffs
         /// Obtiene o Establece el conjunto Primero relativo a la gramatica que se esta analizando.
         /// </summary>
         internal C_First_Set First_set { get => first_set; set => first_set = value; }
+        internal List<C_LR1_Element> List_states { get => list_states; set => list_states = value; }
 
 
         /// <summary>

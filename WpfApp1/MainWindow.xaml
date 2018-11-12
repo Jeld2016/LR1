@@ -55,6 +55,10 @@
                     <ColumnDefinition Width=".3*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                
+                
+                    <!--TABLA DE PRIMERO-->
+                
                     <DataGrid x:Name="dgrid_first_table" Grid.Column="0">
                         <!--Color de fuente y otros estilos-->
                         <DataGrid.Resources>
@@ -75,6 +79,35 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Non Terminal" Width="*" IsReadOnly="True" Binding="{Binding non_terminal}"/>
                             <DataGridTextColumn Header="FIRST" Width="2*" IsReadOnly="True" Binding="{Binding first_set}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!--TABLA AFD-->
+                
+                    <DataGrid x:Name="dgrid_AFD" Grid.Column="1" Margin="20 0">
+                        
+                        <!--PROPIEDADES DEL GRID Color de fuente y otros estilos-->
+                        
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="Cyan"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="FontFamily" Value="Consolas"/>
+                                <Setter Property="BorderThickness" Value="1,2,1,2"/>
+                                <Setter Property="BorderBrush" Value="Black"/>
+                            </Style>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="FontFamily" Value="Consolas"/>
+                                <Setter Property="BorderThickness" Value="1,1,1,1"/>
+                                <Setter Property="BorderBrush" Value="Black"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <!--Definicion de columnas y encabezados-->
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Go_To"   Width=".2*" IsReadOnly="True" Binding="{Binding go_to}"/>
+                            <DataGridTextColumn Header="Kernel"  Width="*" IsReadOnly="True" Binding="{Binding kernel}"/>
+                            <DataGridTextColumn Header="State"   Width=".1*" IsReadOnly="True" Binding="{Binding state}"/>
+                            <DataGridTextColumn Header="Closure" Width="*" IsReadOnly="True" Binding="{Binding closure}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
