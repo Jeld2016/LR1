@@ -220,15 +220,13 @@ namespace LR1_Final.LR1_Stuffs
                 {
                     closure_elements_tmp.Add(new_closure_Element);
                     new_go_to = new C_Go_to(this.num_state, tmp_symbol); //Generacion de un nuevo IR_A
-                    if (!contains(new_go_to))//condicion agregada para si ese goto ya esta en cola no lo agregue otra vez
-                    {
-                        this.go_tos.Enqueue(new_go_to);
-                    }
+                    //if (!contains(new_go_to))//condicion agregada para si ese goto ya esta en cola no lo agregue otra vez
+                    //{
+                    this.go_tos.Enqueue(new_go_to);
+                    //}
                     //creo que esta condicion deberia ir adrentro del if del contains pero aun no estoy muy seguro
-                    if (tmp_symbol != null)
-                    { //Si se encontro algun simbolo
-                        if (tmp_symbol.Type_symbol == 1)
-                        { //Si el simbolo es NO TERMINAL entonces genera cerradura. 
+                    if (tmp_symbol != null) { //Si se encontro algun simbolo
+                        if (tmp_symbol.Type_symbol == 1) { //Si el simbolo es NO TERMINAL entonces genera cerradura. 
                             firsttemp = get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols));
                             generate_Closure(tmp_symbol, firsttemp.First);
                         }
@@ -257,10 +255,6 @@ namespace LR1_Final.LR1_Stuffs
                 }
                 aux.Enqueue(a);
             }
-
-
-
-
 
             go_tos.Clear();
             while (aux.Count != 0 && aux != null)
@@ -330,7 +324,9 @@ namespace LR1_Final.LR1_Stuffs
             }
             else
             {
-                int t = exist_kernel(list_kernels);
+                /*Regresa el indice de la produccion que contiene este mismo kernel*/
+                int t = exist_kernel(list_kernels); 
+
                 if (t != -1)
                 {
                     C_LR1_Element C = list_states[t];
@@ -372,7 +368,6 @@ namespace LR1_Final.LR1_Stuffs
                     this.num_state++;
                 }
             }
-
             return new_state;
         }
 

@@ -164,10 +164,10 @@ namespace LR1_Final
                     //Ciclo para recorrer los simbolos de la izquierda de la Produccion
                     foreach (C_Symbol symb in cl_element.Production.Right)
                         this_kernel += symb.Symbol;
-                    this_kernel += "{";
+                    this_kernel += "  {";
                     foreach (string str in cl_element.Forward_search_symbols)
                         this_kernel += str + " ";
-                    this_kernel += "}]";
+                    this_kernel += "}]  ";
                 }
                 this_kernel += "]";
 
@@ -179,11 +179,11 @@ namespace LR1_Final
                     this_closure += "[";
                     this_closure += cl_element.Production.Producer + "=>";
                     foreach (C_Symbol symb in cl_element.Production.Right)
-                        this_closure += symb.Symbol;
-                    this_closure += "{";
+                        this_closure += " " + symb.Symbol;
+                    this_closure += "  {";
                     foreach (string str in cl_element.Forward_search_symbols)
-                        this_closure += str + " ";
-                    this_closure += "}]";
+                        this_closure += " " + str;
+                    this_closure += "}] ";
                 }
                 this_closure += "]";
 
