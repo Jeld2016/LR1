@@ -86,11 +86,16 @@ namespace WpfApp1
         /// </summary>
         /// <returns></returns>
         private List<string[]> validate_checked()
+
+        
         {
             List<string[]> pure_lines = new List<string[]>();
             string[] one_line;
-            string[] all_text = this.textBox_Input.Text.Split('\n');
-            int index = 1;
+            string[] all_text2= this.textBox_Input.Text.Split('\r','\n');
+            string[] all_text =vacios(all_text2);
+            
+
+int index = 1;
 
             foreach (string a_str in all_text)
             {
@@ -126,6 +131,32 @@ namespace WpfApp1
             return pure_lines;
         }
 
+        private string[] vacios(string[] all)
+        {
+            List<string> a=new List<string>();
+
+            for(int i = 0; i < all.Count(); i++)
+            {
+                if (all[i] == "")
+                {
+
+                }
+                else
+                {
+                   a.Add(all[i]);
+                }
+            }
+
+            string[] ap = new string[a.Count];
+
+            for(int i = 0; i< a.Count; i++)
+            {
+                ap[i] = a[i];
+            }
+            return ap;
+        }
+
+      
 
 
         /// <summary>
@@ -247,6 +278,7 @@ namespace WpfApp1
                     closure = this_closure
                 };
                 this.dgrid_AFD.Items.Add(data);
+                
                 this_kernel = "[";
                 this_closure = "[";
                 forward_symbol_search = "/";

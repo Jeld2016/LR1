@@ -18,16 +18,16 @@
                 <MenuItem Header="Exit" x:Name="menu_item_exit"/>
             </MenuItem>
         </Menu>
-    <Border Padding="20">
-        <StackPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <TextBlock Grid.Column="0" Text="Input Gramar" FontFamily="Consolas" FontSize="18"/>
-                    <TextBox 
+        <Border Padding="20">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Grid.Column="0" Text="Input Gramar" FontFamily="Consolas" FontSize="18"/>
+                        <TextBox 
                         AcceptsReturn="True"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         MaxHeight="220"
@@ -36,9 +36,9 @@
                         x:Name="textBox_Input" KeyDown="textBox_Input_KeyDown"
                         Controls:TextBoxHelper.ClearTextButton="True"
                         />
-                </StackPanel>
-            </Grid>
-            <!--<Grid>
+                    </StackPanel>
+                </Grid>
+                <!--<Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -47,18 +47,19 @@
                     <Button x:Name="button_Build_Parser" Content="Build Parser" Grid.Column="1" Margin="0 50" 
                     Click="button_Build_Parser_Click"/>
             </Grid>-->
-            <TextBlock Text="First Table" FontFamily="Consolas" FontSize="18"/>
-            
-            <!--TABLA DE PRIMERO-->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".3*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                
+                <TextBlock Text="First Table" FontFamily="Consolas" FontSize="18"/>
+
+                <!--TABLA DE PRIMERO-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="351*"/>
+                        <ColumnDefinition Width="104*"/>
+                        <ColumnDefinition Width="1067*"/>
+                    </Grid.ColumnDefinitions>
+
+
                     <!--TABLA DE PRIMERO-->
-                
+
                     <DataGrid x:Name="dgrid_first_table" Grid.Column="0">
                         <!--Color de fuente y otros estilos-->
                         <DataGrid.Resources>
@@ -83,11 +84,11 @@
                     </DataGrid>
 
                     <!--TABLA AFD-->
-                
-                    <DataGrid x:Name="dgrid_AFD" Grid.Column="1" Margin="20 0">
-                        
+
+                    <DataGrid x:Name="dgrid_AFD" Grid.Column="1" Margin="20 0" Grid.ColumnSpan="2">
+
                         <!--PROPIEDADES DEL GRID Color de fuente y otros estilos-->
-                        
+
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="Cyan"/>
@@ -111,18 +112,18 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
-            <!--Boton que inicia toda la fiesta-->
-            <Grid Margin="-1,0,1,0"> 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="button_Build_Parser" Content="Build Parser" Grid.Column="1" Margin="0 50"  
+                <!--Boton que inicia toda la fiesta-->
+                <Grid Margin="-1,0,1,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="button_Build_Parser" Content="Build Parser" Grid.Column="1" Margin="0 50"  
                         Click="button_Build_Parser_Click"/>
-            </Grid>
+                </Grid>
             </StackPanel>
-    </Border>
+        </Border>
     </Grid>
 </Controls:MetroWindow>
 

@@ -32,7 +32,7 @@ namespace WpfApp1
             X = "(([a-zA-Z0-9]+)|\\*|\\+|\\(|\\)|-)"; //Caracter Alfa numerico ademas acepta '*' '+'.            
             epsilon = "~?\\s*";
             /*Construccion de Expresion Regular para patrones*/
-            side_left = start + "[A-Za-z0-9]+" + end;
+            side_left = start + "[A-Za-z0-9]+-?[A-Za-z0-9]+" + end;
             //side_right = start + "(" + epsilon + X + "*" + epsilon + a + "*" + epsilon + "(" + epsilon + X + "*" + epsilon + a + "*" + epsilon + ")" + ")+" + "(\\|" + epsilon + X + "*" + epsilon + a + "*" + epsilon + "(" + epsilon + X + "*" + epsilon + a + "*" + epsilon + ")" + ")*" + end; //Expresion que no valida espacios
             //side_right = start + "((" + epsilon + X + epsilon + ")\\s*)+" +  end; // Esta expresion valida sin OR's
             side_right = start + "\\s*((" + epsilon + X + "*" + epsilon + ")\\s*)+(\\|\\s*(" + epsilon + "(" + X + "\\s*)*"+ epsilon + "))*" + end; // Esta expresion valida sin OR's
