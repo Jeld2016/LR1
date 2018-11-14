@@ -35,16 +35,16 @@
             this.guardarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgrid_first_table = new System.Windows.Forms.DataGridView();
-            this.dataGrid_LR1 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button_build_Parser = new System.Windows.Forms.Button();
             this.No_Terminal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Conjunto_Primero = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGrid_LR1 = new System.Windows.Forms.DataGridView();
             this.Go_To = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Kernel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Num_State = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Closure = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button_build_Parser = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgrid_first_table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_LR1)).BeginInit();
@@ -64,7 +64,7 @@
             this.archivoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(2002, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1924, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -109,6 +109,16 @@
             this.dgrid_first_table.Size = new System.Drawing.Size(239, 245);
             this.dgrid_first_table.TabIndex = 2;
             // 
+            // No_Terminal
+            // 
+            this.No_Terminal.HeaderText = "No_Terminal";
+            this.No_Terminal.Name = "No_Terminal";
+            // 
+            // Conjunto_Primero
+            // 
+            this.Conjunto_Primero.HeaderText = "Conjunto_Primero";
+            this.Conjunto_Primero.Name = "Conjunto_Primero";
+            // 
             // dataGrid_LR1
             // 
             this.dataGrid_LR1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -119,8 +129,29 @@
             this.Closure});
             this.dataGrid_LR1.Location = new System.Drawing.Point(315, 27);
             this.dataGrid_LR1.Name = "dataGrid_LR1";
+            this.dataGrid_LR1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataGrid_LR1.Size = new System.Drawing.Size(1571, 332);
             this.dataGrid_LR1.TabIndex = 3;
+            // 
+            // Go_To
+            // 
+            this.Go_To.HeaderText = "Go_To";
+            this.Go_To.Name = "Go_To";
+            // 
+            // Kernel
+            // 
+            this.Kernel.HeaderText = "Nucleo";
+            this.Kernel.Name = "Kernel";
+            // 
+            // Num_State
+            // 
+            this.Num_State.HeaderText = "Num_State";
+            this.Num_State.Name = "Num_State";
+            // 
+            // Closure
+            // 
+            this.Closure.HeaderText = "Cerradura";
+            this.Closure.Name = "Closure";
             // 
             // label1
             // 
@@ -150,41 +181,11 @@
             this.button_build_Parser.UseVisualStyleBackColor = true;
             this.button_build_Parser.Click += new System.EventHandler(this.button_build_Parser_Click);
             // 
-            // No_Terminal
-            // 
-            this.No_Terminal.HeaderText = "No_Terminal";
-            this.No_Terminal.Name = "No_Terminal";
-            // 
-            // Conjunto_Primero
-            // 
-            this.Conjunto_Primero.HeaderText = "Conjunto_Primero";
-            this.Conjunto_Primero.Name = "Conjunto_Primero";
-            // 
-            // Go_To
-            // 
-            this.Go_To.HeaderText = "Go_To";
-            this.Go_To.Name = "Go_To";
-            // 
-            // Kernel
-            // 
-            this.Kernel.HeaderText = "Nucleo";
-            this.Kernel.Name = "Kernel";
-            // 
-            // Num_State
-            // 
-            this.Num_State.HeaderText = "Num_State";
-            this.Num_State.Name = "Num_State";
-            // 
-            // Closure
-            // 
-            this.Closure.HeaderText = "Cerradura";
-            this.Closure.Name = "Closure";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2002, 699);
+            this.ClientSize = new System.Drawing.Size(1924, 699);
             this.Controls.Add(this.button_build_Parser);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);

@@ -16,7 +16,7 @@ namespace LR1_Final.LR1_Stuffs
         private C_First_Set first_set;
         /// <summary>
         /// Gramatica con la que se esta generando el automata.
-        /// </summary+>
+        /// </summary>
         private C_Grammar grammar;
 
         /// <summary>
@@ -222,7 +222,9 @@ namespace LR1_Final.LR1_Stuffs
                     new_go_to = new C_Go_to(this.num_state, tmp_symbol); //Generacion de un nuevo IR_A
                     //if (!contains(new_go_to))//condicion agregada para si ese goto ya esta en cola no lo agregue otra vez
                     //{
-                    this.go_tos.Enqueue(new_go_to);
+                    if (this.go_to_is_in_queue(new_go_to) == false) {
+                        this.go_tos.Enqueue(new_go_to);
+                    }
                     //}
                     //creo que esta condicion deberia ir adrentro del if del contains pero aun no estoy muy seguro
                     if (tmp_symbol != null) { //Si se encontro algun simbolo
@@ -342,23 +344,21 @@ namespace LR1_Final.LR1_Stuffs
                         this.closure_elements_tmp.Add(kernel);
                         switch (this.what_generates(kernel))
                         {
-                            case 0: /// <TERMINAL GENERA GO_TO  y se agrega  a la lista de cerraduras></TERMINAL>
-                                //if (this.can_insert_closure_element(kernel) == true) {
-
+                            case 0: /// <TERMINAL GENERA GO_TO  y se agrega  a la lista de cerraduras></TERMINAL>                                
                                 new_go_to = new C_Go_to(this.num_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
-                                this.go_tos.Enqueue(new_go_to);
-                                //this.closure_elements_tmp.Add(kernel);
-                                //}
+                                this.go_tos.Enqueue(new_go_to);                              
                                 break;
                             case 1:///<NOT_TERMINAL GENERA CERRADURA></NOT_TERMINAL>>
                                 C_Production production_kernel = kernel.Production;
-                                int index_dot;
+                                C_Symbol simbol_generates_closure = kernel.Production.get_symbol_next_to_DOT();
 
                                 //this.closure_elements_tmp.Insert(0, kernel);
-                                new_go_to = new C_Go_to(this.num_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
+                                //new_go_to = new C_Go_to(this.num_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
+                                new_go_to = new C_Go_to(this.num_state, simbol_generates_closure);
                                 this.go_tos.Enqueue(new_go_to);
-                                index_dot = production_kernel.index_DOT();
-                                this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols);
+                                
+                                this.generate_Closure(simbol_generates_closure, kernel.Forward_search_symbols);
+                                //this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols);
                                 break;
                             case 2:///<EPSILON Solo genera closure_element pero con solo el punto></EPSILON>
                                 break;
@@ -519,6 +519,18 @@ namespace LR1_Final.LR1_Stuffs
             if (index == lenght_lr1_states)
                 return -1;
             return index;
+        }
+
+        private bool go_to_is_in_queue(C_Go_to a_go_to) {
+            Queue<C_Go_to> tmp_queue = new Queue<C_Go_to>(this.go_tos);
+            C_Go_to tmp_go_to; 
+
+            while(tmp_queue.Count > 0) {
+                tmp_go_to = tmp_queue.Dequeue();
+                if (tmp_go_to.this_Goto_EXIST(a_go_to))
+                    return true;
+            }
+            return false;
         }
     }
 }
