@@ -28,6 +28,7 @@ namespace LR1_Final.LR1_Stuffs
         /// </summary>
         List<C_LR1_Element> list_states;
         int num_state;
+        
 
         private List<C_Closure_Element> closure_elements_tmp;
 
@@ -229,8 +230,28 @@ namespace LR1_Final.LR1_Stuffs
                     { //Si se encontro algun simbolo
                         if (tmp_symbol.Type_symbol == 1)
                         { //Si el simbolo es NO TERMINAL entonces genera cerradura. 
-                            firsttemp = get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols));
+                            C_Symbol auxc = new C_Symbol();
+                            firsttemp = get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols,ref auxc));
+                            produccionexistente(firsttemp.First, auxc);
                             generate_Closure(tmp_symbol, firsttemp.First);
+                            
+                        }
+                    }
+                }
+            }
+        }
+
+        private void produccionexistente(List<string> f,C_Symbol auxc)
+        {
+            for (int k = 0; k < closure_elements_tmp.Count; k++)
+            {
+                if (closure_elements_tmp[k].Production.Producer == auxc.Symbol)
+                {
+                    for (int i = 0; i < f.Count; i++)
+                    {
+                        if (!closure_elements_tmp[k].Forward_search_symbols.Contains(f[i]))
+                        {
+                            closure_elements_tmp[k].Forward_search_symbols.Add(f[i]);
                         }
                     }
                 }
@@ -278,10 +299,11 @@ namespace LR1_Final.LR1_Stuffs
         /// <param name="cerradura"></param>
         /// <param name="forward_search_symbols"></param>
         /// <returns></returns>
-        private List<C_Symbol> cadenaalfa(C_Production cerradura, List<string> forward_search_symbols)
+        private List<C_Symbol> cadenaalfa(C_Production cerradura, List<string> forward_search_symbols,  ref C_Symbol  auxc)
         {
             List<C_Symbol> aux2 = new List<C_Symbol>();
             List<C_Symbol> aux = new List<C_Symbol>();
+            auxc = new C_Symbol();
             int index = cerradura.index_DOT();
             if (cerradura.Get_Right().Count > index)
             {
@@ -291,8 +313,14 @@ namespace LR1_Final.LR1_Stuffs
                     {
                         aux.Add(cerradura.Get_Right()[i]);
                     }
+                    if (i == index + 1)
+                    {
+                        auxc = cerradura.Get_Right()[i];
+                    }
                 }
             }
+
+            
             for (int k = 0; k < aux.Count; k++)
             {
                 aux2.Add(aux[k]);
@@ -302,6 +330,8 @@ namespace LR1_Final.LR1_Stuffs
                 C_Symbol a = new C_Symbol(forward_search_symbols[j], 0);
                 aux2.Add(a);
             }
+
+            
 
             return aux2;
         }
