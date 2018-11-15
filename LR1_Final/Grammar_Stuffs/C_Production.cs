@@ -177,18 +177,14 @@ namespace LR1_Final.Grammar_Stuffs
         /// </summary>
         /// <param name="incoming_production">Produccion con la que se esta comparando</param>
         /// <returns>true si la produccion es igual con la que se le esta pasando como argunmento</returns>
-        public bool is_equal_to_Other_C_Production(C_Production incoming_production)
-        {
+        public bool is_equal_to_Other_C_Production(C_Production incoming_production) {
             bool equal = false;
 
-            if (string.Compare(incoming_production.Producer, this.producer) == 0)
-            {
-                if (this.right.Count == incoming_production.Right.Count)
-                {
+            if (string.Compare(incoming_production.Producer, this.producer) == 0) {
+                if (this.right.Count == incoming_production.Right.Count) {
                     int i;
 
-                    for (i = 0; i < this.right.Count; i++)
-                    {
+                    for (i = 0; i < this.right.Count; i++) {
                         if (this.right[i].simbol_equal(incoming_production.Right[i]) == false)
                             break;
                     }

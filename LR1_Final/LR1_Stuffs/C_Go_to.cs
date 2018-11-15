@@ -61,5 +61,16 @@ namespace LR1_Final.LR1_Stuffs
         /// Obtiene o establece el simbolo de este IR_A 
         /// </summary>
         public C_Symbol Symbol_state { get => symbol_state; set => symbol_state = value; }
+
+        public bool this_Goto_EXIST(C_Go_to _ago_To) {
+            if (this.state == _ago_To.State) {
+                if (string.Compare(this.symbol_state.Symbol, _ago_To.Symbol_state.Symbol) == 0)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
     }
 }
