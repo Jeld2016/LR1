@@ -29,7 +29,7 @@ namespace LR1_Final.LR1_Stuffs
         /// <summary>
         /// Esta es la cerradura del elemento LR1.
         /// </summary>
-        List<C_Closure_Element> closure = new List<C_Closure_Element>();//checar
+        List<C_Closure_Element> closure;/* = new List<C_Closure_Element>();//checar*/
 
 
 
@@ -75,6 +75,8 @@ namespace LR1_Final.LR1_Stuffs
             this.num_state = num_s;
             this.my_go_to = new C_Go_to();
             this.kernel = ker;
+            this.closure = new List<C_Closure_Element>();
+
             foreach (C_Closure_Element c_el in elements_closure_list)
             {
                 closure.Add(new C_Closure_Element(c_el));
@@ -153,6 +155,33 @@ namespace LR1_Final.LR1_Stuffs
                 if (index_closure_element < length_kernel) //En algun momento se encontro la  <
                     exist = true;
             }          
+            return exist;
+        }
+
+        /// <summary>
+        /// Verifica si una Cerradura ya existe en este estado o Elemento LR1
+        /// </summary>
+        /// <param name="a_closure">Cerradura con la que se esta comparando</param>
+        /// <returns>True si la cerradura ya existe</returns>
+        public bool closure_Exist(List<C_Closure_Element> a_closure)
+        {
+            bool exist = false;
+            int length_closure = this.closure.Count;
+            int index_closure_element = 0;
+
+            if (a_closure.Count == length_closure) {
+                for (index_closure_element = 0; index_closure_element < length_closure; index_closure_element++) {
+                    C_Closure_Element cl_Element0;
+                    C_Closure_Element cl_Element1;
+
+                    cl_Element0 = this.closure[index_closure_element];
+                    cl_Element1 = a_closure[index_closure_element];
+                    if (cl_Element0.Closure_Element_is_Equal_to_Another_Closure(cl_Element1.Production, cl_Element1.Forward_search_symbols) == true)
+                        break;
+                }
+                if (index_closure_element < length_closure) //En algun momento se encontro la  <
+                    exist = true;
+            }
             return exist;
         }
     }

@@ -55,7 +55,7 @@
             this.textBox_Input.Location = new System.Drawing.Point(12, 27);
             this.textBox_Input.Multiline = true;
             this.textBox_Input.Name = "textBox_Input";
-            this.textBox_Input.Size = new System.Drawing.Size(260, 332);
+            this.textBox_Input.Size = new System.Drawing.Size(450, 332);
             this.textBox_Input.TabIndex = 0;
             // 
             // menuStrip1
@@ -106,7 +106,7 @@
             this.Conjunto_Primero});
             this.dgrid_first_table.Location = new System.Drawing.Point(13, 383);
             this.dgrid_first_table.Name = "dgrid_first_table";
-            this.dgrid_first_table.Size = new System.Drawing.Size(239, 245);
+            this.dgrid_first_table.Size = new System.Drawing.Size(449, 245);
             this.dgrid_first_table.TabIndex = 2;
             // 
             // No_Terminal
@@ -127,10 +127,10 @@
             this.Kernel,
             this.Num_State,
             this.Closure});
-            this.dataGrid_LR1.Location = new System.Drawing.Point(315, 27);
+            this.dataGrid_LR1.Location = new System.Drawing.Point(468, 27);
             this.dataGrid_LR1.Name = "dataGrid_LR1";
             this.dataGrid_LR1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGrid_LR1.Size = new System.Drawing.Size(1571, 332);
+            this.dataGrid_LR1.Size = new System.Drawing.Size(1418, 332);
             this.dataGrid_LR1.TabIndex = 3;
             // 
             // Go_To
