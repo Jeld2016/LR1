@@ -30,7 +30,7 @@ namespace LR1_Final.LR1_Stuffs.First_Stuffs
         /// <param name="name_set">Nombre del conjunto Primero que se esta generando</param>
         public C_First_Element(string name_set)
         {
-            this.no_terminal = name_set;
+            this.no_terminal = name_set;    
             this.first = new List<string>();
         }
 

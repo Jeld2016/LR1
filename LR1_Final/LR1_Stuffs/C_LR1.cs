@@ -151,6 +151,7 @@ namespace LR1_Final.LR1_Stuffs
             int num_simbols = simbols_to_get_first.Count;
             bool we_can_brake_travel = false;
             /*Recorrido sobre cada uno de los simbolos*/
+
             for (int index_of_symbol = 0; index_of_symbol < num_simbols && !we_can_brake_travel; index_of_symbol++)
             {
                 C_Symbol consequent = simbols_to_get_first[index_of_symbol];
@@ -238,7 +239,7 @@ namespace LR1_Final.LR1_Stuffs
         /// </summary>
         /// <param name="compare">goto a comparar con la cola</param>
         /// <returns></returns>
-        private bool contains(C_Go_to compare) { //metodo de contains que cree jaja por que el de la cola no jalaba xD ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬ 
+        private bool contains(C_Go_to compare) { //metodo de contains que cree jaja por que el de la cola no jalaba xD ¬ ¬ ¬ ¬ ¬ ¬ ¬  ¬ ¬ ¬ ¬ ¬¬ ¬ ¬ ¬ ¬ ¬ ¬¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬¬ ¬ ¬ ¬ 
             //¬______¬ que feo se ve esto!!! so ademas es de dificil lectura        
             bool ban = false;
             Queue<C_Go_to> aux = new Queue<C_Go_to>();
@@ -374,12 +375,34 @@ namespace LR1_Final.LR1_Stuffs
 
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gamma"></param>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        private List<string> calculate_First_gamma_alfa(List<C_Symbol>gamma, List<string>a) {
+            List<List<C_Symbol>> main_list;
+            List<string> first_gamma_alfa;
 
 
+            first_gamma_alfa = new List<string>();
+            main_list = new List<List<C_Symbol>>();
+            foreach (string s in a) {
+                List<C_Symbol> list;
 
+                list = new List<C_Symbol>(gamma);
+                list.Add(new C_Symbol(s, 0));
+                main_list.Add(list);
+            }
 
+            foreach (List<C_Symbol>symb_list in main_list) {
 
+                first_gamma_alfa = new List<string>(this.get_first_simple_set(symb_list).First);
+            }
 
+            return first_gamma_alfa;
+        }
 
 
 
@@ -400,7 +423,6 @@ namespace LR1_Final.LR1_Stuffs
                 this.closure_elements_tmp.Insert(0, list_kernels[0]);//Se inserta sin pedos el primero elemento de la cerradura.
                 this.generate_Closure(list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Forward_search_symbols); //Se genera la cerradura correspondiente.
                 new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);
-                //this.num_state++;
             }
             else {
                 /*Recorremos cada uno de los closure_element del KERNEL, que no esta llegando*/
@@ -409,19 +431,11 @@ namespace LR1_Final.LR1_Stuffs
                     switch (this.what_generates(kernel)) {
                         case 0: /*es un TERMINAL*/
                             ///<TERMINAL GENERA GO_TO  y se agrega  a la lista de cerraduras></TERMINAL>       
-                            //new_go_to = new C_Go_to(this.num_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
-                            //this.go_tos.Enqueue(new_go_to);
-
                             break;
                         case 1:///<NOT_TERMINAL GENERA CERRADURA></NOT_TERMINAL>>
                             C_Symbol simbol_generates_closure = kernel.Production.get_symbol_next_to_DOT();
-
-                            //this.closure_elements_tmp.Insert(0, kernel);
-                            //new_go_to = new C_Go_to(this.num_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
-                            //new_go_to = new C_Go_to(this.num_state, simbol_generates_closure);
-                            //this.go_tos.Enqueue(new_go_to);
+                           
                             this.generate_Closure(simbol_generates_closure, kernel.Forward_search_symbols);
-                            //this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols);
                             break;
                         case 2:///<EPSILON Solo genera closure_element pero con solo el punto></EPSILON>                               
                             break;
@@ -459,7 +473,9 @@ namespace LR1_Final.LR1_Stuffs
         }
 
 
-   
+        /// <summary>
+        /// Genera los nuevos estados IR_A y los inserta en la Cola.
+        /// </summary>
         private void create_and_insert_go_to_S() {
             C_Go_to nw_go_to;
             
@@ -473,11 +489,13 @@ namespace LR1_Final.LR1_Stuffs
                 }
             }
         }
+
+
         /// <summary>
-            /// Obtiene el tipo de accion que ejecutara este kernel dependiendo de la posicion del marcador de Analisis.
-            /// </summary>
-            /// <param name="a_kernel">Elemento de cerradura que se esta analizando</param>
-            /// <returns>1 Si este kernel puede generar Cerradura, 2 S si solo es una transicion, 3 si el marcador de analisis se encuentra al final de la produccion</returns>
+        /// Obtiene el tipo de accion que ejecutara este kernel dependiendo de la posicion del marcador de Analisis.
+        /// </summary>
+        /// <param name="a_kernel">Elemento de cerradura que se esta analizando</param>
+        /// <returns>1 Si este kernel puede generar Cerradura, 2 S si solo es una transicion, 3 si el marcador de analisis se encuentra al final de la produccion</returns>
         private int what_generates(C_Closure_Element a_kernel)
         {
             C_Production production; //Produccion que esta contenida en el KERNEL
@@ -500,6 +518,7 @@ namespace LR1_Final.LR1_Stuffs
         }
 
 
+
         /// <summary>
         /// Empezamos a generar el Primero Kernel el cual no servira para iniciar la creacion del AFD
         /// </summary>
@@ -519,6 +538,8 @@ namespace LR1_Final.LR1_Stuffs
             //this.list_states.Add(this.generate_new_state(dummy_list, 0, new C_Go_to())); //Generacion del Estado CERO del automata.
             this.list_states.Add(this.create_new_state(dummy_list, 0, new C_Go_to())); //Generacion del Estado CERO del automata.
         }
+
+
         /// <summary>
         /// Busca estado del goto en la lista de estados
         /// </summary>
