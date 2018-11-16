@@ -265,7 +265,7 @@ namespace LR1_Final.LR1_Stuffs
 
 
         /// <summary>
-        /// Funcion que genera genera la lista de simbolos juntando gama y a!!!
+        /// ESTO ES DESECHABLE!!!
         /// </summary>
         /// <param name="cerradura"></param>
         /// <param name="forward_search_symbols"></param>
@@ -300,7 +300,7 @@ namespace LR1_Final.LR1_Stuffs
 
 
         /// <summary>
-        /// Genera un nuevo estado del AFD
+        /// ESTO ES desechable!!!!
         /// </summary>
         /// <param name="list_kernels"></param>
         /// <param name="current_state"></param>
@@ -382,26 +382,25 @@ namespace LR1_Final.LR1_Stuffs
         /// <param name="a"></param>
         /// <returns></returns>
         private List<string> calculate_First_gamma_alfa(List<C_Symbol>gamma, List<string>a) {
-            List<List<C_Symbol>> main_list;
-            List<string> first_gamma_alfa;
-
+            List<List<C_Symbol>> main_list; //Lista de listas para contener las diversas concatenaciones que pudiesen existir.
+            List<string> first_gamma_alfa; //Lista donde se acumularan todos los primero calculados.
+            List<C_Symbol> list;//Lista donde se generan almacenan las concatenaciones de los simbolos.
+            C_First_Element tmp_first_element;// Aqui se guarda el conjunto primero final....Final.
 
             first_gamma_alfa = new List<string>();
             main_list = new List<List<C_Symbol>>();
             foreach (string s in a) {
-                List<C_Symbol> list;
-
                 list = new List<C_Symbol>(gamma);
                 list.Add(new C_Symbol(s, 0));
                 main_list.Add(list);
             }
-
-            foreach (List<C_Symbol>symb_list in main_list) {
-
-                first_gamma_alfa = new List<string>(this.get_first_simple_set(symb_list).First);
-            }
-
-            return first_gamma_alfa;
+            first_gamma_alfa = new List<string>();
+            foreach (List<C_Symbol>symb_list in main_list) 
+                first_gamma_alfa.AddRange(this.get_first_simple_set(symb_list).First);            
+            tmp_first_element = new C_First_Element();
+            foreach (string s in first_gamma_alfa) 
+                tmp_first_element.add_symbol(s);           
+            return tmp_first_element.First;
         }
 
 
@@ -525,7 +524,7 @@ namespace LR1_Final.LR1_Stuffs
         /// <returns></returns>
         private void creates_zero_state()
         {
-
+               
             C_Closure_Element kernel_0;
             List<string> forward_search_search_simbols;
             List<C_Closure_Element> dummy_list;

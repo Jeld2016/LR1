@@ -32,7 +32,7 @@ namespace LR1_Final.LR1_Stuffs.First_Stuffs
         {
             this.no_terminal = name_set;    
             this.first = new List<string>();
-        }
+        }   
 
 
         /// <summary>
