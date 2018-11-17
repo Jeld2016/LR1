@@ -234,6 +234,16 @@ namespace LR1_Final.LR1_Stuffs
         }
 
 
+        private void do_expansion(C_Symbol expansion_symbol, List<C_Symbol> gamma, List<string> look_up_symbols)
+        {
+            List<C_Production> productions = this.grammar.get_Productions(expansion_symbol.Symbol);
+
+            for (int i = 0; i < productions.Count; i++) {
+
+            }
+        }
+
+
         /// <summary>
         /// Metodo utilizado para saber si un goto se encuentra en la cola de gotos
         /// </summary>
@@ -564,24 +574,38 @@ namespace LR1_Final.LR1_Stuffs
         /// <param name="just_aProduction">Produccion con la que se esta generand el elemento de cerradura</param>
         /// <param name="new_forward_search_simbols">Simbolos de busqueda hacia adelante para este elemento de cerradura</param>
         /// <returns></returns>
-        private C_Closure_Element creates_NUCLEAR_LR0_element(C_Production just_aProduction, List<string> new_forward_search_simbols)
-        {
+        private C_Closure_Element creates_NUCLEAR_LR0_element(C_Production just_aProduction, List<string> new_forward_search_simbols) {
             C_Production nw_production;
             C_Closure_Element nuclear_element;
 
             nw_production = new C_Production(just_aProduction.Producer);
             nw_production.Right.Add(new C_Symbol(".", 3));//se insertan dos puntos 
-            foreach (C_Symbol simple_symbol in just_aProduction.Right)
-            {
+            foreach (C_Symbol simple_symbol in just_aProduction.Right) {
                 nw_production.Right.Add(simple_symbol);
             }
             nuclear_element = new C_Closure_Element(nw_production);
-            foreach (string just_str in new_forward_search_simbols)
-            {
+            foreach (string just_str in new_forward_search_simbols) {
                 nuclear_element.Forward_search_symbols.Add(just_str);
             }
 
             return nuclear_element;
+        }
+
+
+
+        private C_Closure_Element creates_LR1_Element_no_look_Up(C_Production production) {
+            C_Production nw_production;
+            C_Closure_Element nw_closure_element;
+
+            nw_production = new C_Production(production.Producer);
+            nw_production.Right.Add(new C_Symbol(".", 3));//se insertan dos puntos 
+
+            foreach (C_Symbol symbol in production.Right) {
+                nw_production.Right.Add(symbol);
+            }
+            nw_closure_element = new C_Closure_Element(nw_production);
+
+            return nw_closure_element;
         }
 
 

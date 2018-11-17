@@ -204,7 +204,7 @@ namespace LR1_Final.Grammar_Stuffs
         /// Obtiene los simbolos que estan despues del simbolo de Expansion.
         /// </summary>
         /// <returns></returns>
-        public List<C_Symbol> get_symbol_NEXTO_Expansor() {
+        public List<C_Symbol> get_gamma() {
             int index_dot = this.index_DOT();//Obtenemos el indice del marcador de analisis(punto).
             List<C_Symbol> gamma = new List<C_Symbol>();
 
