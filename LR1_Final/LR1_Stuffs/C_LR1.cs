@@ -152,6 +152,7 @@ namespace LR1_Final.LR1_Stuffs
             int num_simbols = simbols_to_get_first.Count;
             bool we_can_brake_travel = false;
             /*Recorrido sobre cada uno de los simbolos*/
+
             for (int index_of_symbol = 0; index_of_symbol < num_simbols && !we_can_brake_travel; index_of_symbol++)
             {
                 C_Symbol consequent = simbols_to_get_first[index_of_symbol];
@@ -191,230 +192,81 @@ namespace LR1_Final.LR1_Stuffs
         }
 
 
-        /// <summary>
-        /// Le llegan chingaderas como esta:
-        /// {[S' -> .S, $]}
-        /// {[S -> C.C, $]}
-        /// {[F -> (.E ), $/+/-/*]}
-        /// Que basicamente es un elemento de Cerradura.
-        /// </summary>
-        /// <param name="kernel">Cerradura de donde se podrian derivar mas estados </param>
-        private void generate_Closure(C_Symbol symbol, List<string> forward_search_symbols)
+        private void do_expansion(string producer_from, C_Symbol expansion_symbol, List<C_Symbol> gamma, List<string> look_up_symbols)
         {
-            List<C_Production> productions = this.grammar.get_Productions(symbol.Symbol);
+            List<C_Production> productions = this.grammar.get_Productions(expansion_symbol.Symbol); //Producciones que son producidas por expansion_Symbol.v
+            C_Closure_Element new_LR1_Element;
             C_Production tmp_production;
-            C_Closure_Element new_closure_Element;
-
+            List<string> first_OF_gamma_alfa;
+            int index_element_in_expansion;
 
             for (int i = 0; i < productions.Count; i++) {
-                //C_Go_to new_go_to;
-
-                tmp_production = productions[i]; //Aqui solamente se obtiene la produccion totalmente Virgen, es decir que no tiene punto
-                new_closure_Element = this.creates_NUCLEAR_LR0_element(tmp_production, forward_search_symbols);//Generamos el nuevo elemento de Cerradura LR0 a apartir de la produccion correspondiente.                              
-
-                C_Symbol tmp_symbol = new_closure_Element.Production.get_symbol_next_to_DOT();
-                C_First_Element firsttemp;
-
-                if (can_insert_closure_element(new_closure_Element) == true)
-                {
-                    closure_elements_tmp.Add(new_closure_Element);
-
-                    new_go_to = new C_Go_to(this.num_state, tmp_symbol); //Generacion de un nuevo IR_A
-                    if (!contains(new_go_to))//condicion agregada para si ese goto ya esta en cola no lo agregue otra vez
-                    {
-                        this.go_tos.Enqueue(new_go_to);
-                    }
-                    //creo que esta condicion deberia ir adrentro del if del contains pero aun no estoy muy seguro
-                    if (tmp_symbol != null)
-                    { //Si se encontro algun simbolo
-                        if (tmp_symbol.Type_symbol == 1)
-                        { //Si el simbolo es NO TERMINAL entonces genera cerradura. 
-                            C_Symbol auxc = new C_Symbol();
-                            firsttemp = get_first_simple_set(cadenaalfa(new_closure_Element.Production, forward_search_symbols,ref auxc));
-                            produccionexistente(firsttemp.First, auxc);
-                            generate_Closure(tmp_symbol, firsttemp.First);
-                            
-                        }
-                    }
-                }
-            }
-        }
-
-        private void produccionexistente(List<string> f,C_Symbol auxc)
-        {
-            for (int k = 0; k < closure_elements_tmp.Count; k++)
-            {
-                if (closure_elements_tmp[k].Production.Producer == auxc.Symbol)
-                {
-                    for (int i = 0; i < f.Count; i++)
-                    {
-                        if (!closure_elements_tmp[k].Forward_search_symbols.Contains(f[i]))
+                tmp_production = productions[i];
+                new_LR1_Element = this.creates_LR1_Element_no_look_Up_Symbols(tmp_production);//Creacion de elemento LR1 pero sin simbolos de busqueda hacia adelante.
+                index_element_in_expansion = this.exist_LR1_element_IN_Expansion(new_LR1_Element);
+                first_OF_gamma_alfa = this.calculate_First_gamma_alfa(gamma, look_up_symbols);//Calculo de simbolos de busqueda hacia adelante.
+                if (index_element_in_expansion == -1) { //El nuevo elemento LR1, no existe en la expansion.                    
+                    C_Symbol nw_expansion_symbol; 
+                    
+                    new_LR1_Element.add_look_up_symbols(first_OF_gamma_alfa); //Agregamos dichos simbolos al nuevo elemento LR1
+                    if (string.Compare(producer_from, new_LR1_Element.Production.Producer) == 0)
+                        new_LR1_Element.append_look_up_symbols(look_up_symbols);
+                    this.closure_elements_tmp.Add(new_LR1_Element);
+                    nw_expansion_symbol = new_LR1_Element.Production.get_symbol_next_to_DOT();  //Obtenemos el siguiente simbolo que podria seguir generando Expansion
+                    if (nw_expansion_symbol != null) {
+                        if(nw_expansion_symbol.Type_symbol == 1)
                         {
-                            closure_elements_tmp[k].Forward_search_symbols.Add(f[i]);
+                            List<C_Symbol> nw_gamma;
+                            nw_gamma = new_LR1_Element.Production.get_gamma();
+                            this.do_expansion(new_LR1_Element.Production.Producer, nw_expansion_symbol, nw_gamma, new_LR1_Element.Forward_search_symbols);
                         }
                     }
                 }
+                else {
+                    this.closure_elements_tmp[index_element_in_expansion].append_look_up_symbols(first_OF_gamma_alfa);
+                }
+                    
             }
         }
 
 
         /// <summary>
-        /// Metodo utilizado para saber si un goto se encuentra en la cola de gotos
+        /// Realiza el calculo de Primero(Gamma-Alfa)
         /// </summary>
-        /// <param name="compare">goto a comparar con la cola</param>
-        /// <returns></returns>
-        private bool contains(C_Go_to compare) { //metodo de contains que cree jaja por que el de la cola no jalaba xD ¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬ 
-            //¬______¬ que feo se ve esto!!! so ademas es de dificil lectura        
-            bool ban = false;
-            Queue<C_Go_to> aux = new Queue<C_Go_to>();
 
-            while (go_tos.Count != 0 && go_tos != null)
+        /// <param name="gamma">Si gamma es null se retorna directamente Alfa</param>
+        /// <param name="a">Lista de cadenas que representa cada simbolo de Alfa</param>
+        /// <returns>El calculo realizado si, Gamma != null, de lo contrario se retorna Alfa</returns>
+        private List<string> calculate_First_gamma_alfa(List<C_Symbol>gamma, List<string>a) {
+            List<List<C_Symbol>> main_list; //Lista de listas para contener las diversas concatenaciones que pudiesen existir.
+            List<string> first_gamma_alfa; //Lista donde se acumularan todos los primero calculados.
+            List<C_Symbol> list;//Lista donde se generan almacenan las concatenaciones de los simbolos.
+            C_First_Element tmp_first_element;// Aqui se guarda el conjunto primero final....Final.
+
+            first_gamma_alfa = new List<string>();
+            main_list = new List<List<C_Symbol>>();
+            //<<<<<PARTE CONCATENACION>>>>>>>>>>
+            if (gamma != null)
+
             {
-                C_Go_to a = go_tos.Dequeue();
-                if (a.State == compare.State && a.Symbol_state.Symbol == compare.Symbol_state.Symbol && a.Symbol_state.Type_symbol == compare.Symbol_state.Type_symbol && ban != true)
+                foreach (string s in a)
                 {
-                    ban = true;
+                    list = new List<C_Symbol>(gamma);
+                    list.Add(new C_Symbol(s, 0));
+                    main_list.Add(list);
                 }
-                aux.Enqueue(a);
             }
+            else            
+                return a;           
+             first_gamma_alfa = new List<string>();
+            foreach (List<C_Symbol>symb_list in main_list) 
+                first_gamma_alfa.AddRange(this.get_first_simple_set(symb_list).First);//Get first simple regresa una lista             
+            tmp_first_element = new C_First_Element();
+            foreach (string s in first_gamma_alfa) 
+                tmp_first_element.add_symbol(s);           
+            return tmp_first_element.First;
 
-            go_tos.Clear();
-            while (aux.Count != 0 && aux != null)
-            {
-                go_tos.Enqueue(aux.Dequeue());
-            }
-            return ban;
         }
-
-
-
-        /// <summary>
-        /// Funcion que genera genera la lista de simbolos juntando gama y a!!!
-        /// </summary>
-        /// <param name="cerradura"></param>
-        /// <param name="forward_search_symbols"></param>
-        /// <returns></returns>
-        private List<C_Symbol> cadenaalfa(C_Production cerradura, List<string> forward_search_symbols,  ref C_Symbol  auxc)
-        {
-            List<C_Symbol> aux2 = new List<C_Symbol>();
-            List<C_Symbol> aux = new List<C_Symbol>();
-            auxc = new C_Symbol();
-            int index = cerradura.index_DOT();
-            if (cerradura.Get_Right().Count > index)
-            {
-                for (int i = index; i < cerradura.Get_Right().Count; i++)
-                {
-                    if (i != index + 1 && i != index)
-                    {
-                        aux.Add(cerradura.Get_Right()[i]);
-                    }
-                    if (i == index + 1)
-                    {
-                        auxc = cerradura.Get_Right()[i];
-                    }
-                }
-            }
-
-            
-            for (int k = 0; k < aux.Count; k++)
-            {
-                aux2.Add(aux[k]);
-            }
-            for (int j = 0; j < forward_search_symbols.Count; j++)
-            {
-                C_Symbol a = new C_Symbol(forward_search_symbols[j], 0);
-                aux2.Add(a);
-            }
-
-            
-
-            return aux2;
-        }
-
-
-        /// <summary>
-        /// Genera un nuevo estado del AFD
-        /// </summary>
-        /// <param name="list_kernels"></param>
-        /// <param name="current_state"></param>
-        /// <returns></returns>
-        private C_LR1_Element generate_new_state(List<C_Closure_Element> list_kernels, int current_state, C_Go_to state_go_to)
-        {
-            C_Go_to new_go_to = new C_Go_to();
-            C_LR1_Element new_state = new C_LR1_Element();
-
-            this.closure_elements_tmp = new List<C_Closure_Element>();
-            
-            if (this.num_state == 0)  //OBVIAMENTE SE HACE LA CERRADURA xD
-            {
-                this.closure_elements_tmp.Insert(0, list_kernels[0]);
-                new_go_to = new C_Go_to(this.num_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
-                this.go_tos.Enqueue(new_go_to);
-                this.generate_Closure(list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Forward_search_symbols);
-                new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);
-                this.num_state++;
-            }
-            else
-            {
-                /*Regresa el indice de la produccion que contiene este mismo kernel*/
-                int t = exist_kernel(list_kernels); 
-                /*
-                 * Aqui se verifica si el Kernel YA EXISTE en  alguno de los estados.
-                 */
-                if (t != -1) {
-                    /*El kernel fue encontrado en el indice t*/
-                    /*
-                     * TOCA VERIFICAR QUE LA CERRADURA NO SEA LA MISMA.
-                     */
-                    C_LR1_Element C = list_states[t];
-
-                    new_state = new C_LR1_Element(closure_elements_tmp, C.Num_state, list_kernels, state_go_to);
-
-                    //C.My_go_to.Add(state_go_to);
-                }
-                else
-                {
-                    foreach (C_Closure_Element kernel in list_kernels)
-                    {
-                        this.closure_elements_tmp.Add(kernel);
-                        switch (this.what_generates(kernel))
-                        {
-                            case 0: /// <TERMINAL GENERA GO_TO  y se agrega  a la lista de cerraduras></TERMINAL>                                
-                                new_go_to = new C_Go_to(this.num_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
-                                this.go_tos.Enqueue(new_go_to);                              
-                                break;
-                            case 1:///<NOT_TERMINAL GENERA CERRADURA></NOT_TERMINAL>>
-                                C_Production production_kernel = kernel.Production;
-                                C_Symbol simbol_generates_closure = kernel.Production.get_symbol_next_to_DOT();
-
-                                //this.closure_elements_tmp.Insert(0, kernel);
-                                //new_go_to = new C_Go_to(this.num_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
-                                new_go_to = new C_Go_to(this.num_state, simbol_generates_closure);
-                                this.go_tos.Enqueue(new_go_to);
-                                
-                                this.generate_Closure(simbol_generates_closure, kernel.Forward_search_symbols);
-                                //this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols);
-                                break;
-                            case 2:///<EPSILON Solo genera closure_element pero con solo el punto></EPSILON>
-                                break;
-                        }
-                    }
-                    new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);
-                    this.num_state++;
-                }
-            }
-            return new_state;
-        }
-
-
-
-
-
-
-
-
-
-
 
 
         /// <summary>
@@ -428,72 +280,58 @@ namespace LR1_Final.LR1_Stuffs
         {
             C_Go_to new_go_to = new C_Go_to();
             C_LR1_Element new_state = new C_LR1_Element();
+           bool is_repeated_state = false;
 
             this.closure_elements_tmp = new List<C_Closure_Element>();
+
             if (this.num_state == 0) { //ES EL ESTADO 0. AQUI obviamente se hace todo bien y bonito
                 this.closure_elements_tmp.Insert(0, list_kernels[0]);//Se inserta sin pedos el primero elemento de la cerradura.
-                this.generate_Closure(list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Forward_search_symbols); //Se genera la cerradura correspondiente.
+                this.do_expansion(list_kernels[0].Production.Producer , list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Production.get_gamma(), list_kernels[0].Forward_search_symbols);
                 new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);
-                //this.num_state++;
             }
             else {
-                /*Recorremos cada uno de los closure_element del KERNEL, que no esta llegando*/
-                foreach (C_Closure_Element kernel in list_kernels) {
-                    this.closure_elements_tmp.Add(kernel);
-                    switch (this.what_generates(kernel)) {
-                        case 0: /*es un TERMINAL*/
-                            ///<TERMINAL GENERA GO_TO  y se agrega  a la lista de cerraduras></TERMINAL>       
-                            //new_go_to = new C_Go_to(this.num_state, kernel.Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
-                            //this.go_tos.Enqueue(new_go_to);
+                int state_repeated = this.exist_kernel(list_kernels);
 
-                            break;
-                        case 1:///<NOT_TERMINAL GENERA CERRADURA></NOT_TERMINAL>>
-                            C_Symbol simbol_generates_closure = kernel.Production.get_symbol_next_to_DOT();
-
-                            //this.closure_elements_tmp.Insert(0, kernel);
-                            //new_go_to = new C_Go_to(this.num_state, list_kernels[0].Production.get_symbol_next_to_DOT()); //Generacion de un nuevo IR_A
-                            //new_go_to = new C_Go_to(this.num_state, simbol_generates_closure);
-                            //this.go_tos.Enqueue(new_go_to);
-                            this.generate_Closure(simbol_generates_closure, kernel.Forward_search_symbols);
-                            //this.generate_Closure(production_kernel.Right[index_dot + 1], kernel.Forward_search_symbols);
-                            break;
-                        case 2:///<EPSILON Solo genera closure_element pero con solo el punto></EPSILON>                               
-                            break;
-                    }
-                }
-            }
-            /*
-             * Para esto la cerradura ya esta generada.
-             */
-            //Aqui toca evaluar las condiciones de Generacion e insercion  de Nuevos Go_To´s y Estados.
-            int t, num_state_to_insert = -1;
-            bool is_repeated_state;
-            
-            t = exist_kernel(list_kernels);
-            is_repeated_state = false;
-            if (t != -1) { //El Kernel existe en algun estado.
-                C_LR1_Element lr1_element_tmp = list_states[t];
-                bool closure_exist;
-
-                closure_exist = lr1_element_tmp.closure_Exist(this.closure_elements_tmp);                
-                if (closure_exist) { //La cerradura existe, por tanto es un Estado Repetido                              
-                    closure_elements_tmp.Clear();//La cerradura se establece como vacia.
-                    num_state_to_insert = lr1_element_tmp.Num_state; //Se toma el numero de estado, del Estado Repetido.
-                    //new_state = new C_LR1_Element(closure_elements_tmp, lr1_element_tmp.Num_state, list_kernels, state_go_to);
+                if (state_repeated != -1) { /*Si state_repeated = 1, indica que el estado no esta repetido*/
+                    C_LR1_Element lr1_element_tmp = list_states[state_repeated];
+                    new_state = new C_LR1_Element(closure_elements_tmp, lr1_element_tmp.Num_state, list_kernels, state_go_to);
                     is_repeated_state = true;
-                }
-            }
-            if (!is_repeated_state) {//Si el estado no es un estado repetido, entonces podemos prosegu  ir con la creacion e insercion de los IR_A               
-                num_state_to_insert = this.num_state;
+                } else {// Si el estado no esta Repetido hace Cosas.
+                    foreach (C_Closure_Element kernel in list_kernels)
+                    {
+                        this.closure_elements_tmp.Add(kernel);
+
+                        int action = this.what_generates(kernel);
+
+                        switch (action)
+                        {
+                            case 0: /*es un TERMINAL*/
+                                    ///<TERMINAL GENERA GO_TO  y se agrega  a la lista de cerraduras></TERMINAL>       
+                                break;
+                            case 1:///<NOT_TERMINAL GENERA EXPANSION></NOT_TERMINAL>>
+                                //C_Symbol simbol_generates_closure = kernel.Production.get_symbol_next_to_DOT();
+
+                                //this.generate_Closure(simbol_generates_closure, kernel.Forward_search_symbols);
+                                this.do_expansion(kernel.Production.Producer, kernel.Production.get_symbol_next_to_DOT(), kernel.Production.get_gamma(), kernel.Forward_search_symbols);
+                                break;
+                            case 2:///<EPSILON Solo genera closure_element pero con solo el punto></EPSILON>                               
+                                break;
+                        }
+                    }                   
+                    new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);                    
+                }                                
+            }           
+            if (!is_repeated_state) {//Si el estado no es un estado repetido, entonces podemos prosegu  ir con la creacion e insercion de los IR_A                              
                 this.create_and_insert_go_to_S();
-                this.num_state++;                
-            }            
-            new_state = new C_LR1_Element(closure_elements_tmp, num_state_to_insert, list_kernels, state_go_to);
+                this.num_state++;
+            }
             return new_state;
         }
 
 
-   
+        /// <summary>
+        /// Genera los nuevos estados IR_A y los inserta en la Cola.
+        /// </summary>
         private void create_and_insert_go_to_S() {
             C_Go_to nw_go_to;
             
@@ -507,11 +345,13 @@ namespace LR1_Final.LR1_Stuffs
                 }
             }
         }
+
+
         /// <summary>
-            /// Obtiene el tipo de accion que ejecutara este kernel dependiendo de la posicion del marcador de Analisis.
-            /// </summary>
-            /// <param name="a_kernel">Elemento de cerradura que se esta analizando</param>
-            /// <returns>1 Si este kernel puede generar Cerradura, 2 S si solo es una transicion, 3 si el marcador de analisis se encuentra al final de la produccion</returns>
+        /// Obtiene el tipo de accion que ejecutara este kernel dependiendo de la posicion del marcador de Analisis.
+        /// </summary>
+        /// <param name="a_kernel">Elemento de cerradura que se esta analizando</param>
+        /// <returns>1 Si este kernel puede generar Cerradura, 2 S si solo es una transicion, 3 si el marcador de analisis se encuentra al final de la produccion</returns>
         private int what_generates(C_Closure_Element a_kernel)
         {
             C_Production production; //Produccion que esta contenida en el KERNEL
@@ -534,13 +374,14 @@ namespace LR1_Final.LR1_Stuffs
         }
 
 
+
         /// <summary>
         /// Empezamos a generar el Primero Kernel el cual no servira para iniciar la creacion del AFD
         /// </summary>
         /// <returns></returns>
         private void creates_zero_state()
         {
-
+               
             C_Closure_Element kernel_0;
             List<string> forward_search_search_simbols;
             List<C_Closure_Element> dummy_list;
@@ -553,6 +394,8 @@ namespace LR1_Final.LR1_Stuffs
             //this.list_states.Add(this.generate_new_state(dummy_list, 0, new C_Go_to())); //Generacion del Estado CERO del automata.
             this.list_states.Add(this.create_new_state(dummy_list, 0, new C_Go_to())); //Generacion del Estado CERO del automata.
         }
+
+
         /// <summary>
         /// Busca estado del goto en la lista de estados
         /// </summary>
@@ -578,24 +421,38 @@ namespace LR1_Final.LR1_Stuffs
         /// <param name="just_aProduction">Produccion con la que se esta generand el elemento de cerradura</param>
         /// <param name="new_forward_search_simbols">Simbolos de busqueda hacia adelante para este elemento de cerradura</param>
         /// <returns></returns>
-        private C_Closure_Element creates_NUCLEAR_LR0_element(C_Production just_aProduction, List<string> new_forward_search_simbols)
-        {
+        private C_Closure_Element creates_NUCLEAR_LR0_element(C_Production just_aProduction, List<string> new_forward_search_simbols) {
             C_Production nw_production;
             C_Closure_Element nuclear_element;
 
             nw_production = new C_Production(just_aProduction.Producer);
             nw_production.Right.Add(new C_Symbol(".", 3));//se insertan dos puntos 
-            foreach (C_Symbol simple_symbol in just_aProduction.Right)
-            {
+            foreach (C_Symbol simple_symbol in just_aProduction.Right) {
                 nw_production.Right.Add(simple_symbol);
             }
             nuclear_element = new C_Closure_Element(nw_production);
-            foreach (string just_str in new_forward_search_simbols)
-            {
+            foreach (string just_str in new_forward_search_simbols) {
                 nuclear_element.Forward_search_symbols.Add(just_str);
             }
 
             return nuclear_element;
+        }
+
+
+
+        private C_Closure_Element creates_LR1_Element_no_look_Up_Symbols(C_Production production) {
+            C_Production nw_production;
+            C_Closure_Element nw_closure_element;
+
+            nw_production = new C_Production(production.Producer);
+            nw_production.Right.Add(new C_Symbol(".", 3));//se insertan dos puntos 
+
+            foreach (C_Symbol symbol in production.Right) {
+                nw_production.Right.Add(symbol);
+            }
+            nw_closure_element = new C_Closure_Element(nw_production);
+
+            return nw_closure_element;
         }
 
 
@@ -609,6 +466,7 @@ namespace LR1_Final.LR1_Stuffs
         private bool can_insert_closure_element(C_Closure_Element initial_kernel)
         {
             bool can_insert = true;
+
 
             if (this.closure_elements_tmp.Count > 0)
             {
@@ -642,6 +500,7 @@ namespace LR1_Final.LR1_Stuffs
             return can_insert;
         }
 
+        
 
         /// <summary>
         /// Determina si un KERNEL existe en algun LR1_Element(ESTADO), del AFD. 
@@ -660,6 +519,22 @@ namespace LR1_Final.LR1_Stuffs
             if (index == lenght_lr1_states)
                 return -1;
             return index;
+        }
+
+
+        private int exist_LR1_element_IN_Expansion(C_Closure_Element lr1_element_incoming) {
+            int index;
+            int lenght_elements_in_expansion = this.closure_elements_tmp.Count;
+            C_Closure_Element closure_element_in_Expansion;
+
+            for (  index = 0; index < lenght_elements_in_expansion; index++) {
+                closure_element_in_Expansion = this.closure_elements_tmp[index];
+                if (closure_element_in_Expansion.Production.is_equal_to_Other_C_Production(lr1_element_incoming.Production) == true)//Determinamos si el Elemento LR1 esta dentro de la expansion, esto comparando las producciones de ambos
+                    break;
+            }
+            if (index == lenght_elements_in_expansion)
+                return -1;//No se encontro ningun elemento en la expansion
+            return index;//Retornamos el indice del elemento dentro de la expansion que es igual.
         }
 
 

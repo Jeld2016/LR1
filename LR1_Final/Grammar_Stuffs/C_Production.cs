@@ -102,7 +102,9 @@ namespace LR1_Final.Grammar_Stuffs
         }
 
 
-
+        /// <summary>
+        /// Metodo Ferseño
+        /// </summary>
         public void swap_point()
         {
 
@@ -152,6 +154,7 @@ namespace LR1_Final.Grammar_Stuffs
 
         }
 
+
         /// <summary>
         /// Obtiene el indice en el que se encuentra el punto dentro de la lista de simbolos que pertence a la parte 
         /// derecha de la produccion
@@ -182,6 +185,7 @@ namespace LR1_Final.Grammar_Stuffs
 
             if (string.Compare(incoming_production.Producer, this.producer) == 0) {
                 if (this.right.Count == incoming_production.Right.Count) {
+
                     int i;
 
                     for (i = 0; i < this.right.Count; i++) {
@@ -193,6 +197,21 @@ namespace LR1_Final.Grammar_Stuffs
                 }
             }
             return equal;
+        }
+
+
+        /// <summary>
+        /// Obtiene los simbolos que estan despues del simbolo de Expansion.
+        /// </summary>
+        /// <returns></returns>
+        public List<C_Symbol> get_gamma() {
+            int index_dot = this.index_DOT();//Obtenemos el indice del marcador de analisis(punto).
+            List<C_Symbol> gamma = new List<C_Symbol>();
+
+            for (index_dot = index_dot + 2; index_dot < this.right.Count; index_dot++) {//Si no se cumple la condicion jamas entrara a este caso.
+                gamma.Add(this.right[index_dot]);
+            }
+            return (gamma.Count > 0) ? gamma : null;            
         }
     }
 }
