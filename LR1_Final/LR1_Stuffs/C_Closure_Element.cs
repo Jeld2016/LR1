@@ -41,6 +41,15 @@ namespace LR1_Final.LR1_Stuffs
         }
 
 
+        public void append_look_up_symbols(List<string>lookup_symbs) {
+            foreach (string simple_string in lookup_symbs)
+                if (this.forward_search_symbols.Contains(simple_string) == false)
+                    this.forward_search_symbols.Add(simple_string);
+        }
+
+        public void add_look_up_symbols(List<string> lookup_symbs) {
+            this.forward_search_symbols = new List<string>(lookup_symbs);
+        }
 
         /// <summary>
         /// Crea una instancia de un elemento de Cerradura
