@@ -149,10 +149,11 @@ namespace LR1_Final.LR1_Stuffs
 
                     cl_Element0 = this.kernel[index_closure_element];
                     cl_Element1 = a_kernel[index_closure_element];
-                    if (cl_Element0.Closure_Element_is_Equal_to_Another_Closure(cl_Element1.Production, cl_Element1.Forward_search_symbols) == true)
+                    //if (cl_Element0.Closure_Element_is_Equal_to_Another_Closure(cl_Element1.Production, cl_Element1.Forward_search_symbols) == true)
+                    if (cl_Element0.Closure_Element_is_Equal_to_Another_Closure(cl_Element1.Production, cl_Element1.Forward_search_symbols) == false)
                         break;
                 }
-                if (index_closure_element < length_kernel) //En algun momento se encontro la  <
+                if (index_closure_element == length_kernel) //En algun momento se encontro la  <
                     exist = true;
             }          
             return exist;
