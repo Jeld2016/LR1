@@ -87,14 +87,14 @@ namespace LR1_Final.LR1_Stuffs
             if (this.production.is_equal_to_Other_C_Production(incoming_pr) == true)
             {
                 int length_list = this.forward_search_symbols.Count;
-                if (length_list == incoming_srch_symb.Count)
-                {
+                if (length_list == incoming_srch_symb.Count) {
                     int index;
 
-                    for (index = 0; index < length_list; index++)
-                    {
-                        if (string.Compare(this.Forward_search_symbols[index], incoming_srch_symb[index]) != 0)
+                    for (index = 0; index < length_list; index++) {
+                        if (this.forward_search_symbols.Contains(incoming_srch_symb[index]) == false)
                             break;
+                        //if (string.Compare(this.Forward_search_symbols[index], incoming_srch_symb[index]) != 0)
+                        //    break;
                     }
                     if (index == length_list)
                         equal = true;

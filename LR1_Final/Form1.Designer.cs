@@ -130,7 +130,7 @@
             this.dataGrid_LR1.Location = new System.Drawing.Point(468, 27);
             this.dataGrid_LR1.Name = "dataGrid_LR1";
             this.dataGrid_LR1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGrid_LR1.Size = new System.Drawing.Size(1418, 332);
+            this.dataGrid_LR1.Size = new System.Drawing.Size(1418, 548);
             this.dataGrid_LR1.TabIndex = 3;
             // 
             // Go_To
@@ -173,7 +173,7 @@
             // 
             // button_build_Parser
             // 
-            this.button_build_Parser.Location = new System.Drawing.Point(1033, 383);
+            this.button_build_Parser.Location = new System.Drawing.Point(1112, 605);
             this.button_build_Parser.Name = "button_build_Parser";
             this.button_build_Parser.Size = new System.Drawing.Size(132, 23);
             this.button_build_Parser.TabIndex = 5;
