@@ -35,16 +35,16 @@
             this.guardarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgrid_first_table = new System.Windows.Forms.DataGridView();
-            this.No_Terminal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Conjunto_Primero = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGrid_LR1 = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button_build_Parser = new System.Windows.Forms.Button();
             this.Go_To = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Kernel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Num_State = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Closure = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button_build_Parser = new System.Windows.Forms.Button();
+            this.No_Terminal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Conjunto_Primero = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgrid_first_table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_LR1)).BeginInit();
@@ -106,18 +106,8 @@
             this.Conjunto_Primero});
             this.dgrid_first_table.Location = new System.Drawing.Point(13, 383);
             this.dgrid_first_table.Name = "dgrid_first_table";
-            this.dgrid_first_table.Size = new System.Drawing.Size(449, 245);
+            this.dgrid_first_table.Size = new System.Drawing.Size(323, 245);
             this.dgrid_first_table.TabIndex = 2;
-            // 
-            // No_Terminal
-            // 
-            this.No_Terminal.HeaderText = "No_Terminal";
-            this.No_Terminal.Name = "No_Terminal";
-            // 
-            // Conjunto_Primero
-            // 
-            this.Conjunto_Primero.HeaderText = "Conjunto_Primero";
-            this.Conjunto_Primero.Name = "Conjunto_Primero";
             // 
             // dataGrid_LR1
             // 
@@ -130,28 +120,8 @@
             this.dataGrid_LR1.Location = new System.Drawing.Point(468, 27);
             this.dataGrid_LR1.Name = "dataGrid_LR1";
             this.dataGrid_LR1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGrid_LR1.Size = new System.Drawing.Size(1418, 548);
+            this.dataGrid_LR1.Size = new System.Drawing.Size(1444, 548);
             this.dataGrid_LR1.TabIndex = 3;
-            // 
-            // Go_To
-            // 
-            this.Go_To.HeaderText = "Go_To";
-            this.Go_To.Name = "Go_To";
-            // 
-            // Kernel
-            // 
-            this.Kernel.HeaderText = "Nucleo";
-            this.Kernel.Name = "Kernel";
-            // 
-            // Num_State
-            // 
-            this.Num_State.HeaderText = "Num_State";
-            this.Num_State.Name = "Num_State";
-            // 
-            // Closure
-            // 
-            this.Closure.HeaderText = "Cerradura";
-            this.Closure.Name = "Closure";
             // 
             // label1
             // 
@@ -180,6 +150,39 @@
             this.button_build_Parser.Text = "Generar";
             this.button_build_Parser.UseVisualStyleBackColor = true;
             this.button_build_Parser.Click += new System.EventHandler(this.button_build_Parser_Click);
+            // 
+            // Go_To
+            // 
+            this.Go_To.HeaderText = "Go_To";
+            this.Go_To.Name = "Go_To";
+            // 
+            // Kernel
+            // 
+            this.Kernel.HeaderText = "Nucleo";
+            this.Kernel.Name = "Kernel";
+            this.Kernel.Width = 500;
+            // 
+            // Num_State
+            // 
+            this.Num_State.HeaderText = "Num_State";
+            this.Num_State.Name = "Num_State";
+            // 
+            // Closure
+            // 
+            this.Closure.HeaderText = "Cerradura";
+            this.Closure.Name = "Closure";
+            this.Closure.Width = 1060;
+            // 
+            // No_Terminal
+            // 
+            this.No_Terminal.HeaderText = "No_Terminal";
+            this.No_Terminal.Name = "No_Terminal";
+            // 
+            // Conjunto_Primero
+            // 
+            this.Conjunto_Primero.HeaderText = "Conjunto_Primero";
+            this.Conjunto_Primero.Name = "Conjunto_Primero";
+            this.Conjunto_Primero.Width = 200;
             // 
             // Form1
             // 
@@ -218,12 +221,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button_build_Parser;
-        private System.Windows.Forms.DataGridViewTextBoxColumn No_Terminal;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Conjunto_Primero;
         private System.Windows.Forms.DataGridViewTextBoxColumn Go_To;
         private System.Windows.Forms.DataGridViewTextBoxColumn Kernel;
         private System.Windows.Forms.DataGridViewTextBoxColumn Num_State;
         private System.Windows.Forms.DataGridViewTextBoxColumn Closure;
+        private System.Windows.Forms.DataGridViewTextBoxColumn No_Terminal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Conjunto_Primero;
     }
 }
 

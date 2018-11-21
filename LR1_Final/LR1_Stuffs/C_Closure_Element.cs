@@ -93,8 +93,6 @@ namespace LR1_Final.LR1_Stuffs
                     for (index = 0; index < length_list; index++) {
                         if (this.forward_search_symbols.Contains(incoming_srch_symb[index]) == false)
                             break;
-                        //if (string.Compare(this.Forward_search_symbols[index], incoming_srch_symb[index]) != 0)
-                        //    break;
                     }
                     if (index == length_list)
                         equal = true;
