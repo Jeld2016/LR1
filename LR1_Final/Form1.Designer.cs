@@ -35,19 +35,22 @@
             this.guardarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgrid_first_table = new System.Windows.Forms.DataGridView();
+            this.No_Terminal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Conjunto_Primero = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGrid_LR1 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button_build_Parser = new System.Windows.Forms.Button();
             this.Go_To = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Kernel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Num_State = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Closure = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.No_Terminal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Conjunto_Primero = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button_build_Parser = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.Table_LR1 = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgrid_first_table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_LR1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Table_LR1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox_Input
@@ -55,7 +58,7 @@
             this.textBox_Input.Location = new System.Drawing.Point(12, 27);
             this.textBox_Input.Multiline = true;
             this.textBox_Input.Name = "textBox_Input";
-            this.textBox_Input.Size = new System.Drawing.Size(450, 332);
+            this.textBox_Input.Size = new System.Drawing.Size(304, 158);
             this.textBox_Input.TabIndex = 0;
             // 
             // menuStrip1
@@ -64,7 +67,7 @@
             this.archivoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1924, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1370, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -104,10 +107,21 @@
             this.dgrid_first_table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.No_Terminal,
             this.Conjunto_Primero});
-            this.dgrid_first_table.Location = new System.Drawing.Point(13, 383);
+            this.dgrid_first_table.Location = new System.Drawing.Point(22, 236);
             this.dgrid_first_table.Name = "dgrid_first_table";
             this.dgrid_first_table.Size = new System.Drawing.Size(323, 245);
             this.dgrid_first_table.TabIndex = 2;
+            // 
+            // No_Terminal
+            // 
+            this.No_Terminal.HeaderText = "No_Terminal";
+            this.No_Terminal.Name = "No_Terminal";
+            // 
+            // Conjunto_Primero
+            // 
+            this.Conjunto_Primero.HeaderText = "Conjunto_Primero";
+            this.Conjunto_Primero.Name = "Conjunto_Primero";
+            this.Conjunto_Primero.Width = 200;
             // 
             // dataGrid_LR1
             // 
@@ -123,10 +137,32 @@
             this.dataGrid_LR1.Size = new System.Drawing.Size(1444, 548);
             this.dataGrid_LR1.TabIndex = 3;
             // 
+            // Go_To
+            // 
+            this.Go_To.HeaderText = "Go_To";
+            this.Go_To.Name = "Go_To";
+            // 
+            // Kernel
+            // 
+            this.Kernel.HeaderText = "Nucleo";
+            this.Kernel.Name = "Kernel";
+            this.Kernel.Width = 500;
+            // 
+            // Num_State
+            // 
+            this.Num_State.HeaderText = "Num_State";
+            this.Num_State.Name = "Num_State";
+            // 
+            // Closure
+            // 
+            this.Closure.HeaderText = "Cerradura";
+            this.Closure.Name = "Closure";
+            this.Closure.Width = 1060;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(92, 367);
+            this.label1.Location = new System.Drawing.Point(128, 211);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(87, 13);
             this.label1.TabIndex = 4;
@@ -151,44 +187,30 @@
             this.button_build_Parser.UseVisualStyleBackColor = true;
             this.button_build_Parser.Click += new System.EventHandler(this.button_build_Parser_Click);
             // 
-            // Go_To
+            // label3
             // 
-            this.Go_To.HeaderText = "Go_To";
-            this.Go_To.Name = "Go_To";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(182, 484);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(57, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Tabla LR1";
             // 
-            // Kernel
+            // Table_LR1
             // 
-            this.Kernel.HeaderText = "Nucleo";
-            this.Kernel.Name = "Kernel";
-            this.Kernel.Width = 500;
-            // 
-            // Num_State
-            // 
-            this.Num_State.HeaderText = "Num_State";
-            this.Num_State.Name = "Num_State";
-            // 
-            // Closure
-            // 
-            this.Closure.HeaderText = "Cerradura";
-            this.Closure.Name = "Closure";
-            this.Closure.Width = 1060;
-            // 
-            // No_Terminal
-            // 
-            this.No_Terminal.HeaderText = "No_Terminal";
-            this.No_Terminal.Name = "No_Terminal";
-            // 
-            // Conjunto_Primero
-            // 
-            this.Conjunto_Primero.HeaderText = "Conjunto_Primero";
-            this.Conjunto_Primero.Name = "Conjunto_Primero";
-            this.Conjunto_Primero.Width = 200;
+            this.Table_LR1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Table_LR1.Location = new System.Drawing.Point(22, 504);
+            this.Table_LR1.Name = "Table_LR1";
+            this.Table_LR1.Size = new System.Drawing.Size(332, 124);
+            this.Table_LR1.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1924, 699);
+            this.ClientSize = new System.Drawing.Size(1370, 749);
+            this.Controls.Add(this.Table_LR1);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.button_build_Parser);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -203,6 +225,7 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgrid_first_table)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_LR1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Table_LR1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,6 +250,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Closure;
         private System.Windows.Forms.DataGridViewTextBoxColumn No_Terminal;
         private System.Windows.Forms.DataGridViewTextBoxColumn Conjunto_Primero;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridView Table_LR1;
     }
 }
 

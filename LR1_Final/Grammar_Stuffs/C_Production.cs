@@ -12,6 +12,8 @@ namespace LR1_Final.Grammar_Stuffs
         /// Parte izquierda de la gramatica.
         /// </summary>
         String producer;
+
+        int numeroProduccion;
         /// <summary>
         /// Lista de simbolos que pertenecen a la parte derecha de la produccion.
         /// </summary>
@@ -49,6 +51,11 @@ namespace LR1_Final.Grammar_Stuffs
         /// </summary>
         public List<C_Symbol> Right { get => right; set => right = value; }
 
+        /// <summary>
+        /// Regresa y Establece el valor de la lista de Simbolos pertencientes a la produccion.
+        /// </summary>
+        public int NumProduc { get => numeroProduccion; set => numeroProduccion = value; }
+
 
         /// <summary>
         /// Obtiene o establece el nombre de la Produccion, es decir su NO_Terminal
@@ -64,6 +71,8 @@ namespace LR1_Final.Grammar_Stuffs
         {
             return this.Right;
         }
+
+        
 
 
 

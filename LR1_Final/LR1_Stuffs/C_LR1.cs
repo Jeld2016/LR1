@@ -27,8 +27,10 @@ namespace LR1_Final.LR1_Stuffs
         /// Lista de elementos LR1 que contiene todos los estados del automata.
         /// </summary>
         List<C_LR1_Element> list_states;
-        int num_state;
+
         
+        int num_state;
+
 
         private List<C_Closure_Element> closure_elements_tmp;
 
@@ -57,6 +59,20 @@ namespace LR1_Final.LR1_Stuffs
             foreach (string name_set in seed) { this.first_set.add_seed_first_set(name_set); }
         }
 
+        public int num_state_max()
+        {
+            int m = 0;
+            for (int i = 0; i < list_states.Count; i++)
+            {
+                if (m < list_states[i].Num_state)
+                {
+                    m = list_states[i].Num_state;
+                }
+            }
+            return m;
+        }
+        
+
 
         /// <summary>
         /// Empieza la creacion del automata del LR1
@@ -83,6 +99,7 @@ namespace LR1_Final.LR1_Stuffs
 
                 new_LR1_Element = this.create_new_state(list, tmp_go_to.State, tmp_go_to);//this.generate_new_state(list, tmp_go_to.State, tmp_go_to);
                 list_states.Add(new_LR1_Element);
+                list_production();
             }
         }
 
@@ -200,21 +217,24 @@ namespace LR1_Final.LR1_Stuffs
             List<string> first_OF_gamma_alfa;
             int index_element_in_expansion;
 
-            for (int i = 0; i < productions.Count; i++) {
+            for (int i = 0; i < productions.Count; i++)
+            {
                 tmp_production = productions[i];
                 new_LR1_Element = this.creates_LR1_Element_no_look_Up_Symbols(tmp_production);//Creacion de elemento LR1 pero sin simbolos de busqueda hacia adelante.
                 index_element_in_expansion = this.exist_LR1_element_IN_Expansion(new_LR1_Element);
                 first_OF_gamma_alfa = this.calculate_First_gamma_alfa(gamma, look_up_symbols);//Calculo de simbolos de busqueda hacia adelante.
-                if (index_element_in_expansion == -1) { //El nuevo elemento LR1, no existe en la expansion.                    
-                    C_Symbol nw_expansion_symbol; 
-                    
+                if (index_element_in_expansion == -1)
+                { //El nuevo elemento LR1, no existe en la expansion.                    
+                    C_Symbol nw_expansion_symbol;
+
                     new_LR1_Element.add_look_up_symbols(first_OF_gamma_alfa); //Agregamos dichos simbolos al nuevo elemento LR1
                     if (string.Compare(producer_from, new_LR1_Element.Production.Producer) == 0)
                         new_LR1_Element.append_look_up_symbols(look_up_symbols);
                     this.closure_elements_tmp.Add(new_LR1_Element);
                     nw_expansion_symbol = new_LR1_Element.Production.get_symbol_next_to_DOT();  //Obtenemos el siguiente simbolo que podria seguir generando Expansion
-                    if (nw_expansion_symbol != null) {
-                        if(nw_expansion_symbol.Type_symbol == 1)
+                    if (nw_expansion_symbol != null)
+                    {
+                        if (nw_expansion_symbol.Type_symbol == 1)
                         {
                             List<C_Symbol> nw_gamma;
                             nw_gamma = new_LR1_Element.Production.get_gamma();
@@ -222,10 +242,11 @@ namespace LR1_Final.LR1_Stuffs
                         }
                     }
                 }
-                else {
+                else
+                {
                     this.closure_elements_tmp[index_element_in_expansion].append_look_up_symbols(first_OF_gamma_alfa);
                 }
-                    
+
             }
         }
 
@@ -237,7 +258,8 @@ namespace LR1_Final.LR1_Stuffs
         /// <param name="gamma">Si gamma es null se retorna directamente Alfa</param>
         /// <param name="a">Lista de cadenas que representa cada simbolo de Alfa</param>
         /// <returns>El calculo realizado si, Gamma != null, de lo contrario se retorna Alfa</returns>
-        private List<string> calculate_First_gamma_alfa(List<C_Symbol>gamma, List<string>a) {
+        private List<string> calculate_First_gamma_alfa(List<C_Symbol> gamma, List<string> a)
+        {
             List<List<C_Symbol>> main_list; //Lista de listas para contener las diversas concatenaciones que pudiesen existir.
             List<string> first_gamma_alfa; //Lista donde se acumularan todos los primero calculados.
             List<C_Symbol> list;//Lista donde se generan almacenan las concatenaciones de los simbolos.
@@ -256,14 +278,14 @@ namespace LR1_Final.LR1_Stuffs
                     main_list.Add(list);
                 }
             }
-            else            
-                return a;           
-             first_gamma_alfa = new List<string>();
-            foreach (List<C_Symbol>symb_list in main_list) 
+            else
+                return a;
+            first_gamma_alfa = new List<string>();
+            foreach (List<C_Symbol> symb_list in main_list)
                 first_gamma_alfa.AddRange(this.get_first_simple_set(symb_list).First);//Get first simple regresa una lista             
             tmp_first_element = new C_First_Element();
-            foreach (string s in first_gamma_alfa) 
-                tmp_first_element.add_symbol(s);           
+            foreach (string s in first_gamma_alfa)
+                tmp_first_element.add_symbol(s);
             return tmp_first_element.First;
 
         }
@@ -280,23 +302,28 @@ namespace LR1_Final.LR1_Stuffs
         {
             C_Go_to new_go_to = new C_Go_to();
             C_LR1_Element new_state = new C_LR1_Element();
-           bool is_repeated_state = false;
+            bool is_repeated_state = false;
 
             this.closure_elements_tmp = new List<C_Closure_Element>();
 
-            if (this.num_state == 0) { //ES EL ESTADO 0. AQUI obviamente se hace todo bien y bonito
+            if (this.num_state == 0)
+            { //ES EL ESTADO 0. AQUI obviamente se hace todo bien y bonito
                 this.closure_elements_tmp.Insert(0, list_kernels[0]);//Se inserta sin pedos el primero elemento de la cerradura.
-                this.do_expansion(list_kernels[0].Production.Producer , list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Production.get_gamma(), list_kernels[0].Forward_search_symbols);
+                this.do_expansion(list_kernels[0].Production.Producer, list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Production.get_gamma(), list_kernels[0].Forward_search_symbols);
                 new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);
             }
-            else {
+            else
+            {
                 int state_repeated = this.exist_kernel(list_kernels);
 
-                if (state_repeated != -1) { /*Si state_repeated = 1, indica que el estado no esta repetido*/
+                if (state_repeated != -1)
+                { /*Si state_repeated = 1, indica que el estado no esta repetido*/
                     C_LR1_Element lr1_element_tmp = list_states[state_repeated];
                     new_state = new C_LR1_Element(closure_elements_tmp, lr1_element_tmp.Num_state, list_kernels, state_go_to);
                     is_repeated_state = true;
-                } else {// Si el estado no esta Repetido hace Cosas.
+                }
+                else
+                {// Si el estado no esta Repetido hace Cosas.
                     foreach (C_Closure_Element kernel in list_kernels)
                     {
                         this.closure_elements_tmp.Add(kernel);
@@ -317,11 +344,12 @@ namespace LR1_Final.LR1_Stuffs
                             case 2:///<EPSILON Solo genera closure_element pero con solo el punto></EPSILON>                               
                                 break;
                         }
-                    }                   
-                    new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);                    
-                }                                
-            }           
-            if (!is_repeated_state) {//Si el estado no es un estado repetido, entonces podemos prosegu  ir con la creacion e insercion de los IR_A                              
+                    }
+                    new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);
+                }
+            }
+            if (!is_repeated_state)
+            {//Si el estado no es un estado repetido, entonces podemos prosegu  ir con la creacion e insercion de los IR_A                              
                 this.create_and_insert_go_to_S();
                 this.num_state++;
             }
@@ -332,13 +360,16 @@ namespace LR1_Final.LR1_Stuffs
         /// <summary>
         /// Genera los nuevos estados IR_A y los inserta en la Cola.
         /// </summary>
-        private void create_and_insert_go_to_S() {
+        private void create_and_insert_go_to_S()
+        {
             C_Go_to nw_go_to;
-            
-            foreach (C_Closure_Element cl_element in this.closure_elements_tmp) {
+
+            foreach (C_Closure_Element cl_element in this.closure_elements_tmp)
+            {
                 C_Symbol a_symb = cl_element.Production.get_symbol_next_to_DOT();
 
-                if (a_symb != null) {
+                if (a_symb != null)
+                {
                     nw_go_to = new C_Go_to(this.num_state, a_symb);
                     if (this.go_to_is_in_queue(nw_go_to) == false)
                         this.go_tos.Enqueue(nw_go_to);
@@ -381,7 +412,7 @@ namespace LR1_Final.LR1_Stuffs
         /// <returns></returns>
         private void creates_zero_state()
         {
-               
+
             C_Closure_Element kernel_0;
             List<string> forward_search_search_simbols;
             List<C_Closure_Element> dummy_list;
@@ -421,33 +452,54 @@ namespace LR1_Final.LR1_Stuffs
         /// <param name="just_aProduction">Produccion con la que se esta generand el elemento de cerradura</param>
         /// <param name="new_forward_search_simbols">Simbolos de busqueda hacia adelante para este elemento de cerradura</param>
         /// <returns></returns>
-        private C_Closure_Element creates_NUCLEAR_LR0_element(C_Production just_aProduction, List<string> new_forward_search_simbols) {
+        private C_Closure_Element creates_NUCLEAR_LR0_element(C_Production just_aProduction, List<string> new_forward_search_simbols)
+        {
             C_Production nw_production;
             C_Closure_Element nuclear_element;
 
             nw_production = new C_Production(just_aProduction.Producer);
             nw_production.Right.Add(new C_Symbol(".", 3));//se insertan dos puntos 
-            foreach (C_Symbol simple_symbol in just_aProduction.Right) {
+            foreach (C_Symbol simple_symbol in just_aProduction.Right)
+            {
                 nw_production.Right.Add(simple_symbol);
             }
             nuclear_element = new C_Closure_Element(nw_production);
-            foreach (string just_str in new_forward_search_simbols) {
+            foreach (string just_str in new_forward_search_simbols)
+            {
                 nuclear_element.Forward_search_symbols.Add(just_str);
             }
 
             return nuclear_element;
         }
 
+        public List<C_Symbol> TERMINALES()
+        {
+            List<C_Symbol> nuevo = new List<C_Symbol>();
+            for(int i = 0; i < grammar.Get_Grammar().Count; i++)
+            {
+                for(int j = 0; j < grammar.Get_Grammar()[i].Right.Count; j++)
+                {
+                    if (!nuevo.Contains(grammar.Get_Grammar()[i].Right[j]) && grammar.Get_Grammar()[i].Right[j].Type_symbol==0)
+                    {
+                        nuevo.Add(grammar.Get_Grammar()[i].Right[j]);
+                    }
+                }
+            }
+            return nuevo;
+        }
 
 
-        private C_Closure_Element creates_LR1_Element_no_look_Up_Symbols(C_Production production) {
+
+        private C_Closure_Element creates_LR1_Element_no_look_Up_Symbols(C_Production production)
+        {
             C_Production nw_production;
             C_Closure_Element nw_closure_element;
 
             nw_production = new C_Production(production.Producer);
             nw_production.Right.Add(new C_Symbol(".", 3));//se insertan dos puntos 
 
-            foreach (C_Symbol symbol in production.Right) {
+            foreach (C_Symbol symbol in production.Right)
+            {
                 nw_production.Right.Add(symbol);
             }
             nw_closure_element = new C_Closure_Element(nw_production);
@@ -500,7 +552,7 @@ namespace LR1_Final.LR1_Stuffs
             return can_insert;
         }
 
-        
+
 
         /// <summary>
         /// Determina si un KERNEL existe en algun LR1_Element(ESTADO), del AFD. 
@@ -512,7 +564,8 @@ namespace LR1_Final.LR1_Stuffs
             int index;
             int lenght_lr1_states = this.list_states.Count;
 
-            for (index = 0; index < lenght_lr1_states; index++) {//Recorrido de cada uno de los LR1 elements que estan en el AFD.
+            for (index = 0; index < lenght_lr1_states; index++)
+            {//Recorrido de cada uno de los LR1 elements que estan en el AFD.
                 if (list_states[index].kernel_Exist(list_kernels) == true)
                     break;
             }
@@ -522,12 +575,14 @@ namespace LR1_Final.LR1_Stuffs
         }
 
 
-        private int exist_LR1_element_IN_Expansion(C_Closure_Element lr1_element_incoming) {
+        private int exist_LR1_element_IN_Expansion(C_Closure_Element lr1_element_incoming)
+        {
             int index;
             int lenght_elements_in_expansion = this.closure_elements_tmp.Count;
             C_Closure_Element closure_element_in_Expansion;
 
-            for (  index = 0; index < lenght_elements_in_expansion; index++) {
+            for (index = 0; index < lenght_elements_in_expansion; index++)
+            {
                 closure_element_in_Expansion = this.closure_elements_tmp[index];
                 if (closure_element_in_Expansion.Production.is_equal_to_Other_C_Production(lr1_element_incoming.Production) == true)//Determinamos si el Elemento LR1 esta dentro de la expansion, esto comparando las producciones de ambos
                     break;
@@ -543,16 +598,40 @@ namespace LR1_Final.LR1_Stuffs
         /// </summary>
         /// <param name="a_go_to">Go_To que se desea saber si ya existe</param>
         /// <returns>true si el elemento Go_To ya existe</returns>
-        private bool go_to_is_in_queue(C_Go_to a_go_to) {
+        private bool go_to_is_in_queue(C_Go_to a_go_to)
+        {
             Queue<C_Go_to> tmp_queue = new Queue<C_Go_to>(this.go_tos);
-            C_Go_to tmp_go_to; 
+            C_Go_to tmp_go_to;
 
-            while(tmp_queue.Count > 0) {
+            while (tmp_queue.Count > 0)
+            {
                 tmp_go_to = tmp_queue.Dequeue();
                 if (tmp_go_to.this_Goto_EXIST(a_go_to))
                     return true;
             }
             return false;
         }
+
+        private void create_table()
+        {
+
+        }
+        private void initialize_table()
+        {
+        }
+
+        /// <summary>
+        /// metodo utilizado para enumerar las producciones
+        /// </summary>
+
+        private void list_production()
+        {
+            for (int i = 0; i < grammar.Get_Grammar().Count; i++)
+            {
+                grammar.Get_Grammar()[i].NumProduc = i;
+            }
+        }
+
+
     }
 }

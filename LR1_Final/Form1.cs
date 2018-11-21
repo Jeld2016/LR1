@@ -90,6 +90,7 @@ namespace LR1_Final
                 this.lr1.generates_LR1_Automate();
                 this.fill_afd_table();
                 this.fill_first_table();
+                create_table();
             }
         }
 
@@ -228,6 +229,149 @@ namespace LR1_Final
             }
         }
 
+        private void create_table()
+        {
+            List<string> list = colocar_list();
+            Table_LR1.RowCount = lr1.num_state_max()+1;
+            Table_LR1.ColumnHeadersVisible = true;
+            Table_LR1.ColumnCount = this.grammar.No_terminals1.Count + lr1.TERMINALES().Count+1;
+
+            for(int j = 0; j < list.Count; j++)
+            {
+                Table_LR1.Columns[j].Name = list[j];
+            }
+            for (int j = 0; j < lr1.num_state_max() + 1; j++)
+            {
+                Table_LR1.Rows[j].HeaderCell.Value =j.ToString();
+            }
+
+
+
+            DataGridViewCellStyle columnHeaderStyle =
+            new DataGridViewCellStyle();
+            columnHeaderStyle.BackColor = Color.Aqua;
+            columnHeaderStyle.Font =
+                new Font("Verdana", 10, FontStyle.Bold);
+            Table_LR1.ColumnHeadersDefaultCellStyle =
+                columnHeaderStyle;
+
+
+            //para los desplazamientos y los ira
+
+            for (int i = 0; i < lr1.List_states.Count; i++)
+            {
+                if (lr1.List_states[i].My_go_to.State != -1)
+                {
+                    if (lr1.TERMINALES().Contains(lr1.List_states[i].My_go_to.Symbol_state))
+                    {
+
+                        Table_LR1.Rows[lr1.List_states[i].My_go_to.State].Cells[regresaindex(lr1.List_states[i].My_go_to.Symbol_state.Symbol, list)].Value = "d" + lr1.List_states[i].Num_state.ToString();
+                    }
+                    if (this.grammar.No_terminals1.Contains(lr1.List_states[i].My_go_to.Symbol_state.Symbol))
+                    {
+                        Table_LR1.Rows[lr1.List_states[i].My_go_to.State].Cells[regresaindex(lr1.List_states[i].My_go_to.Symbol_state.Symbol, list)].Value = lr1.List_states[i].Num_state.ToString();
+                    }
+                }
+
+                //reduciones
+                
+                    for (int j = 0; j < lr1.List_states[i].Kernel.Count; j++)
+                    {
+                        if (lr1.List_states[i].Kernel[j].Production.get_symbol_next_to_DOT() == null)
+                        {
+                            for (int k = 0; k < lr1.List_states[i].Kernel[j].Forward_search_symbols.Count; k++)
+                            {
+
+                                int rnum = Compare_Production(eliminapunto(lr1.List_states[i].Kernel[j].Production));
+                                Table_LR1.Rows[lr1.List_states[i].Num_state].Cells[regresaindex(lr1.List_states[i].Kernel[j].Forward_search_symbols[k], list)].Value = "r" + rnum.ToString();
+                            }
+                        }
+                    }
+                
+
+            }
+
+            
+
+
+
+        }
+
+        private int Compare_Production(C_Production p)
+        {
+            List<C_Production> gr = grammar.Get_Grammar();
+            for (int i = 0; i < gr.Count; i++)
+            {
+                if(list_compare(gr[i].Right,p.Right) && gr[i].Producer == p.Producer)
+                {
+                    return grammar.Get_Grammar()[i].NumProduc;
+                }
+            }
+            return 0;
+        }
+
+        private bool list_compare(List<C_Symbol> p, List<C_Symbol> a)
+        {
+            bool avisoli = true;
+            if (p.Count == a.Count)
+            {
+                for(int i = 0; i < p.Count; i++)
+                {
+                    if (p[i].Symbol != a[i].Symbol)
+                    {
+                        avisoli= false;
+                    } 
+                }
+            }
+            else { avisoli = false; }
+
+            return avisoli;
+            
+
+        }
+
+        private C_Production eliminapunto(C_Production p)
+        {
+            C_Production t= new C_Production(p);
+            t.Right.Clear();
+            for(int i = 0; i < p.Right.Count; i++)
+            {
+                if (p.Right[i].Symbol != ".")
+                {
+                    t.Right.Add((p.Right[i]));
+                }
+            }
+            return t;
+        }
+
+        private int regresaindex(string p,List<string>l)
+        {
+            for(int i = 0; i < l.Count; i++)
+            {
+                if (p == l[i])
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        private List<string> colocar_list()
+        {
+            List<string> aux = new List<string>();
+            
+            for(int i = 0; i < lr1.TERMINALES().Count; i++)
+            {
+                aux.Add(lr1.TERMINALES()[i].Symbol);
+            }
+            aux.Add("$");
+            for (int i = 0; i < grammar.No_terminals1.Count; i++)
+            {
+                aux.Add(grammar.No_terminals1[i]);
+            }
+            return aux;
+        }
+
 
         class Dgrid_First_Set_Content
         {
@@ -241,5 +385,6 @@ namespace LR1_Final
             public string state { get; set; }
             public string closure { get; set; }
         }
+
     }
 }
