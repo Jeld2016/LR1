@@ -28,6 +28,7 @@ namespace LR1_Final.LR1_Stuffs
         /// </summary>
         List<C_LR1_Element> list_states;
         int num_state;
+        
 
         private List<C_Closure_Element> closure_elements_tmp;
 
@@ -216,7 +217,6 @@ namespace LR1_Final.LR1_Stuffs
                         if(nw_expansion_symbol.Type_symbol == 1)
                         {
                             List<C_Symbol> nw_gamma;
-
                             nw_gamma = new_LR1_Element.Production.get_gamma();
                             this.do_expansion(new_LR1_Element.Production.Producer, nw_expansion_symbol, nw_gamma, new_LR1_Element.Forward_search_symbols);
                         }
@@ -233,6 +233,7 @@ namespace LR1_Final.LR1_Stuffs
         /// <summary>
         /// Realiza el calculo de Primero(Gamma-Alfa)
         /// </summary>
+
         /// <param name="gamma">Si gamma es null se retorna directamente Alfa</param>
         /// <param name="a">Lista de cadenas que representa cada simbolo de Alfa</param>
         /// <returns>El calculo realizado si, Gamma != null, de lo contrario se retorna Alfa</returns>
@@ -246,6 +247,7 @@ namespace LR1_Final.LR1_Stuffs
             main_list = new List<List<C_Symbol>>();
             //<<<<<PARTE CONCATENACION>>>>>>>>>>
             if (gamma != null)
+
             {
                 foreach (string s in a)
                 {
@@ -263,6 +265,7 @@ namespace LR1_Final.LR1_Stuffs
             foreach (string s in first_gamma_alfa) 
                 tmp_first_element.add_symbol(s);           
             return tmp_first_element.First;
+
         }
 
 
