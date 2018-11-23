@@ -74,8 +74,11 @@ namespace LR1_Final
             }
         }
 
-        private void button_build_Parser_Click(object sender, EventArgs e)
-        {
+        private void button_build_Parser_Click(object sender, EventArgs e) {
+            this.pattern_checker = new C_Checker();
+            this.grammar = new C_Grammar();
+            this.lr1 = new C_LR1(this.grammar);
+
             List<string[]> f = this.validate_checked();
 
             if (f != null)
@@ -119,22 +122,22 @@ namespace LR1_Final
                 one_line = Regex.Split(a_str, "->");
                 if (one_line.Length == 2)
                 {
-                    if (!this.pattern_checker.match_string_left(one_line[0]))
-                    {
-                        /*Se encontraron errores al analisar la parte izquierda de la produccion*/
-                        MessageBox.Show("Grammar ERROR:NL = " + index);
-                        return null;
-                    }
-                    else
-                    {
-                        one_line[1] = one_line[1].TrimEnd('\r', '\n');//Eliminacion salto de linea.
-                        if (!this.pattern_checker.match_string_right(one_line[1]))
-                        {
-                            /*Se encontraron errores al analisar la parte derecha de la produccion*/
-                            MessageBox.Show("Grammar ERROR:NL = " + index);
-                            return null;
-                        }
-                    }
+                    //if (!this.pattern_checker.match_string_left(one_line[0]))
+                    //{
+                    //    /*Se encontraron errores al analisar la parte izquierda de la produccion*/
+                    //    MessageBox.Show("Grammar ERROR:NL = " + index);
+                    //    return null;
+                    //}
+                    //else
+                    //{
+                    //    one_line[1] = one_line[1].TrimEnd('\r', '\n');//Eliminacion salto de linea.
+                    //    if (!this.pattern_checker.match_string_right(one_line[1]))
+                    //    {
+                    //        /*Se encontraron errores al analisar la parte derecha de la produccion*/
+                    //        MessageBox.Show("Grammar ERROR:NL = " + index);
+                    //        return null;
+                    //    }
+                    //}
                 }
                 else
                 {
@@ -386,5 +389,9 @@ namespace LR1_Final
             public string closure { get; set; }
         }
 
+        private void textBox_Input_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
