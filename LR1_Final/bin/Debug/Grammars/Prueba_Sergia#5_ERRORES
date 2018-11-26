@@ -1,0 +1,10 @@
+S->S a b C d D a
+S->s A
+A->A a a B 
+A-> a
+B->c D d C
+B->l
+C->c c c C D d
+C->f
+D-> d B C
+D->d

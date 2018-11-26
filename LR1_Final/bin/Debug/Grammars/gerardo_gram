@@ -1,0 +1,10 @@
+A->F a b c
+A->A E d
+A->~
+B->c b F
+B->A d B
+B->~
+F->z k L m A
+F->A B F
+E->A B
+L-> A B F E

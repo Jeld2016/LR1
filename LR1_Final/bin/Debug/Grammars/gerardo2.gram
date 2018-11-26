@@ -1,0 +1,5 @@
+A-> F a b c|~| A  E d
+B->c b F|A d B|~
+F-> z k L m  A |A B F
+E-> A B
+L-> A B F E

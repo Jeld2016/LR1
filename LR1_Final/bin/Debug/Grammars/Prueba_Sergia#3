@@ -1,0 +1,8 @@
+exp->exp opsuma term
+exp->term 
+term->term opmult factor
+term->factor
+factor->( exp )
+factor->num
+opsuma->+
+opmult->*

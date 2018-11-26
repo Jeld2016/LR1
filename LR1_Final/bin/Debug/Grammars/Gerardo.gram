@@ -1,0 +1,6 @@
+S-> X Y Z
+X-> a X | Z | ~
+Z-> W | Y | ~
+Y-> c d | V | ~
+V-> r d | ~
+W-> ~
