@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,26 +40,26 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.textBox_Input = new System.Windows.Forms.TextBox();
-            this.dgrid_first_table = new System.Windows.Forms.DataGridView();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.dataGrid_LR1 = new System.Windows.Forms.DataGridView();
+            this.dgrid_first_table = new System.Windows.Forms.DataGridView();
+            this.No_Terminal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Conjunto_Primero = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBox_Input = new System.Windows.Forms.TextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.Table_LR1 = new System.Windows.Forms.DataGridView();
             this.Go_To = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Kernel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Num_State = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Closure = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Table_LR1 = new System.Windows.Forms.DataGridView();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.No_Terminal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Conjunto_Primero = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgrid_first_table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_LR1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgrid_first_table)).BeginInit();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Table_LR1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -165,38 +166,35 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "afd LR1";
             // 
-            // tabPage2
+            // label6
             // 
-            this.tabPage2.Controls.Add(this.Table_LR1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1827, 597);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Tabla de Acciones LR1";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(166, 339);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(112, 16);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Tabla de Primeros";
             // 
-            // textBox_Input
+            // label5
             // 
-            this.textBox_Input.Location = new System.Drawing.Point(6, 22);
-            this.textBox_Input.Multiline = true;
-            this.textBox_Input.Name = "textBox_Input";
-            this.textBox_Input.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox_Input.Size = new System.Drawing.Size(498, 314);
-            this.textBox_Input.TabIndex = 1;
-            this.textBox_Input.WordWrap = false;
-            this.textBox_Input.TextChanged += new System.EventHandler(this.textBox_Input_TextChanged);
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(122, 3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(68, 16);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Gramatica";
             // 
-            // dgrid_first_table
+            // label4
             // 
-            this.dgrid_first_table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgrid_first_table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.No_Terminal,
-            this.Conjunto_Primero});
-            this.dgrid_first_table.Location = new System.Drawing.Point(3, 358);
-            this.dgrid_first_table.Name = "dgrid_first_table";
-            this.dgrid_first_table.Size = new System.Drawing.Size(501, 291);
-            this.dgrid_first_table.TabIndex = 3;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(957, 3);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(120, 16);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Tabla de Cerrradura";
             // 
             // dataGrid_LR1
             // 
@@ -211,6 +209,58 @@
             this.dataGrid_LR1.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataGrid_LR1.Size = new System.Drawing.Size(1391, 627);
             this.dataGrid_LR1.TabIndex = 4;
+            // 
+            // dgrid_first_table
+            // 
+            this.dgrid_first_table.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgrid_first_table.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.No_Terminal,
+            this.Conjunto_Primero});
+            this.dgrid_first_table.Location = new System.Drawing.Point(3, 358);
+            this.dgrid_first_table.Name = "dgrid_first_table";
+            this.dgrid_first_table.Size = new System.Drawing.Size(501, 291);
+            this.dgrid_first_table.TabIndex = 3;
+            // 
+            // No_Terminal
+            // 
+            this.No_Terminal.HeaderText = "No_Terminal";
+            this.No_Terminal.Name = "No_Terminal";
+            // 
+            // Conjunto_Primero
+            // 
+            this.Conjunto_Primero.HeaderText = "Conjunto_Primero";
+            this.Conjunto_Primero.Name = "Conjunto_Primero";
+            this.Conjunto_Primero.Width = 500;
+            // 
+            // textBox_Input
+            // 
+            this.textBox_Input.Location = new System.Drawing.Point(6, 22);
+            this.textBox_Input.Multiline = true;
+            this.textBox_Input.Name = "textBox_Input";
+            this.textBox_Input.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBox_Input.Size = new System.Drawing.Size(498, 314);
+            this.textBox_Input.TabIndex = 1;
+            this.textBox_Input.WordWrap = false;
+            this.textBox_Input.TextChanged += new System.EventHandler(this.textBox_Input_TextChanged);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.Table_LR1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1897, 655);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Tabla de Acciones LR1";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // Table_LR1
+            // 
+            this.Table_LR1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Table_LR1.Location = new System.Drawing.Point(3, 6);
+            this.Table_LR1.Name = "Table_LR1";
+            this.Table_LR1.Size = new System.Drawing.Size(1824, 588);
+            this.Table_LR1.TabIndex = 8;
             // 
             // Go_To
             // 
@@ -230,58 +280,12 @@
             // 
             // Closure
             // 
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            this.Closure.DefaultCellStyle = dataGridViewCellStyle2;
             this.Closure.HeaderText = "Cerradura";
             this.Closure.Name = "Closure";
             this.Closure.Width = 1060;
-            // 
-            // Table_LR1
-            // 
-            this.Table_LR1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Table_LR1.Location = new System.Drawing.Point(3, 6);
-            this.Table_LR1.Name = "Table_LR1";
-            this.Table_LR1.Size = new System.Drawing.Size(1824, 588);
-            this.Table_LR1.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(957, 3);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 16);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Tabla de Cerrradura";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(122, 3);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(68, 16);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Gramatica";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(166, 339);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(112, 16);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Tabla de Primeros";
-            // 
-            // No_Terminal
-            // 
-            this.No_Terminal.HeaderText = "No_Terminal";
-            this.No_Terminal.Name = "No_Terminal";
-            // 
-            // Conjunto_Primero
-            // 
-            this.Conjunto_Primero.HeaderText = "Conjunto_Primero";
-            this.Conjunto_Primero.Name = "Conjunto_Primero";
-            this.Conjunto_Primero.Width = 500;
             // 
             // Form1
             // 
@@ -302,9 +306,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgrid_first_table)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_LR1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgrid_first_table)).EndInit();
+            this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Table_LR1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -329,14 +333,14 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dataGrid_LR1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Go_To;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Kernel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Num_State;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Closure;
         private System.Windows.Forms.DataGridView dgrid_first_table;
         private System.Windows.Forms.DataGridView Table_LR1;
         private System.Windows.Forms.DataGridViewTextBoxColumn No_Terminal;
         private System.Windows.Forms.DataGridViewTextBoxColumn Conjunto_Primero;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Go_To;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Kernel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Num_State;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Closure;
     }
 }
 

@@ -74,7 +74,7 @@ namespace LR1_Final
             }
         }
 
-        private void button_build_Parser_Click(object sender, EventArgs e) {
+        private void button_build_Parser_Click(object sender, EventArgs e) {            
             this.pattern_checker = new C_Checker();
             this.grammar = new C_Grammar();
             this.lr1 = new C_LR1(this.grammar);
@@ -91,6 +91,8 @@ namespace LR1_Final
                 }
                 this.lr1.generate_first_set_to_LR();
                 this.lr1.generates_LR1_Automate();
+                this.dataGrid_LR1.Rows.Clear();
+                this.dgrid_first_table.Rows.Clear();
                 this.fill_afd_table();
                 this.fill_first_table();
                 create_table();
