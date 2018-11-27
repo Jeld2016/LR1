@@ -23,11 +23,15 @@ namespace LR1_Final.LR1_Stuffs
         /// Cola de IR_A, cada vez que se genera un nuevo elemento en cerradura se encola.
         /// </summary>
         Queue<C_Go_to> go_tos;
+        Queue<C_Expansion_stuffs> expansion_STUFF;
         /// <summary>
         /// Lista de elementos LR1 que contiene todos los estados del automata.
         /// </summary>
         List<C_LR1_Element> list_states;
-
+        /// <summary>
+        /// Bandera Dummy para indicar si se esta entrando por primera vez a la expansion; 
+        /// </summary>
+        bool expansion_first_time; 
         
         int num_state;
 
@@ -41,6 +45,7 @@ namespace LR1_Final.LR1_Stuffs
             this.list_states = new List<C_LR1_Element>();
             this.grammar = g;
             this.num_state = 0;
+            this.expansion_first_time = true;
         }
 
         /// <summary>
@@ -228,8 +233,8 @@ namespace LR1_Final.LR1_Stuffs
                     C_Symbol nw_expansion_symbol;
 
                     new_LR1_Element.add_look_up_symbols(first_OF_gamma_alfa); //Agregamos dichos simbolos al nuevo elemento LR1
-                    if (string.Compare(producer_from, new_LR1_Element.Production.Producer) == 0)
-                        new_LR1_Element.append_look_up_symbols(look_up_symbols);
+                    if (string.Compare(producer_from, new_LR1_Element.Production.Producer) == 0 && !this.expansion_first_time)
+                        new_LR1_Element.append_look_up_symbols(look_up_symbols);                                        
                     this.closure_elements_tmp.Add(new_LR1_Element);
                     nw_expansion_symbol = new_LR1_Element.Production.get_symbol_next_to_DOT();  //Obtenemos el siguiente simbolo que podria seguir generando Expansion
                     if (nw_expansion_symbol != null)
@@ -238,6 +243,7 @@ namespace LR1_Final.LR1_Stuffs
                         {
                             List<C_Symbol> nw_gamma;
                             nw_gamma = new_LR1_Element.Production.get_gamma();
+                            this.expansion_first_time = false;
                             this.do_expansion(new_LR1_Element.Production.Producer, nw_expansion_symbol, nw_gamma, new_LR1_Element.Forward_search_symbols);
                         }
                     }
@@ -250,6 +256,55 @@ namespace LR1_Final.LR1_Stuffs
             }
         }
 
+
+        private void do_expansion_v2(string producer_from, C_Symbol expansion_symbol, List<C_Symbol> gamma, List<string> look_up_symbols)
+        {
+            List<C_Production> productions = this.grammar.get_Productions(expansion_symbol.Symbol); //Producciones que son producidas por expansion_Symbol.v
+            C_Closure_Element new_LR1_Element;
+            C_Production tmp_production;
+            List<string> first_OF_gamma_alfa;
+            int index_element_in_expansion;
+
+            first_OF_gamma_alfa = this.calculate_First_gamma_alfa(gamma, look_up_symbols);//Calculo de simbolos de busqueda hacia adelante.
+            for (int i = 0; i < productions.Count; i++)
+            {
+                tmp_production = productions[i];
+                new_LR1_Element = this.creates_LR1_Element_no_look_Up_Symbols(tmp_production);//Creacion de elemento LR1 pero sin simbolos de busqueda hacia adelante.
+                index_element_in_expansion = this.exist_LR1_element_IN_Expansion(new_LR1_Element);
+                if (index_element_in_expansion == -1)
+                { //El nuevo elemento LR1, no existe en la expansion.                    
+                    C_Symbol nw_expansion_symbol;
+
+                    new_LR1_Element.add_look_up_symbols(first_OF_gamma_alfa); //Agregamos dichos simbolos al nuevo elemento LR1
+                    if (string.Compare(producer_from, new_LR1_Element.Production.Producer) == 0 && !this.expansion_first_time)
+                        new_LR1_Element.append_look_up_symbols(look_up_symbols);
+                    this.closure_elements_tmp.Add(new_LR1_Element);
+                    nw_expansion_symbol = new_LR1_Element.Production.get_symbol_next_to_DOT();  //Obtenemos el siguiente simbolo que podria seguir generando Expansion
+                    if (nw_expansion_symbol != null)
+                        if (nw_expansion_symbol.Type_symbol == 1)
+                        {
+                            List<C_Symbol> nw_gamma;
+                            C_Expansion_stuffs ex_s;
+
+                            nw_gamma = new_LR1_Element.Production.get_gamma();
+                            ex_s = new C_Expansion_stuffs(new_LR1_Element.Production.Producer, nw_expansion_symbol, nw_gamma, new_LR1_Element.Forward_search_symbols);
+                            this.expansion_STUFF.Enqueue(ex_s);
+                        }                                                           
+                }
+                else
+                {
+                    this.closure_elements_tmp[index_element_in_expansion].append_look_up_symbols(first_OF_gamma_alfa);
+                }
+            }
+            while (this.expansion_STUFF.Count > 0)
+            {
+                C_Expansion_stuffs ex_s;
+
+                ex_s = this.expansion_STUFF.Dequeue();
+                this.expansion_first_time = false;
+                this.do_expansion_v2(ex_s.Coming_symbol, ex_s.Expansion_symbol, ex_s.Gamma, ex_s.An_A);
+            }               
+        }
 
         /// <summary>
         /// Realiza el calculo de Primero(Gamma-Alfa)
@@ -308,8 +363,10 @@ namespace LR1_Final.LR1_Stuffs
 
             if (this.num_state == 0)
             { //ES EL ESTADO 0. AQUI obviamente se hace todo bien y bonito
+                this.expansion_first_time = true;
                 this.closure_elements_tmp.Insert(0, list_kernels[0]);//Se inserta sin pedos el primero elemento de la cerradura.
-                this.do_expansion(list_kernels[0].Production.Producer, list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Production.get_gamma(), list_kernels[0].Forward_search_symbols);
+                this.expansion_STUFF = new Queue<C_Expansion_stuffs>();
+                this.do_expansion_v2(list_kernels[0].Production.Producer, list_kernels[0].Production.get_symbol_next_to_DOT(), list_kernels[0].Production.get_gamma(), list_kernels[0].Forward_search_symbols);
                 new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);
             }
             else
@@ -330,19 +387,10 @@ namespace LR1_Final.LR1_Stuffs
 
                         int action = this.what_generates(kernel);
 
-                        switch (action)
-                        {
-                            case 0: /*es un TERMINAL*/
-                                    ///<TERMINAL GENERA GO_TO  y se agrega  a la lista de cerraduras></TERMINAL>       
-                                break;
-                            case 1:///<NOT_TERMINAL GENERA EXPANSION></NOT_TERMINAL>>
-                                //C_Symbol simbol_generates_closure = kernel.Production.get_symbol_next_to_DOT();
-
-                                //this.generate_Closure(simbol_generates_closure, kernel.Forward_search_symbols);
-                                this.do_expansion(kernel.Production.Producer, kernel.Production.get_symbol_next_to_DOT(), kernel.Production.get_gamma(), kernel.Forward_search_symbols);
-                                break;
-                            case 2:///<EPSILON Solo genera closure_element pero con solo el punto></EPSILON>                               
-                                break;
+                        if(action == 1){
+                            this.expansion_STUFF = new Queue<C_Expansion_stuffs>();
+                            this.expansion_first_time = true;
+                            this.do_expansion_v2(kernel.Production.Producer, kernel.Production.get_symbol_next_to_DOT(), kernel.Production.get_gamma(), kernel.Forward_search_symbols);                            
                         }
                     }
                     new_state = new C_LR1_Element(closure_elements_tmp, this.num_state, list_kernels, state_go_to);

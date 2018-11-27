@@ -1,5 +1,6 @@
-* Errores Encontrados
-  Con la gramatica 
+## Errores Encontrados
+  ### Gramatica 
+```
     S->a A c d
     A->a B c C
     B->B a c
@@ -8,5 +9,6 @@
     C->D d
     D->d c A
     D->d
+```
 
 Se generan Errores a partir del estado 37 **Algo no se esta validando**

@@ -56,6 +56,7 @@
     <Compile Include="Grammar_Stuffs\C_Production.cs" />
     <Compile Include="Grammar_Stuffs\C_Symbol.cs" />
     <Compile Include="LR1_Stuffs\C_Closure_Element.cs" />
+    <Compile Include="LR1_Stuffs\C_Expansion_stuffs.cs" />
     <Compile Include="LR1_Stuffs\C_Go_to.cs" />
     <Compile Include="LR1_Stuffs\C_LR1.cs" />
     <Compile Include="LR1_Stuffs\C_LR1_Element.cs" />
